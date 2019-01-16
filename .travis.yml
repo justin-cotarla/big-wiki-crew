@@ -33,6 +33,8 @@ android:
 
 before_script:
   - chmod +x gradlew
-  
+
 script:
   - ./gradlew clean assembleDebug
+  - ./gradlew checkstyle
+  - ./gradlew testDevDebug
