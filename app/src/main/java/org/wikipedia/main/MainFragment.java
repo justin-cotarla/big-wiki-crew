@@ -1,8 +1,10 @@
 package org.wikipedia.main;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
@@ -16,8 +18,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import org.wikipedia.BackPressedHandler;
 import org.wikipedia.Constants;
@@ -236,6 +241,19 @@ public class MainFragment extends Fragment implements BackPressedHandler, FeedFr
         } catch (ActivityNotFoundException a) {
             FeedbackUtil.showMessage(this, R.string.error_voice_search_not_available);
         }
+    }
+
+    @Override public void onFeedImageSearchRequested() {
+        PopupMenu imageMenu = new PopupMenu(getContext(), getView().findViewById(R.id.camera_search_button));
+        imageMenu.getMenuInflater().inflate(R.menu.menu_image_search, imageMenu.getMenu());
+        imageMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Toast.makeText(getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+        imageMenu.show();
     }
 
     @Override public void onFeedSelectPage(HistoryEntry entry) {
