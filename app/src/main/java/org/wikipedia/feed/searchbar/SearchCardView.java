@@ -14,6 +14,7 @@ public class SearchCardView extends DefaultFeedCardView<SearchCard> {
     public interface Callback {
         void onSearchRequested();
         void onVoiceSearchRequested();
+        void onImageSearchRequested();
     }
 
     public SearchCardView(Context context) {
@@ -33,6 +34,12 @@ public class SearchCardView extends DefaultFeedCardView<SearchCard> {
     @OnClick(R.id.voice_search_button) void onVoiceSearchClick() {
         if (getCallback() != null) {
             getCallback().onVoiceSearchRequested();
+        }
+    }
+
+    @OnClick(R.id.camera_search_button) void onImageSearchClick() {
+        if(getCallback() != null) {
+            getCallback().onImageSearchRequested();
         }
     }
 }

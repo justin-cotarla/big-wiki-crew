@@ -733,4 +733,8 @@
         <item quantity="one">in-app contribution</item>
         <item quantity="other">in-app contributions</item>
     </plurals>
+
+    <!--Image Search Dialog-->
+    <string name="image_search_dialog_camera">Take a photo</string>
+    <string name="image_search_dialog_gallery">Choose from gallery</string>
 </resources>
