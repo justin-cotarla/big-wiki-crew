@@ -1,26 +1,28 @@
 package org.wikipedia.main;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.ActivityNotFoundException;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
@@ -62,11 +64,13 @@ import org.wikipedia.search.SearchInvokeSource;
 import org.wikipedia.settings.Prefs;
 import org.wikipedia.util.ClipboardUtil;
 import org.wikipedia.util.FeedbackUtil;
+import org.wikipedia.util.FileUtil;
 import org.wikipedia.util.PermissionUtil;
 import org.wikipedia.util.ShareUtil;
 import org.wikipedia.util.log.L;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -86,6 +90,8 @@ public class MainFragment extends Fragment implements BackPressedHandler, FeedFr
     private ExclusiveBottomSheetPresenter bottomSheetPresenter = new ExclusiveBottomSheetPresenter();
     private MediaDownloadReceiver downloadReceiver = new MediaDownloadReceiver();
     private MediaDownloadReceiverCallback downloadReceiverCallback = new MediaDownloadReceiverCallback();
+
+    private Uri imageSearchURI;
 
     // The permissions request API doesn't take a callback, so in the event we have to
     // ask for permission to download a featured image from the feed, we'll have to hold
@@ -160,6 +166,16 @@ public class MainFragment extends Fragment implements BackPressedHandler, FeedFr
                 && data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS) != null) {
             String searchQuery = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0);
             openSearchActivity(SearchInvokeSource.VOICE, searchQuery);
+        } else if (requestCode == Constants.ACTIVITY_REQUEST_CAMERA_SEARCH
+                && resultCode == Activity.RESULT_OK) {
+            try {
+                Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageSearchURI);
+                // ImageView for testing purposes. Remove after Google Vision API is implemented.
+                ImageView preview = getView().findViewById(R.id.image_preview);
+                preview.setImageBitmap(imageBitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else if (requestCode == Constants.ACTIVITY_REQUEST_GALLERY
                 && resultCode == GalleryActivity.ACTIVITY_RESULT_PAGE_SELECTED) {
             startActivity(data);
@@ -210,6 +226,11 @@ public class MainFragment extends Fragment implements BackPressedHandler, FeedFr
                             R.string.gallery_save_image_write_permission_rationale);
                 }
                 break;
+            case Constants.ACTIVITY_REQUEST_CAMERA_PERMISSION:
+                if (PermissionUtil.isPermitted(grantResults)) {
+                    openCameraActivity();
+                }
+                break;
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
@@ -244,13 +265,21 @@ public class MainFragment extends Fragment implements BackPressedHandler, FeedFr
     }
 
     @Override public void onFeedImageSearchRequested() {
-        PopupMenu imageMenu = new PopupMenu(getContext(), getView().findViewById(R.id.camera_search_button));
+        PopupMenu imageMenu = new PopupMenu(getActivity(), getView().findViewById(R.id.camera_search_button));
         imageMenu.getMenuInflater().inflate(R.menu.menu_image_search, imageMenu.getMenu());
         imageMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
-                return true;
+                switch (item.getItemId()) {
+                    case R.id.drop_down_camera:
+                        openCameraActivity();
+                        return true;
+                    case R.id.drop_down_gallery:
+                        Toast.makeText(getContext(), "GALLERY", Toast.LENGTH_SHORT).show();
+                        return true;
+                    default:
+                            return MainFragment.super.onOptionsItemSelected(item);
+                }
             }
         });
         imageMenu.show();
@@ -466,6 +495,26 @@ public class MainFragment extends Fragment implements BackPressedHandler, FeedFr
 
     private void goToTab(@NonNull NavTab tab) {
         tabLayout.setSelectedItemId(tab.code());
+    }
+
+    private void openCameraActivity() {
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (!PermissionUtil.hasCameraPermission(getActivity())) {
+            PermissionUtil.requestCameraPermission(this, Constants.ACTIVITY_REQUEST_CAMERA_PERMISSION);
+        } else if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            File imageFile = null;
+            try {
+                imageFile = FileUtil.createImageFile(getActivity());
+            } catch (IOException e) {
+                Toast.makeText(getActivity(), getActivity().getString(R.string.err_cannot_create_file), Toast.LENGTH_SHORT).show();
+            }
+            if (imageFile != null) {
+                Uri imageURI = FileProvider.getUriForFile(getActivity(), getActivity().getPackageName() + ".fileprovider", imageFile);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageURI);
+                imageSearchURI = imageURI;
+                startActivityForResult(cameraIntent, Constants.ACTIVITY_REQUEST_CAMERA_SEARCH);
+            }
+        }
     }
 
     private void refreshExploreFeed() {
