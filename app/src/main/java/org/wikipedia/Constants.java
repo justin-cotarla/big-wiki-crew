@@ -13,6 +13,8 @@ public final class Constants {
     public static final int ACTIVITY_REQUEST_RESET_PASSWORD = 43;
     public static final int ACTIVITY_REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION = 44;
     public static final int ACTIVITY_REQUEST_VOICE_SEARCH = 45;
+    public static final int ACTIVITY_REQUEST_CAMERA_SEARCH = 46;
+    public static final int ACTIVITY_REQUEST_CAMERA_PERMISSION = 47;
     public static final int ACTIVITY_REQUEST_LANGLINKS = 50;
     public static final int ACTIVITY_REQUEST_EDIT_SECTION = 51;
     public static final int ACTIVITY_REQUEST_GALLERY = 52;
