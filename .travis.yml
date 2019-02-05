@@ -23,6 +23,10 @@ android:
     - build-tools-$ANDROID_BUILD_TOOLS
     - android-$ANDROID_API
 
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
+
   licenses:
    - android-sdk-preview-license-.+
    - android-sdk-license-.+
