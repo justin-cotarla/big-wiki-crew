@@ -44,7 +44,7 @@ public class SearchCardView extends DefaultFeedCardView<SearchCard> {
     }
 
     @OnClick(R.id.camera_search_button) void onImageSearchClick() {
-        if(getCallback() != null) {
+        if (getCallback() != null) {
             getCallback().onImageSearchRequested();
         }
     }
