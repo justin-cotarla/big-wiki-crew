@@ -4,6 +4,7 @@ import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -858,6 +859,14 @@ public final class Prefs {
 
     public static void setHistoryTurnedOff(boolean enabled) {
         setBoolean(R.string.preference_key_turn_off_history, enabled);
+    }
+
+    public static float getTTSPitch() {
+        return Float.parseFloat(getString(R.string.preference_key_tts_pitch, "1.0f"));
+    }
+
+    public static float getTTSSpeechRate() {
+        return Float.parseFloat(getString(R.string.preference_key_tts_speech_rate, "1.0f"));
     }
 
     private Prefs() { }

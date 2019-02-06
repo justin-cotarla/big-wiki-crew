@@ -144,9 +144,13 @@
     <string name="edit_preview_fetching_dialog_message">Fetching preview…</string>
     <string name="send_feedback">Send app feedback</string>
     <string name="create_account_account_created_toast">Account created!</string>
+    <string name="preferences_heading_tts">Text-to-Speech</string>
     <string name="preferences_heading_syncing">Syncing</string>
     <string name="preferences_heading_data_usage">Data usage</string>
     <string name="preferences_heading_experimental">Experimental</string>
+    <string name="preference_title_tts_pitch">Pitch</string>
+    <string name="preference_title_tts_speech_rate">Speech Rate</string>
+    <string name="preference_title_tts_preview">Preview</string>
     <string name="preference_title_sync_reading_lists_from_account">Reading list syncing</string>
     <string name="preference_title_download_reading_list_articles">Download reading list articles</string>
     <string name="preference_summary_sync_reading_lists">Sync reading lists across different devices by saving them to your Wikipedia account</string>
@@ -733,7 +737,6 @@
         <item quantity="one">in-app contribution</item>
         <item quantity="other">in-app contributions</item>
     </plurals>
-
     <!-- No History !-->
     <string name="preference_title_turn_off_history">Turn off history</string>
     <string name="preference_summary_turn_off_history">Browse articles without saving any reading history.</string>
@@ -741,4 +744,17 @@
     <string name="history_turned_off_message">To turn history back on, go to settings</string>
     <!-- /No History -->
 
+    <!-- Text-to-speech -->
+    <string name="tts_pitch_quarter">Very Low</string>
+    <string name="tts_pitch_half">Low</string>
+    <string name="tts_pitch_normal">Normal</string>
+    <string name="tts_pitch_double">High</string>
+    <string name="tts_pitch_triple">Very High</string>
+
+    <string name="tts_speech_rate_quarter">0.25x</string>
+    <string name="tts_speech_rate_half">0.5x</string>
+    <string name="tts_speech_rate_normal">1x</string>
+    <string name="tts_speech_rate_double">2x</string>
+    <string name="tts_speech_rate_triple">3x</string>
+    <!-- /Text-to-speech -->
 </resources>
