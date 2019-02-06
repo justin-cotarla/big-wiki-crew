@@ -31,6 +31,24 @@
             android:title="@string/preference_title_app_theme"
             android:summary="@string/preference_summary_color_theme"/>
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/preferences_heading_tts">
+        <ListPreference
+            android:key="@string/preference_key_tts_pitch"
+            android:title="@string/preference_title_tts_pitch"
+            android:entries="@array/tts_pitch_entries"
+            android:entryValues="@array/tts_pitch_values"
+            android:summary="%s"/>
+        <ListPreference
+            android:key="@string/preference_key_tts_speech_rate"
+            android:title="@string/preference_title_tts_speech_rate"
+            android:entries="@array/tts_speech_rate_entries"
+            android:entryValues="@array/tts_speech_rate_values"
+            android:summary="%s"/>
+        <org.wikipedia.settings.PreferenceMultiLine
+            android:key="@string/preference_key_tts_preview"
+            android:title="@string/preference_title_tts_preview">
+        </org.wikipedia.settings.PreferenceMultiLine>
+    </PreferenceCategory>
     <PreferenceCategory
         android:key="@string/preference_category_sync"
         android:title="@string/preferences_heading_syncing">
