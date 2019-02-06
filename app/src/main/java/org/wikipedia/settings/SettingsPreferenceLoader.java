@@ -17,6 +17,7 @@ import org.wikipedia.login.LoginActivity;
 import org.wikipedia.readinglist.sync.ReadingListSyncAdapter;
 import org.wikipedia.settings.languages.WikipediaLanguagesActivity;
 import org.wikipedia.theme.ThemeFittingRoomActivity;
+import org.wikipedia.tts.TextToSpeechService;
 
 import static org.wikipedia.Constants.ACTIVITY_REQUEST_ADD_A_LANGUAGE;
 
@@ -68,6 +69,25 @@ class SettingsPreferenceLoader extends BasePreferenceLoader {
         findPreference(R.string.preference_key_about_wikipedia_app)
                 .setOnPreferenceClickListener((preference) -> {
                     getActivity().startActivity(new Intent(getActivity(), AboutActivity.class));
+                    return true;
+                });
+
+        Preference.OnPreferenceChangeListener ttsChangeListener = (final Preference preference, Object newValue) -> {
+            TextToSpeechService.invalidate();
+            return true;
+        };
+
+
+        findPreference(R.string.preference_key_tts_pitch)
+                .setOnPreferenceChangeListener(ttsChangeListener);
+
+        findPreference(R.string.preference_key_tts_speech_rate)
+                .setOnPreferenceChangeListener(ttsChangeListener);
+
+        findPreference(R.string.preference_key_tts_preview)
+                .setOnPreferenceClickListener((preference) -> {
+                    TextToSpeechService
+                            .speak("Big Barnacle Crew", this.getActivity().getApplicationContext());
                     return true;
                 });
     }
