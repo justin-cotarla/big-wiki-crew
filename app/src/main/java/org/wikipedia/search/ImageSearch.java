@@ -1,6 +1,7 @@
 package org.wikipedia.search;
 
 import android.content.Context;
+import android.os.StrictMode;
 import android.util.Log;
 
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -14,6 +15,8 @@ import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.wikipedia.R;
 
 import java.io.IOException;
@@ -36,8 +39,10 @@ public class ImageSearch {
         vision = visionBuilder.build();
     }
 
-    public String searchPhoto(byte[] photo) throws IOException {
-        String result = "";
+    public String searchPhoto(byte[] photo) throws IOException, org.json.JSONException {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                .permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         Image inputImage = new Image();
         inputImage.encodeContent(photo);
@@ -60,9 +65,13 @@ public class ImageSearch {
         AnnotateImageResponse response = batchResponse.getResponses()
                 .get(0);
 
-        Log.d("TEST", response.getTextAnnotations().toString());
+        JSONObject jsonResponse = new JSONObject(response.toString());
+        JSONArray entities = jsonResponse.getJSONObject("webDetection").getJSONArray("webEntities");
 
-        return result;
+        if (entities.length()>0) {
+            return entities.getJSONObject(0).getString("description");
+        } else {
+            throw new IOException("No Image Search Result Found");
+        }
     }
-
 }
