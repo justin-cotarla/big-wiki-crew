@@ -240,6 +240,10 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.8.1'
     implementation 'org.jsoup:jsoup:1.11.3'
 
+    implementation 'com.google.api-client:google-api-client-android:1.22.0' exclude module: 'httpclient'
+    implementation 'com.google.http-client:google-http-client-gson:1.20.0' exclude module: 'httpclient'
+    implementation 'com.google.apis:google-api-services-vision:v1-rev2-1.21.0'
+
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
 
     android.productFlavors.each { flavor ->
@@ -269,7 +273,6 @@ dependencies {
     androidTestImplementation "com.android.support.test:runner:$testingSupportVersion" // Android JUnit Runner
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espressoVersion"
-
 }
 
 private setSigningConfigKey(config, Properties props) {
