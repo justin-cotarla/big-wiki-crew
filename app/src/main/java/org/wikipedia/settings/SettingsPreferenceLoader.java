@@ -7,6 +7,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.SwitchPreferenceCompat;
+import android.util.Log;
+import android.widget.Toast;
 
 import org.wikipedia.R;
 import org.wikipedia.WikipediaApp;
@@ -70,6 +72,15 @@ class SettingsPreferenceLoader extends BasePreferenceLoader {
                     getActivity().startActivity(new Intent(getActivity(), AboutActivity.class));
                     return true;
                 });
+
+        Preference historyPref = findPreference(R.string.preference_key_turn_off_history);
+
+        // TODO: debug purpose only
+        historyPref.setOnPreferenceChangeListener((preference, newValue) -> {
+            Toast.makeText(WikipediaApp.getInstance(), "History: " + newValue, Toast.LENGTH_SHORT).show();
+            return true;
+        });
+
     }
 
     void updateLanguagePrefSummary() {

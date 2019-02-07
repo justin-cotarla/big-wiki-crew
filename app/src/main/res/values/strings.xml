@@ -733,4 +733,10 @@
         <item quantity="one">in-app contribution</item>
         <item quantity="other">in-app contributions</item>
     </plurals>
+
+    <!-- No History !-->
+    <string name="preference_title_turn_off_history">Turn off history</string>
+    <string name="preference_summary_turn_off_history">Browse articles without saving any reading history.</string>
+    <!-- /No History -->
+
 </resources>

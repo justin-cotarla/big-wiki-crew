@@ -852,5 +852,13 @@ public final class Prefs {
         setBoolean(R.string.preference_key_show_edit_action_add_title_descriptions_onboarding, enabled);
     }
 
+    public static boolean showEditNoHistory() {
+        return getBoolean(R.string.preference_key_turn_off_history, false);
+    }
+
+    public static void setShowEditNoHistory(boolean enabled) {
+        setBoolean(R.string.preference_key_turn_off_history, enabled);
+    }
+
     private Prefs() { }
 }
