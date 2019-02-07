@@ -2,7 +2,6 @@ package org.wikipedia.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 
 import org.wikipedia.R;
@@ -14,8 +13,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public final class FileUtil {
     public static final int JPEG_QUALITY = 85;
@@ -99,12 +96,12 @@ public final class FileUtil {
         return context.getString(R.string.size_mb, bytesToMB(bytes));
     }
 
-    public static File createImageFile(@NonNull Context context) throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "IMG_" + timeStamp + "_";
-        File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        return File.createTempFile(imageFileName, ".jpg", storageDir);
-    }
+//    public static File createImageFile(@NonNull Context context) throws IOException {
+//        String timeStamp = new SimpleDateFormat("yyyMMdd_HHmmss").format(new Date());
+//        String imageFileName = "IMG_" + timeStamp + "_";
+//        File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+//        return File.createTempFile(imageFileName, ".jpg", storageDir);
+//    }
 
     private FileUtil() { }
 }
