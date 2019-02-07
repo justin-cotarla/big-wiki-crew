@@ -2,7 +2,6 @@ package org.wikipedia.search;
 
 import android.content.Context;
 import android.os.StrictMode;
-import android.util.Log;
 
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -39,7 +38,11 @@ public class ImageSearch {
         vision = visionBuilder.build();
     }
 
-    public String searchPhoto(byte[] photo) throws IOException, org.json.JSONException {
+    public ImageSearch(Vision vision) {
+        this.vision = vision;
+    }
+
+    public String searchPhoto(byte[] photo) throws ImageSearchException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                 .permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -58,20 +61,26 @@ public class ImageSearch {
                 new BatchAnnotateImagesRequest();
 
         batchRequest.setRequests(Arrays.asList(request));
+        try {
+            BatchAnnotateImagesResponse batchResponse =
+                    vision.images().annotate(batchRequest).execute();
 
-        BatchAnnotateImagesResponse batchResponse =
-                vision.images().annotate(batchRequest).execute();
+            return extractEntityFromResponse(batchResponse);
+        } catch (IOException e) {
+            throw new ImageSearchException("Could Not Send Images to Google Vision", e);
+        }
+    }
 
+    public String extractEntityFromResponse(BatchAnnotateImagesResponse batchResponse) throws ImageSearchException {
         AnnotateImageResponse response = batchResponse.getResponses()
                 .get(0);
+        try {
+            JSONObject jsonResponse = new JSONObject(response.toString());
+            JSONArray entities = jsonResponse.getJSONObject("webDetection").getJSONArray("webEntities");
 
-        JSONObject jsonResponse = new JSONObject(response.toString());
-        JSONArray entities = jsonResponse.getJSONObject("webDetection").getJSONArray("webEntities");
-
-        if (entities.length()>0) {
             return entities.getJSONObject(0).getString("description");
-        } else {
-            throw new IOException("No Image Search Result Found");
+        } catch (org.json.JSONException e) {
+            throw new ImageSearchException("No Image Search Result Found", e);
         }
     }
 }
