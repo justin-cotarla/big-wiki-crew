@@ -56,6 +56,7 @@ import org.wikipedia.page.tabs.TabActivity;
 import org.wikipedia.random.RandomActivity;
 import org.wikipedia.readinglist.AddToReadingListDialog;
 import org.wikipedia.search.ImageSearch;
+import org.wikipedia.search.ImageSearchException;
 import org.wikipedia.search.SearchActivity;
 import org.wikipedia.search.SearchFragment;
 import org.wikipedia.search.SearchInvokeSource;
@@ -172,13 +173,11 @@ public class MainFragment extends Fragment implements BackPressedHandler, FeedFr
                 } else {
                     imageBitmap = (Bitmap) data.getExtras().get("data");
                 }
-
-                ImageSearch service = new ImageSearch(getActivity());
+                ImageSearch service = new ImageSearch(requireActivity());
                 String searchQuery = service.searchPhoto(ImageUtil.rotateImage(imageBitmap));
-
                 openSearchActivity(SearchInvokeSource.IMAGE, searchQuery);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (ImageSearchException e) {
+                FeedbackUtil.showError(requireActivity(), e);
             }
         } else if (requestCode == Constants.ACTIVITY_REQUEST_GALLERY
                 && resultCode == GalleryActivity.ACTIVITY_RESULT_PAGE_SELECTED) {
@@ -269,7 +268,7 @@ public class MainFragment extends Fragment implements BackPressedHandler, FeedFr
     }
 
     @Override public void onFeedImageSearchRequested() {
-        PopupMenu imageMenu = new PopupMenu(getActivity(), getView().findViewById(R.id.camera_search_button));
+        PopupMenu imageMenu = new PopupMenu(requireActivity(), getView().findViewById(R.id.camera_search_button));
         imageMenu.getMenuInflater().inflate(R.menu.menu_image_search, imageMenu.getMenu());
         imageMenu.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
@@ -499,11 +498,11 @@ public class MainFragment extends Fragment implements BackPressedHandler, FeedFr
     }
 
     private void openCameraActivity() {
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (!PermissionUtil.hasCameraPermission(getActivity())) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (!PermissionUtil.hasCameraPermission(requireActivity())) {
             PermissionUtil.requestCameraPermission(this, Constants.ACTIVITY_REQUEST_CAMERA_PERMISSION);
-        } else if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivityForResult(cameraIntent, Constants.ACTIVITY_REQUEST_IMAGE_SEARCH);
+        } else if (intent.resolveActivity(requireActivity().getPackageManager()) != null) {
+            startActivityForResult(intent, Constants.ACTIVITY_REQUEST_IMAGE_SEARCH);
         }
     }
 
