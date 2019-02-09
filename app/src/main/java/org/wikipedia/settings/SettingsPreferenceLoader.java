@@ -87,7 +87,7 @@ class SettingsPreferenceLoader extends BasePreferenceLoader {
         findPreference(R.string.preference_key_tts_preview)
                 .setOnPreferenceClickListener((preference) -> {
                     TextToSpeechService
-                            .speak("Big Barnacle Crew", this.getActivity().getApplicationContext());
+                            .speak("Big Barnacle Crew by Big Boy Biz", this.getActivity().getApplicationContext());
                     return true;
                 });
     }
