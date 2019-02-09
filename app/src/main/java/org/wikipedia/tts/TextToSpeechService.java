@@ -5,22 +5,22 @@ import android.speech.tts.TextToSpeech;
 
 import org.wikipedia.settings.Prefs;
 
-public class TextToSpeechService {
-    private static TextToSpeech ttsInstance = null;
+public final class TextToSpeechService {
+    private static TextToSpeech TTS_INSTANCE = null;
 
     public static void invalidate() {
-        ttsInstance = null;
+        TTS_INSTANCE = null;
     }
 
     public static void speak(String text, Context context, float pitch, float speechRate) {
-        if (ttsInstance == null) {
-            ttsInstance = new TextToSpeech(context.getApplicationContext(), (status) -> {
-                ttsInstance.setPitch(pitch);
-                ttsInstance.setSpeechRate(speechRate);
-                ttsInstance.speak(text, TextToSpeech.QUEUE_ADD, null);
+        if (TTS_INSTANCE == null) {
+            TTS_INSTANCE = new TextToSpeech(context.getApplicationContext(), (status) -> {
+                TTS_INSTANCE.setPitch(pitch);
+                TTS_INSTANCE.setSpeechRate(speechRate);
+                TTS_INSTANCE.speak(text, TextToSpeech.QUEUE_ADD, null);
             });
         }
-        ttsInstance.speak(text, TextToSpeech.QUEUE_ADD, null);
+        TTS_INSTANCE.speak(text, TextToSpeech.QUEUE_ADD, null);
     }
 
     public static void speak(String text, Context context) {
