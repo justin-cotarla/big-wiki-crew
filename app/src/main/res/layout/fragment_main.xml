@@ -36,9 +36,8 @@
                     android:focusable="true"
                     android:layout_marginStart="@dimen/floating_queue_container_margin"
                     android:layout_marginEnd="@dimen/floating_queue_container_margin"
-                    app:layout_behavior="org.wikipedia.random.BottomViewBehavior">
+                    app:layout_behavior="org.wikipedia.random.BottomViewBehavior" />
 
-                </org.wikipedia.main.floatingqueue.FloatingQueueView>
             </android.support.design.widget.CoordinatorLayout>
 
         </FrameLayout>
@@ -53,9 +52,7 @@
             app:tabGravity="fill"
             app:itemIconTint="?attr/nav_tab_item_color_state"
             app:itemTextColor="?attr/nav_tab_item_color_state"
-            app:tabIndicatorColor="@android:color/transparent" >
-
-        </org.wikipedia.navtab.NavTabLayout>
+            app:tabIndicatorColor="@android:color/transparent" />
 
     </LinearLayout>
 
