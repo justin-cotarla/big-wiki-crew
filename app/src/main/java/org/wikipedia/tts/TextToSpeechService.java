@@ -12,15 +12,19 @@ public class TextToSpeechService {
         ttsInstance = null;
     }
 
-    public static void speak(String text, Context context) {
+    public static void speak(String text, Context context, float pitch, float speechRate) {
         if (ttsInstance == null) {
             ttsInstance = new TextToSpeech(context.getApplicationContext(), (status) -> {
-                ttsInstance.setPitch(Prefs.getTTSPitch());
-                ttsInstance.setSpeechRate(Prefs.getTTSSpeechRate());
+                ttsInstance.setPitch(pitch);
+                ttsInstance.setSpeechRate(speechRate);
                 ttsInstance.speak(text, TextToSpeech.QUEUE_ADD, null);
             });
         }
         ttsInstance.speak(text, TextToSpeech.QUEUE_ADD, null);
+    }
+
+    public static void speak(String text, Context context) {
+        speak(text, context, Prefs.getTTSPitch(), Prefs.getTTSSpeechRate());
     }
 
     private TextToSpeechService() {
