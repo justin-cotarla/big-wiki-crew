@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
@@ -62,6 +63,7 @@ import org.wikipedia.search.SearchInvokeSource;
 import org.wikipedia.settings.Prefs;
 import org.wikipedia.util.ClipboardUtil;
 import org.wikipedia.util.FeedbackUtil;
+import org.wikipedia.util.FileUtil;
 import org.wikipedia.util.ImageUtil;
 import org.wikipedia.util.PermissionUtil;
 import org.wikipedia.util.ShareUtil;
@@ -168,11 +170,13 @@ public class MainFragment extends Fragment implements BackPressedHandler, FeedFr
                 if (data.getData() != null) {
                     Uri imageURI = data.getData();
                     imageBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageURI);
+                    imageBitmap = ImageUtil.rotateWithExif(imageBitmap, FileUtil.getRealPathFromURI(requireActivity(), imageURI));
                 } else {
                     imageBitmap = (Bitmap) data.getExtras().get("data");
+                    imageBitmap = ImageUtil.rotateImage(imageBitmap);
                 }
                 ImageSearch service = new ImageSearch(requireActivity());
-                String searchQuery = service.searchPhoto(ImageUtil.rotateImage(imageBitmap));
+                String searchQuery = service.searchPhoto(FileUtil.compressBmpToJpg(imageBitmap).toByteArray());
                 openSearchActivity(SearchInvokeSource.IMAGE, searchQuery);
             } catch (Exception e) {
                 FeedbackUtil.showError(requireActivity(), e);
@@ -230,6 +234,11 @@ public class MainFragment extends Fragment implements BackPressedHandler, FeedFr
             case Constants.ACTIVITY_REQUEST_CAMERA_PERMISSION:
                 if (PermissionUtil.isPermitted(grantResults)) {
                     openCameraActivity();
+                }
+                break;
+            case Constants.ACTIVITY_REQUEST_READ_EXTERNAL_STORAGE_PERMISSION:
+                if (PermissionUtil.isPermitted(grantResults)) {
+                    openGalleryActivity();
                 }
                 break;
             default:
@@ -506,7 +515,11 @@ public class MainFragment extends Fragment implements BackPressedHandler, FeedFr
 
     private void openGalleryActivity() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(galleryIntent, Constants.ACTIVITY_REQUEST_IMAGE_SEARCH);
+        if (!PermissionUtil.hasReadStoragePermission(requireActivity())) {
+            PermissionUtil.requestReadStoragePermission(this, Constants.ACTIVITY_REQUEST_READ_EXTERNAL_STORAGE_PERMISSION);
+        } else {
+            startActivityForResult(galleryIntent, Constants.ACTIVITY_REQUEST_IMAGE_SEARCH);
+        }
     }
 
     private void refreshExploreFeed() {
