@@ -31,7 +31,6 @@ public class TextToSpeechWrapper {
     }
 
     public void invalidate() {
-//        tts.stop();
         if (tts != null) {
             tts.shutdown();
         }
@@ -85,49 +84,4 @@ public class TextToSpeechWrapper {
             tts.speak(text, mode, params, id);
         }
     }
-
-
-//    private class AsyncBuilder extends AsyncTask<Void, Void, String> {
-//
-//        private Context context;
-//
-//        public AsyncBuilder(Context context) {
-//            this.context = context;
-//        }
-//
-//        @Override
-//        protected void onPreExecute() {
-//            tts = new TextToSpeech(context, (status) -> {
-//                tts.setPitch(Prefs.getTTSPitch());
-//                tts.setSpeechRate(Prefs.getTTSSpeechRate());
-//                doneInit = true;
-//            });
-//
-//            long timeout = 5000;
-//            long start = System.currentTimeMillis();
-//
-//            while (!doneInit) {
-//                try {
-//                    Thread.sleep(100);
-//                    long now = System.currentTimeMillis();
-//                    if (now - start >= timeout) {
-//                        throw new RuntimeException("Shit happened tts failed to init in 5 seconds.");
-//                    }
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//
-//        @Override
-//        protected String doInBackground(Void... voids) {
-//            System.out.println("Initializing text-to-speech engine...");
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String result) {
-//            System.out.println("@@@@ DONEEEE @@@@");
-//        }
-//    }
 }
