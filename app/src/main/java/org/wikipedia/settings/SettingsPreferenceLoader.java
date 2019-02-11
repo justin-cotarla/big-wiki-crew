@@ -7,7 +7,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.SwitchPreferenceCompat;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.wikipedia.R;
@@ -18,6 +17,7 @@ import org.wikipedia.language.LanguageSettingsInvokeSource;
 import org.wikipedia.login.LoginActivity;
 import org.wikipedia.readinglist.sync.ReadingListSyncAdapter;
 import org.wikipedia.settings.languages.WikipediaLanguagesActivity;
+import org.wikipedia.theme.Theme;
 import org.wikipedia.theme.ThemeFittingRoomActivity;
 
 import static org.wikipedia.Constants.ACTIVITY_REQUEST_ADD_A_LANGUAGE;
@@ -74,13 +74,19 @@ class SettingsPreferenceLoader extends BasePreferenceLoader {
                 });
 
         Preference historyPref = findPreference(R.string.preference_key_turn_off_history);
-
-        // TODO: debug purpose only
-        historyPref.setOnPreferenceChangeListener((preference, newValue) -> {
-            Toast.makeText(WikipediaApp.getInstance(), "History: " + newValue, Toast.LENGTH_SHORT).show();
+        historyPref.setOnPreferenceChangeListener((preference, value) -> {
+            boolean turnOffHistory = value.equals(Boolean.TRUE);
+            if(turnOffHistory) {
+                Prefs.setShowEditNoHistory(true);
+                //WikipediaApp.getInstance().setCurrentTheme(Theme.DARK);
+                Toast.makeText(WikipediaApp.getInstance(), "History is turned off", Toast.LENGTH_SHORT).show();
+            } else {
+                Prefs.setShowEditNoHistory(false);
+                // WikipediaApp.getInstance().setCurrentTheme(Theme.getFallback());
+                Toast.makeText(WikipediaApp.getInstance(), "History is turned on", Toast.LENGTH_SHORT).show();
+            }
             return true;
         });
-
     }
 
     void updateLanguagePrefSummary() {

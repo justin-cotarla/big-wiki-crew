@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import org.wikipedia.WikipediaApp;
 import org.wikipedia.database.DatabaseClient;
 import org.wikipedia.database.contract.PageHistoryContract;
+import org.wikipedia.settings.Prefs;
 
 import io.reactivex.functions.Action;
 
@@ -21,12 +22,14 @@ public class UpdateHistoryTask implements Action {
 
     @Override
     public void run() throws Exception {
-        DatabaseClient<HistoryEntry> client = WikipediaApp.getInstance().getDatabaseClient(HistoryEntry.class);
-        client.upsert(new HistoryEntry(entry.getTitle(),
-                        entry.getTimestamp(),
-                        entry.getSource(),
-                        entry.getTimeSpentSec() + getPreviousTimeSpent(client)),
-                PageHistoryContract.Page.SELECTION);
+        if (!Prefs.showEditNoHistory()) {
+            DatabaseClient<HistoryEntry> client = WikipediaApp.getInstance().getDatabaseClient(HistoryEntry.class);
+            client.upsert(new HistoryEntry(entry.getTitle(),
+                            entry.getTimestamp(),
+                            entry.getSource(),
+                            entry.getTimeSpentSec() + getPreviousTimeSpent(client)),
+                    PageHistoryContract.Page.SELECTION);
+        }
     }
 
     private int getPreviousTimeSpent(@NonNull DatabaseClient<HistoryEntry> client) {

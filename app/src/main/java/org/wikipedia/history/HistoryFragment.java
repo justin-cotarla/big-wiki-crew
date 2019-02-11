@@ -71,6 +71,7 @@ public class HistoryFragment extends Fragment implements BackPressedHandler {
     private Unbinder unbinder;
     @BindView(R.id.history_list) RecyclerView historyList;
     @BindView(R.id.history_empty_container) View historyEmptyView;
+    @BindView(R.id.no_history_container) View noHistoryView;
     @BindView(R.id.search_empty_view) SearchEmptyView searchEmptyView;
 
     private WikipediaApp app;
@@ -100,7 +101,6 @@ public class HistoryFragment extends Fragment implements BackPressedHandler {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
         unbinder = ButterKnife.bind(this, view);
-
         searchEmptyView.setEmptyText(R.string.search_history_no_results);
 
         ItemTouchHelper.Callback touchCallback = new SwipeableItemTouchHelperCallback(requireContext());
@@ -132,6 +132,7 @@ public class HistoryFragment extends Fragment implements BackPressedHandler {
     public void onResume() {
         super.onResume();
         updateEmptyState();
+        updateNoHistoryViewState();
     }
 
     @Override
@@ -168,14 +169,25 @@ public class HistoryFragment extends Fragment implements BackPressedHandler {
     }
 
     private void updateEmptyState(@Nullable String searchQuery) {
-        if (TextUtils.isEmpty(searchQuery)) {
+        if (Prefs.showEditNoHistory()) {
+            searchEmptyView.setVisibility(View.GONE);
+            setEmptyContainerVisibility(false);
+        } else if (TextUtils.isEmpty(searchQuery)) {
             searchEmptyView.setVisibility(View.GONE);
             setEmptyContainerVisibility(adapter.isEmpty());
         } else {
             searchEmptyView.setVisibility(adapter.isEmpty() ? View.VISIBLE : View.GONE);
             setEmptyContainerVisibility(false);
         }
-        historyList.setVisibility(adapter.isEmpty() ? View.GONE : View.VISIBLE);
+        historyList.setVisibility(adapter.isEmpty() || Prefs.showEditNoHistory() ? View.GONE : View.VISIBLE);
+    }
+
+    private void updateNoHistoryViewState() {
+        if (Prefs.showEditNoHistory()) {
+            noHistoryView.setVisibility(View.VISIBLE);
+        } else {
+            noHistoryView.setVisibility(View.GONE);
+        }
     }
 
     private void setEmptyContainerVisibility(boolean visible) {
@@ -202,10 +214,16 @@ public class HistoryFragment extends Fragment implements BackPressedHandler {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        boolean isHistoryAvailable = !adapter.isEmpty();
+
+        boolean isHistoryTurnedOff = Prefs.showEditNoHistory();
+        boolean isHistoryAvailable = !adapter.isEmpty() && !isHistoryTurnedOff;
         menu.findItem(R.id.menu_clear_all_history)
                 .setVisible(isHistoryAvailable)
                 .setEnabled(isHistoryAvailable);
+
+        menu.findItem(R.id.menu_search_history)
+                .setVisible(!isHistoryTurnedOff)
+                .setEnabled(!isHistoryTurnedOff);
     }
 
     @Override
