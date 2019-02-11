@@ -150,7 +150,7 @@
     <string name="preferences_heading_data_usage">Data usage</string>
     <string name="preferences_heading_experimental">Experimental</string>
     <string name="preference_title_tts_pitch">Pitch</string>
-    <string name="preference_title_tts_speech_rate">Speech Rate</string>
+    <string name="preference_title_tts_speech_rate">Speech rate</string>
     <string name="preference_title_tts_preview">Preview</string>
     <string name="preference_title_sync_reading_lists_from_account">Reading list syncing</string>
     <string name="preference_title_download_reading_list_articles">Download reading list articles</string>
