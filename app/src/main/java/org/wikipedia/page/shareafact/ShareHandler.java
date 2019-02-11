@@ -1,7 +1,9 @@
 package org.wikipedia.page.shareafact;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.speech.tts.UtteranceProgressListener;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.ActionMode;
@@ -9,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import org.apache.commons.lang3.StringUtils;
@@ -29,6 +32,7 @@ import org.wikipedia.page.PageFragment;
 import org.wikipedia.page.PageProperties;
 import org.wikipedia.page.PageTitle;
 import org.wikipedia.settings.Prefs;
+import org.wikipedia.tts.TextToSpeechWrapper;
 import org.wikipedia.util.FeedbackUtil;
 import org.wikipedia.util.ShareUtil;
 import org.wikipedia.util.StringUtil;
@@ -52,6 +56,7 @@ public class ShareHandler {
     private static final String PAYLOAD_PURPOSE_KEY = "purpose";
     private static final String PAYLOAD_PURPOSE_SHARE = "share";
     private static final String PAYLOAD_PURPOSE_DEFINE = "define";
+    private static final String PAYLOAD_PURPOSE_HEAR = "hear";
     private static final String PAYLOAD_PURPOSE_EDIT_HERE = "edit_here";
     private static final String PAYLOAD_TEXT_KEY = "text";
 
@@ -82,6 +87,9 @@ public class ShareHandler {
                     break;
                 case PAYLOAD_PURPOSE_DEFINE:
                     onDefinePayload(text);
+                    break;
+                case PAYLOAD_PURPOSE_HEAR:
+                    onHearPayload(text);
                     break;
                 case PAYLOAD_PURPOSE_EDIT_HERE:
                     onEditHerePayload(messagePayload.optInt("sectionID", 0), text, messagePayload.optBoolean("editDescription", false));
@@ -118,6 +126,53 @@ public class ShareHandler {
 
     private void onDefinePayload(String text) {
         showWiktionaryDefinition(text.toLowerCase(Locale.getDefault()));
+    }
+
+    private void onHearPayload(String text) {
+        TextToSpeechWrapper tts = fragment.getTTS();
+        tts.get().setOnUtteranceProgressListener(new UtteranceProgressListener() {
+            @Override
+            public void onStart(String utteranceId) {
+                fragment.getActivity().runOnUiThread(() -> {
+//                    fragment.getStopTTSButton().setVisibility(View.VISIBLE);
+                    fragment.getStopTTSButton().show();
+                });
+            }
+
+            @Override
+            public void onDone(String utteranceId) {
+                fragment.getActivity().runOnUiThread(() -> {
+//                        fragment.getStopTTSButton().setVisibility(View.GONE);
+                    fragment.getStopTTSButton().hide();
+                });
+            }
+
+            @Override
+            public void onError(String utteranceId) {
+                fragment.getActivity().runOnUiThread(() -> fragment.getStopTTSButton().hide());
+                System.err.println("ERROR: Something went wrong during the TTS process.");
+            }
+        });
+
+        int textLength = text.length();
+        int maxLength = tts.get().getMaxSpeechInputLength();
+
+        if (textLength < maxLength) {
+            tts.speakWithUtteranceId(text, "test");
+        }
+
+        else {
+            while (text.length() > maxLength) {
+                int cutoff = text.substring(0, maxLength).lastIndexOf(" ");
+                String toHear = text.substring(0, cutoff);
+
+                tts.addToQueueWithUtteranceId(toHear, "test");
+
+                text = text.substring(cutoff + 1);
+            }
+
+            tts.addToQueueWithUtteranceId(text, "test");
+        }
     }
 
     private void onEditHerePayload(int sectionID, String text, boolean isEditingDescription) {
@@ -197,6 +252,10 @@ public class ShareHandler {
             defineItem.setVisible(true);
             defineItem.setOnMenuItemClickListener(new RequestTextSelectOnMenuItemClickListener(PAYLOAD_PURPOSE_DEFINE));
         }
+
+        MenuItem hearItem = menu.findItem(R.id.menu_text_select_hear);
+        hearItem.setOnMenuItemClickListener(new RequestTextSelectOnMenuItemClickListener(PAYLOAD_PURPOSE_HEAR));
+
         MenuItem editItem = menu.findItem(R.id.menu_text_edit_here);
         editItem.setOnMenuItemClickListener(new RequestTextSelectOnMenuItemClickListener(PAYLOAD_PURPOSE_EDIT_HERE));
         if (!fragment.getPage().isArticle()) {
