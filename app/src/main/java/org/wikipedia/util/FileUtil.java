@@ -96,12 +96,5 @@ public final class FileUtil {
         return context.getString(R.string.size_mb, bytesToMB(bytes));
     }
 
-//    public static File createImageFile(@NonNull Context context) throws IOException {
-//        String timeStamp = new SimpleDateFormat("yyyMMdd_HHmmss").format(new Date());
-//        String imageFileName = "IMG_" + timeStamp + "_";
-//        File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-//        return File.createTempFile(imageFileName, ".jpg", storageDir);
-//    }
-
     private FileUtil() { }
 }
