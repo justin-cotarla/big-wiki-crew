@@ -12,7 +12,7 @@ public final class ImageUtil {
     // Needed to fix pre-rotation of images from camera and gallery
     public static Bitmap rotateImage(Bitmap bmp) {
         if (bmp == null) {
-            return Bitmap.createBitmap(0,0, Bitmap.Config.ARGB_8888);
+            return Bitmap.createBitmap(10, 10, Bitmap.Config.ARGB_8888);
         }
         Matrix matrix = new Matrix();
         matrix.postRotate(90);
@@ -21,7 +21,7 @@ public final class ImageUtil {
 
     public static Bitmap rotateImage(Bitmap bmp, float degrees) {
         if (bmp == null) {
-            return Bitmap.createBitmap(0,0, Bitmap.Config.ARGB_8888);
+            return Bitmap.createBitmap(10, 10, Bitmap.Config.ARGB_8888);
         }
         Matrix matrix = new Matrix();
         matrix.postRotate(degrees);
