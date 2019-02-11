@@ -1,6 +1,5 @@
 package org.wikipedia.page.shareafact;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.speech.tts.UtteranceProgressListener;
@@ -11,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import org.apache.commons.lang3.StringUtils;
@@ -134,7 +132,6 @@ public class ShareHandler {
             @Override
             public void onStart(String utteranceId) {
                 fragment.getActivity().runOnUiThread(() -> {
-//                    fragment.getStopTTSButton().setVisibility(View.VISIBLE);
                     fragment.getStopTTSButton().show();
                 });
             }
@@ -142,7 +139,6 @@ public class ShareHandler {
             @Override
             public void onDone(String utteranceId) {
                 fragment.getActivity().runOnUiThread(() -> {
-//                        fragment.getStopTTSButton().setVisibility(View.GONE);
                     fragment.getStopTTSButton().hide();
                 });
             }
