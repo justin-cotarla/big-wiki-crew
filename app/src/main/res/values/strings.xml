@@ -49,8 +49,9 @@
 
     <!-- Toolbar menu items -->
     <string name="menu_text_select_copy">Copy</string>
-    <string name="menu_text_select_define">Define</string>
     <string name="menu_text_select_share">Share</string>
+    <string name="menu_text_select_define">Define</string>
+    <string name="menu_text_select_hear">Hear</string>
     <string name="menu_text_select_edit_here">Edit here</string>
 
     <!-- Nearby -->
