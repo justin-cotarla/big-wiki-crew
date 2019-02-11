@@ -107,7 +107,7 @@
     <string name="preference_key_show_edit_tasks_onboarding">showEditTasksOnboarding</string>
     <string name="preference_key_show_multilingual_task">showMultilingualTask</string>
     <string name="preference_key_show_edit_action_add_title_descriptions_onboarding">showEditActionAddTitleDescriptionsOnboarding</string>
-    <string name="preference_key_tts_pitch">pitch</string>
-    <string name="preference_key_tts_speech_rate">speechRate</string>
+    <string name="preference_key_tts_pitch">ttsPitch</string>
+    <string name="preference_key_tts_speech_rate">ttsSpeechRate</string>
     <string name="preference_key_tts_preview">ttsPreview</string>
 </resources>
