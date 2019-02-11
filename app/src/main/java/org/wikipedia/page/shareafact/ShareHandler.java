@@ -154,7 +154,7 @@ public class ShareHandler {
         int maxLength = tts.get().getMaxSpeechInputLength();
 
         if (textLength < maxLength) {
-            tts.speakWithUtteranceId(text, "test");
+            tts.speakWithUtteranceId(text, "shareHandler");
         }
 
         else {
@@ -162,12 +162,12 @@ public class ShareHandler {
                 int cutoff = text.substring(0, maxLength).lastIndexOf(" ");
                 String toHear = text.substring(0, cutoff);
 
-                tts.addToQueueWithUtteranceId(toHear, "test");
+                tts.addToQueueWithUtteranceId(toHear, "shareHandler");
 
                 text = text.substring(cutoff + 1);
             }
 
-            tts.addToQueueWithUtteranceId(text, "test");
+            tts.addToQueueWithUtteranceId(text, "shareHandler");
         }
     }
 

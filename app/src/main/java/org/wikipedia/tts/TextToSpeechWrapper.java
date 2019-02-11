@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 
 import org.wikipedia.settings.Prefs;
 
@@ -30,13 +31,6 @@ public class TextToSpeechWrapper {
         return tts;
     }
 
-    public void invalidate() {
-        if (tts != null) {
-            tts.shutdown();
-        }
-        tts = null;
-    }
-
     public void speak(String text) {
         speak(text, TextToSpeech.QUEUE_FLUSH);
     }
@@ -60,7 +54,7 @@ public class TextToSpeechWrapper {
                 if (status == TextToSpeech.SUCCESS) {
                     tts.setPitch(Prefs.getTTSPitch());
                     tts.setSpeechRate(Prefs.getTTSSpeechRate());
-                    speak(text);
+                    speakWithUtteranceListener(text);
                 }
                 else {
                     System.err.println("ERROR: Failed to initialize TTS engine.");
@@ -68,8 +62,28 @@ public class TextToSpeechWrapper {
             });
         }
         else {
-            speak(text);
+            speakWithUtteranceListener(text);
         }
+    }
+
+    public void speakWithUtteranceListener(String text) {
+        tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+            @Override
+            public void onStart(String utteranceId) {
+                // nothing
+            }
+
+            @Override
+            public void onDone(String utteranceId) {
+                tts.shutdown();
+            }
+
+            @Override
+            public void onError(String utteranceId) {
+                System.err.println("ERROR: Something went wrong during the TTS process.");
+            }
+        });
+        speakWithUtteranceId(text, "ttsWrapper");
     }
 
     private void speak(String text, int mode) {
@@ -80,6 +94,7 @@ public class TextToSpeechWrapper {
         Bundle params = new Bundle();
         params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, id);
 
+        // todo: other versions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             tts.speak(text, mode, params, id);
         }
