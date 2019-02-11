@@ -53,16 +53,15 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             style="@style/MaterialLargePrimaryTitle"
-            android:text="@string/no_history_title" />
+            android:text="@string/history_turned_off_title" />
         <TextView
             android:id="@+id/no_history_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-
             android:gravity="center"
             style="@style/MaterialMediumSecondaryCaption"
-            android:text="@string/no_history_message" />
+            android:text="@string/history_turned_off_message" />
     </LinearLayout>
 
     <org.wikipedia.views.SearchEmptyView
