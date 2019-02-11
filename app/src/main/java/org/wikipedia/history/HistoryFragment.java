@@ -169,7 +169,7 @@ public class HistoryFragment extends Fragment implements BackPressedHandler {
     }
 
     private void updateEmptyState(@Nullable String searchQuery) {
-        if (Prefs.showEditNoHistory()) {
+        if (Prefs.isHistoryTurnedOff()) {
             searchEmptyView.setVisibility(View.GONE);
             setEmptyContainerVisibility(false);
         } else if (TextUtils.isEmpty(searchQuery)) {
@@ -179,11 +179,11 @@ public class HistoryFragment extends Fragment implements BackPressedHandler {
             searchEmptyView.setVisibility(adapter.isEmpty() ? View.VISIBLE : View.GONE);
             setEmptyContainerVisibility(false);
         }
-        historyList.setVisibility(adapter.isEmpty() || Prefs.showEditNoHistory() ? View.GONE : View.VISIBLE);
+        historyList.setVisibility(adapter.isEmpty() || Prefs.isHistoryTurnedOff() ? View.GONE : View.VISIBLE);
     }
 
     private void updateNoHistoryViewState() {
-        if (Prefs.showEditNoHistory()) {
+        if (Prefs.isHistoryTurnedOff()) {
             noHistoryView.setVisibility(View.VISIBLE);
         } else {
             noHistoryView.setVisibility(View.GONE);
@@ -215,7 +215,7 @@ public class HistoryFragment extends Fragment implements BackPressedHandler {
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
-        boolean isHistoryTurnedOff = Prefs.showEditNoHistory();
+        boolean isHistoryTurnedOff = Prefs.isHistoryTurnedOff();
         boolean isHistoryAvailable = !adapter.isEmpty() && !isHistoryTurnedOff;
         menu.findItem(R.id.menu_clear_all_history)
                 .setVisible(isHistoryAvailable)

@@ -22,7 +22,7 @@ public class UpdateHistoryTask implements Action {
 
     @Override
     public void run() throws Exception {
-        if (!Prefs.showEditNoHistory()) {
+        if (!Prefs.isHistoryTurnedOff()) {
             DatabaseClient<HistoryEntry> client = WikipediaApp.getInstance().getDatabaseClient(HistoryEntry.class);
             client.upsert(new HistoryEntry(entry.getTitle(),
                             entry.getTimestamp(),

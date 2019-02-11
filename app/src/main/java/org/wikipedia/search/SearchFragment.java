@@ -393,7 +393,7 @@ public class SearchFragment extends Fragment implements SearchResultsFragment.Ca
         isSearchActive = false;
         DeviceUtil.hideSoftKeyboard(getView());
 
-        if(!Prefs.showEditNoHistory()) {
+        if (!Prefs.isHistoryTurnedOff()) {
             addRecentSearch(query);
         }
     }

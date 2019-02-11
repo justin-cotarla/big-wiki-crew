@@ -36,7 +36,6 @@ import org.wikipedia.recurring.RecurringTasksExecutor;
 import org.wikipedia.savedpages.SavedPageSyncService;
 import org.wikipedia.settings.Prefs;
 import org.wikipedia.settings.SiteInfoClient;
-import org.wikipedia.theme.Theme;
 import org.wikipedia.util.DeviceUtil;
 import org.wikipedia.util.FeedbackUtil;
 import org.wikipedia.util.PermissionUtil;
@@ -141,11 +140,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void setTheme() {
-//        if (Prefs.showEditNoHistory()) {
-//            setTheme(Theme.DARK.getResourceId());
-//        } else {
-//            setTheme(WikipediaApp.getInstance().getCurrentTheme().getResourceId());
-//        }
         setTheme(WikipediaApp.getInstance().getCurrentTheme().getResourceId());
     }
 
