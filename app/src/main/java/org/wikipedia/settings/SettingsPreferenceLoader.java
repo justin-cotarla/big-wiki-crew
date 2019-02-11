@@ -17,7 +17,7 @@ import org.wikipedia.login.LoginActivity;
 import org.wikipedia.readinglist.sync.ReadingListSyncAdapter;
 import org.wikipedia.settings.languages.WikipediaLanguagesActivity;
 import org.wikipedia.theme.ThemeFittingRoomActivity;
-import org.wikipedia.tts.TextToSpeechService;
+import org.wikipedia.tts.TextToSpeechWrapper;
 
 import static org.wikipedia.Constants.ACTIVITY_REQUEST_ADD_A_LANGUAGE;
 
@@ -72,11 +72,14 @@ class SettingsPreferenceLoader extends BasePreferenceLoader {
                     return true;
                 });
 
+        // Text-to-speech settings
+
+        TextToSpeechWrapper tts = new TextToSpeechWrapper();
+
         Preference.OnPreferenceChangeListener ttsChangeListener = (final Preference preference, Object newValue) -> {
-            TextToSpeechService.invalidate();
+            tts.invalidate();
             return true;
         };
-
 
         findPreference(R.string.preference_key_tts_pitch)
                 .setOnPreferenceChangeListener(ttsChangeListener);
@@ -86,8 +89,7 @@ class SettingsPreferenceLoader extends BasePreferenceLoader {
 
         findPreference(R.string.preference_key_tts_preview)
                 .setOnPreferenceClickListener((preference) -> {
-                    TextToSpeechService
-                            .speak("Big Barnacle Crew by Big Boy Biz", this.getActivity().getApplicationContext());
+                    tts.initAndSpeak(this.getActivity().getApplicationContext(), "You are hearing a sample voice for your text to speech settings.");
                     return true;
                 });
     }
