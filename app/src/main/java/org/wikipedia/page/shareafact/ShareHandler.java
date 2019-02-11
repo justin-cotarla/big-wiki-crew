@@ -154,7 +154,7 @@ public class ShareHandler {
         int maxLength = tts.get().getMaxSpeechInputLength();
 
         if (textLength < maxLength) {
-            tts.speakWithUtteranceId(text, "test");
+            tts.speakWithUtteranceId(text, "shareHandler");
         }
 
         else {

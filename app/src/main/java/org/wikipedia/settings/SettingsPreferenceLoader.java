@@ -72,23 +72,9 @@ class SettingsPreferenceLoader extends BasePreferenceLoader {
                     return true;
                 });
 
-        // Text-to-speech settings
-
-        TextToSpeechWrapper tts = new TextToSpeechWrapper();
-
-        Preference.OnPreferenceChangeListener ttsChangeListener = (final Preference preference, Object newValue) -> {
-            tts.invalidate();
-            return true;
-        };
-
-        findPreference(R.string.preference_key_tts_pitch)
-                .setOnPreferenceChangeListener(ttsChangeListener);
-
-        findPreference(R.string.preference_key_tts_speech_rate)
-                .setOnPreferenceChangeListener(ttsChangeListener);
-
         findPreference(R.string.preference_key_tts_preview)
                 .setOnPreferenceClickListener((preference) -> {
+                    TextToSpeechWrapper tts = new TextToSpeechWrapper();
                     tts.initAndSpeak(this.getActivity().getApplicationContext(), "You are hearing a sample voice for your text to speech settings.");
                     return true;
                 });
