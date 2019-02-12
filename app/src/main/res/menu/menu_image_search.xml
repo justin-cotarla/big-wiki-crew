@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/drop_down_camera"
+        android:title="@string/image_search_dialog_camera"
+        android:visible="true"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/drop_down_gallery"
+        android:title="@string/image_search_dialog_gallery"
+        android:visible="true"
+        app:showAsAction="ifRoom" />
+</menu>

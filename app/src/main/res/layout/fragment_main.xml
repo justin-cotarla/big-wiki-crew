@@ -36,7 +36,8 @@
                     android:focusable="true"
                     android:layout_marginStart="@dimen/floating_queue_container_margin"
                     android:layout_marginEnd="@dimen/floating_queue_container_margin"
-                    app:layout_behavior="org.wikipedia.random.BottomViewBehavior"/>
+                    app:layout_behavior="org.wikipedia.random.BottomViewBehavior" />
+
             </android.support.design.widget.CoordinatorLayout>
 
         </FrameLayout>

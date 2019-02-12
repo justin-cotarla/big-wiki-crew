@@ -256,6 +256,7 @@
     <string name="gallery_error_video_failed">Could not play the video.</string>
     <string name="gallery_save_image_write_permission_rationale">Permission to write to storage on your device is required for saving images.</string>
     <string name="err_cannot_save_file">Cannot save file</string>
+    <string name="err_cannot_create_file">Cannot create file</string>
     <string name="snippet_share_intro">\"%1$s\" on @Wikipedia: %2$s</string>
     <string name="expand_refs">Tap to expand</string>
     <string name="share_snippet_button">Share as image</string>
@@ -738,6 +739,11 @@
         <item quantity="one">in-app contribution</item>
         <item quantity="other">in-app contributions</item>
     </plurals>
+
+    <!-- Image Search Dialog -->
+    <string name="image_search_dialog_camera">Take a photo</string>
+    <string name="image_search_dialog_gallery">Choose from gallery</string>
+    <!-- /Image Search Dialog -->
 
     <!-- No History !-->
     <string name="preference_title_turn_off_history">Turn off history</string>
