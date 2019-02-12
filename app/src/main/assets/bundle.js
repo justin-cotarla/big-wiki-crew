@@ -265,7 +265,7 @@ bridge.registerListener( "getTextSelection", function( payload ) {
     if (text.length < 2 && payload.purpose === "share") {
         text = getLeadParagraph();
     }
-    if (text.length > 250) {
+    if (text.length > 250 && payload.purpose !== "hear") {
         text = text.substring(0, 249);
     }
     if (payload.purpose === "edit_here") {

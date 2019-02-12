@@ -47,14 +47,31 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom" />
 
-            <org.wikipedia.page.PageActionTabLayout
-                android:id="@+id/page_actions_tab_layout"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:background="@color/base18"
-                app:tabSelectedTextColor="@color/base18"
-                app:tabIndicatorColor="@color/base18" />
+                android:layout_gravity="bottom">
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/button_tts_stop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/page_actions_tab_layout"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="16dp"
+                    android:visibility="gone"
+                    app:backgroundTint="@color/red50"
+                    app:srcCompat="@drawable/ic_stop_white_24dp" />
+
+                <org.wikipedia.page.PageActionTabLayout
+                    android:id="@+id/page_actions_tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/base18"
+                    android:layout_alignParentBottom="true"
+                    app:tabIndicatorColor="@color/base18"
+                    app:tabSelectedTextColor="@color/base18" />
+            </RelativeLayout>
 
             <android.support.v4.widget.Space
                 android:id="@+id/fragment_page_tool_tip_select_text_target"
@@ -63,10 +80,10 @@
                 android:layout_gravity="bottom|center_horizontal"
                 android:layout_marginBottom="80dp"/>
 
-            <FrameLayout
-                android:id="@+id/new_tab_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+        <FrameLayout
+            android:id="@+id/new_tab_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </android.support.design.widget.CoordinatorLayout>
 
