@@ -155,9 +155,7 @@ public class ShareHandler {
 
         if (textLength < maxLength) {
             tts.speakWithUtteranceId(text, "shareHandler");
-        }
-
-        else {
+        } else {
             while (text.length() > maxLength) {
                 int cutoff = text.substring(0, maxLength).lastIndexOf(" ");
                 String toHear = text.substring(0, cutoff);
