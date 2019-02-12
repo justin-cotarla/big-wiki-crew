@@ -735,7 +735,15 @@
         <item quantity="other">in-app contributions</item>
     </plurals>
 
-    <!--Image Search Dialog-->
+    <!-- Image Search Dialog -->
     <string name="image_search_dialog_camera">Take a photo</string>
     <string name="image_search_dialog_gallery">Choose from gallery</string>
+    <!-- /Image Search Dialog -->
+
+    <!-- No History !-->
+    <string name="preference_title_turn_off_history">Turn off history</string>
+    <string name="preference_summary_turn_off_history">Browse articles without saving any reading history.</string>
+    <string name="history_turned_off_title">History is turned off</string>
+    <string name="history_turned_off_message">To turn history back on, go to settings</string>
+    <!-- /No History -->
 </resources>
