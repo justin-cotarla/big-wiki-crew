@@ -261,7 +261,9 @@ public class PageFragment extends Fragment implements BackPressedHandler {
         return editHandler;
     }
 
-    public FloatingActionButton getStopTTSButton() { return stopTTSButton;}
+    public FloatingActionButton getStopTTSButton() {
+        return stopTTSButton;
+    }
 
     public BottomContentView getBottomContentView() {
         return bottomContentView;

@@ -110,4 +110,5 @@
     <string name="preference_key_tts_pitch">ttsPitch</string>
     <string name="preference_key_tts_speech_rate">ttsSpeechRate</string>
     <string name="preference_key_tts_preview">ttsPreview</string>
+    <string name="preference_key_turn_off_history">showTurnOffHistory</string>
 </resources>
