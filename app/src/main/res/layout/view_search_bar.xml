@@ -34,4 +34,15 @@
         android:clickable="true"
         android:contentDescription="@string/search_hint" />
 
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/camera_search_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:contentDescription="@string/search_hint"
+        android:scaleType="center"
+        app:srcCompat="@drawable/icon_potd_photo_camera"
+        app:tint="?attr/material_theme_secondary_color" />
+
 </LinearLayout>

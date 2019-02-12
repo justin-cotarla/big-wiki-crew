@@ -1,6 +1,7 @@
 package org.wikipedia.feed.searchbar;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 
 import org.wikipedia.R;
 import org.wikipedia.feed.view.DefaultFeedCardView;
@@ -14,6 +15,7 @@ public class SearchCardView extends DefaultFeedCardView<SearchCard> {
     public interface Callback {
         void onSearchRequested();
         void onVoiceSearchRequested();
+        void onImageSearchRequested();
     }
 
     public SearchCardView(Context context) {
@@ -22,6 +24,11 @@ public class SearchCardView extends DefaultFeedCardView<SearchCard> {
         setCardBackgroundColor(ResourceUtil.getThemedColor(context, R.attr.searchItemBackground));
         ButterKnife.bind(this);
         FeedbackUtil.setToolbarButtonLongPressToast(findViewById(R.id.voice_search_button));
+        FeedbackUtil.setToolbarButtonLongPressToast(findViewById(R.id.camera_search_button));
+
+        if (!context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
+            findViewById(R.id.camera_search_button).setVisibility(GONE);
+        }
     }
 
     @OnClick(R.id.search_container) void onSearchClick() {
@@ -33,6 +40,12 @@ public class SearchCardView extends DefaultFeedCardView<SearchCard> {
     @OnClick(R.id.voice_search_button) void onVoiceSearchClick() {
         if (getCallback() != null) {
             getCallback().onVoiceSearchRequested();
+        }
+    }
+
+    @OnClick(R.id.camera_search_button) void onImageSearchClick() {
+        if (getCallback() != null) {
+            getCallback().onImageSearchRequested();
         }
     }
 }

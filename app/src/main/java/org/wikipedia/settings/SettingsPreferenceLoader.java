@@ -17,6 +17,7 @@ import org.wikipedia.login.LoginActivity;
 import org.wikipedia.readinglist.sync.ReadingListSyncAdapter;
 import org.wikipedia.settings.languages.WikipediaLanguagesActivity;
 import org.wikipedia.theme.ThemeFittingRoomActivity;
+import org.wikipedia.tts.TextToSpeechWrapper;
 
 import static org.wikipedia.Constants.ACTIVITY_REQUEST_ADD_A_LANGUAGE;
 
@@ -68,6 +69,13 @@ class SettingsPreferenceLoader extends BasePreferenceLoader {
         findPreference(R.string.preference_key_about_wikipedia_app)
                 .setOnPreferenceClickListener((preference) -> {
                     getActivity().startActivity(new Intent(getActivity(), AboutActivity.class));
+                    return true;
+                });
+
+        findPreference(R.string.preference_key_tts_preview)
+                .setOnPreferenceClickListener((preference) -> {
+                    TextToSpeechWrapper tts = new TextToSpeechWrapper();
+                    tts.initAndSpeak(this.getActivity().getApplicationContext(), "You are hearing a sample voice for your text to speech settings.");
                     return true;
                 });
     }
