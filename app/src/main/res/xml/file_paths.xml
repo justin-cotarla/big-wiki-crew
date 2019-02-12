@@ -2,4 +2,5 @@
 <paths>
     <cache-path name="share" path="share/" />
     <external-path name="external_files" path="."/>
+    <external-path name="image_search" path="Android/data/${applicationId}/files/Pictures" />
 </paths>
