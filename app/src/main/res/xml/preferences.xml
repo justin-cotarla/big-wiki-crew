@@ -20,6 +20,11 @@
             android:defaultValue="true"
             android:title="@string/preference_title_collapse_tables"
             android:summary="@string/preference_summary_collapse_tables" />
+        <org.wikipedia.settings.SwitchPreferenceMultiLine
+            android:key="@string/preference_key_turn_off_history"
+            android:defaultValue="false"
+            android:title="@string/preference_title_turn_off_history"
+            android:summary="@string/preference_summary_turn_off_history" />
         <org.wikipedia.settings.PreferenceMultiLine
             android:key="@string/preference_key_color_theme"
             android:defaultValue="0"
