@@ -166,17 +166,7 @@ public class MainFragment extends Fragment implements BackPressedHandler, FeedFr
         } else if (requestCode == Constants.ACTIVITY_REQUEST_IMAGE_SEARCH
                 && resultCode == Activity.RESULT_OK && data != null) {
             try {
-                Bitmap imageBitmap = null;
-                if (data.getData() != null) {
-                    Uri imageURI = data.getData();
-                    imageBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageURI);
-                    imageBitmap = ImageUtil.rotateWithExif(imageBitmap, FileUtil.getRealPathFromURI(requireActivity(), imageURI));
-                } else {
-                    imageBitmap = (Bitmap) data.getExtras().get("data");
-                    imageBitmap = ImageUtil.rotateImage(imageBitmap);
-                }
-                ImageSearch service = new ImageSearch(requireActivity());
-                String searchQuery = service.searchPhoto(FileUtil.compressBmpToJpg(imageBitmap).toByteArray());
+                String searchQuery = startImageSearch(data);
                 openSearchActivity(SearchInvokeSource.IMAGE, searchQuery);
             } catch (ImageSearchException | IOException e) {
                 FeedbackUtil.showError(requireActivity(), e);
@@ -520,6 +510,20 @@ public class MainFragment extends Fragment implements BackPressedHandler, FeedFr
         } else {
             startActivityForResult(galleryIntent, Constants.ACTIVITY_REQUEST_IMAGE_SEARCH);
         }
+    }
+
+    private String startImageSearch(Intent data) throws IOException, ImageSearchException {
+        Bitmap imageBitmap;
+        if (data.getData() != null) {
+            Uri imageURI = data.getData();
+            imageBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageURI);
+            imageBitmap = ImageUtil.rotateWithExif(imageBitmap, FileUtil.getRealPathFromURI(requireActivity(), imageURI));
+        } else {
+            imageBitmap = (Bitmap) data.getExtras().get("data");
+            imageBitmap = ImageUtil.rotateImage(imageBitmap);
+        }
+        ImageSearch service = new ImageSearch(requireActivity());
+        return service.searchPhoto(FileUtil.compressBmpToJpg(imageBitmap).toByteArray());
     }
 
     private void refreshExploreFeed() {
