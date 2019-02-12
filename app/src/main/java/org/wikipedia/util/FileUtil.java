@@ -6,8 +6,10 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import org.wikipedia.R;
+import org.wikipedia.util.log.L;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -107,7 +109,12 @@ public final class FileUtil {
             int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             return cursor.getString(columnIndex);
-        } finally {
+        }
+        catch (NullPointerException e) {
+            L.e(e);
+            return "";
+        }
+        finally {
             if (cursor != null) {
                 cursor.close();
             }
