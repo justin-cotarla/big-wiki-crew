@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +20,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 
 import org.wikipedia.BackPressedHandler;
 import org.wikipedia.Constants;
@@ -51,17 +54,22 @@ import org.wikipedia.page.linkpreview.LinkPreviewDialog;
 import org.wikipedia.page.tabs.TabActivity;
 import org.wikipedia.random.RandomActivity;
 import org.wikipedia.readinglist.AddToReadingListDialog;
+import org.wikipedia.search.ImageSearch;
+import org.wikipedia.search.ImageSearchException;
 import org.wikipedia.search.SearchActivity;
 import org.wikipedia.search.SearchFragment;
 import org.wikipedia.search.SearchInvokeSource;
 import org.wikipedia.settings.Prefs;
 import org.wikipedia.util.ClipboardUtil;
 import org.wikipedia.util.FeedbackUtil;
+import org.wikipedia.util.FileUtil;
+import org.wikipedia.util.ImageUtil;
 import org.wikipedia.util.PermissionUtil;
 import org.wikipedia.util.ShareUtil;
 import org.wikipedia.util.log.L;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -155,6 +163,14 @@ public class MainFragment extends Fragment implements BackPressedHandler, FeedFr
                 && data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS) != null) {
             String searchQuery = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0);
             openSearchActivity(SearchInvokeSource.VOICE, searchQuery);
+        } else if (requestCode == Constants.ACTIVITY_REQUEST_IMAGE_SEARCH
+                && resultCode == Activity.RESULT_OK && data != null) {
+            try {
+                String searchQuery = startImageSearch(data);
+                openSearchActivity(SearchInvokeSource.IMAGE, searchQuery);
+            } catch (ImageSearchException | IOException e) {
+                FeedbackUtil.showError(requireActivity(), e);
+            }
         } else if (requestCode == Constants.ACTIVITY_REQUEST_GALLERY
                 && resultCode == GalleryActivity.ACTIVITY_RESULT_PAGE_SELECTED) {
             startActivity(data);
@@ -205,6 +221,16 @@ public class MainFragment extends Fragment implements BackPressedHandler, FeedFr
                             R.string.gallery_save_image_write_permission_rationale);
                 }
                 break;
+            case Constants.ACTIVITY_REQUEST_CAMERA_PERMISSION:
+                if (PermissionUtil.isPermitted(grantResults)) {
+                    openCameraActivity();
+                }
+                break;
+            case Constants.ACTIVITY_REQUEST_READ_EXTERNAL_STORAGE_PERMISSION:
+                if (PermissionUtil.isPermitted(grantResults)) {
+                    openGalleryActivity();
+                }
+                break;
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
@@ -236,6 +262,24 @@ public class MainFragment extends Fragment implements BackPressedHandler, FeedFr
         } catch (ActivityNotFoundException a) {
             FeedbackUtil.showMessage(this, R.string.error_voice_search_not_available);
         }
+    }
+
+    @Override public void onFeedImageSearchRequested() {
+        PopupMenu imageMenu = new PopupMenu(requireActivity(), getView().findViewById(R.id.camera_search_button));
+        imageMenu.getMenuInflater().inflate(R.menu.menu_image_search, imageMenu.getMenu());
+        imageMenu.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.drop_down_camera:
+                    openCameraActivity();
+                    return true;
+                case R.id.drop_down_gallery:
+                    openGalleryActivity();
+                    return true;
+                default:
+                    return MainFragment.super.onOptionsItemSelected(item);
+            }
+        });
+        imageMenu.show();
     }
 
     @Override public void onFeedSelectPage(HistoryEntry entry) {
@@ -448,6 +492,38 @@ public class MainFragment extends Fragment implements BackPressedHandler, FeedFr
 
     private void goToTab(@NonNull NavTab tab) {
         tabLayout.setSelectedItemId(tab.code());
+    }
+
+    private void openCameraActivity() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (!PermissionUtil.hasCameraPermission(requireActivity())) {
+            PermissionUtil.requestCameraPermission(this, Constants.ACTIVITY_REQUEST_CAMERA_PERMISSION);
+        } else if (intent.resolveActivity(requireActivity().getPackageManager()) != null) {
+            startActivityForResult(intent, Constants.ACTIVITY_REQUEST_IMAGE_SEARCH);
+        }
+    }
+
+    private void openGalleryActivity() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        if (!PermissionUtil.hasReadStoragePermission(requireActivity())) {
+            PermissionUtil.requestReadStoragePermission(this, Constants.ACTIVITY_REQUEST_READ_EXTERNAL_STORAGE_PERMISSION);
+        } else {
+            startActivityForResult(galleryIntent, Constants.ACTIVITY_REQUEST_IMAGE_SEARCH);
+        }
+    }
+
+    private String startImageSearch(Intent data) throws IOException, ImageSearchException {
+        Bitmap imageBitmap;
+        if (data.getData() != null) {
+            Uri imageURI = data.getData();
+            imageBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageURI);
+            imageBitmap = ImageUtil.rotateWithExif(imageBitmap, FileUtil.getRealPathFromURI(requireActivity(), imageURI));
+        } else {
+            imageBitmap = (Bitmap) data.getExtras().get("data");
+            imageBitmap = ImageUtil.rotateImage(imageBitmap);
+        }
+        ImageSearch service = new ImageSearch(requireActivity());
+        return service.searchPhoto(FileUtil.compressBmpToJpg(imageBitmap).toByteArray());
     }
 
     private void refreshExploreFeed() {
