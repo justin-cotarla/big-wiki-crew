@@ -493,6 +493,9 @@ public class PageFragment extends Fragment implements BackPressedHandler {
                 ? System.currentTimeMillis()
                 : 0;
         Prefs.pageLastShown(time);
+
+        tts.get().stop();
+        stopTTSButton.hide();
     }
 
     @Override
