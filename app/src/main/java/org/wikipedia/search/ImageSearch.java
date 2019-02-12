@@ -71,7 +71,7 @@ public class ImageSearch {
         }
     }
 
-    public String extractEntityFromResponse(BatchAnnotateImagesResponse batchResponse) throws ImageSearchException {
+    String extractEntityFromResponse(BatchAnnotateImagesResponse batchResponse) throws ImageSearchException {
         AnnotateImageResponse response = batchResponse.getResponses()
                 .get(0);
         try {

@@ -55,6 +55,7 @@ import org.wikipedia.page.tabs.TabActivity;
 import org.wikipedia.random.RandomActivity;
 import org.wikipedia.readinglist.AddToReadingListDialog;
 import org.wikipedia.search.ImageSearch;
+import org.wikipedia.search.ImageSearchException;
 import org.wikipedia.search.SearchActivity;
 import org.wikipedia.search.SearchFragment;
 import org.wikipedia.search.SearchInvokeSource;
@@ -68,6 +69,7 @@ import org.wikipedia.util.ShareUtil;
 import org.wikipedia.util.log.L;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -176,7 +178,7 @@ public class MainFragment extends Fragment implements BackPressedHandler, FeedFr
                 ImageSearch service = new ImageSearch(requireActivity());
                 String searchQuery = service.searchPhoto(FileUtil.compressBmpToJpg(imageBitmap).toByteArray());
                 openSearchActivity(SearchInvokeSource.IMAGE, searchQuery);
-            } catch (Exception e) {
+            } catch (ImageSearchException | IOException e) {
                 FeedbackUtil.showError(requireActivity(), e);
             }
         } else if (requestCode == Constants.ACTIVITY_REQUEST_GALLERY
