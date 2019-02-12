@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -70,6 +71,7 @@ import org.wikipedia.readinglist.ReadingListBookmarkMenu;
 import org.wikipedia.readinglist.database.ReadingListDbHelper;
 import org.wikipedia.readinglist.database.ReadingListPage;
 import org.wikipedia.settings.Prefs;
+import org.wikipedia.tts.TextToSpeechWrapper;
 import org.wikipedia.util.ActiveTimer;
 import org.wikipedia.util.AnimationUtil;
 import org.wikipedia.util.DimenUtil;
@@ -166,6 +168,9 @@ public class PageFragment extends Fragment implements BackPressedHandler {
 
     private WikipediaApp app;
 
+    private TextToSpeechWrapper tts;
+    private FloatingActionButton stopTTSButton;
+
     @NonNull
     private final SwipeRefreshLayout.OnRefreshListener pageRefreshListener = this::refreshPage;
 
@@ -256,12 +261,20 @@ public class PageFragment extends Fragment implements BackPressedHandler {
         return editHandler;
     }
 
+    public FloatingActionButton getStopTTSButton() {
+        return stopTTSButton;
+    }
+
     public BottomContentView getBottomContentView() {
         return bottomContentView;
     }
 
     public ViewGroup getContainerView() {
         return containerView;
+    }
+
+    public TextToSpeechWrapper getTTS() {
+        return tts;
     }
 
     @Override
@@ -271,6 +284,7 @@ public class PageFragment extends Fragment implements BackPressedHandler {
         app = (WikipediaApp) requireActivity().getApplicationContext();
         model = new PageViewModel();
         pageFragmentLoadState = new PageFragmentLoadState();
+        tts = new TextToSpeechWrapper(this.getActivity().getApplicationContext());
     }
 
     @Override
@@ -294,9 +308,18 @@ public class PageFragment extends Fragment implements BackPressedHandler {
         tabLayout = rootView.findViewById(R.id.page_actions_tab_layout);
         tabLayout.setPageActionTabsCallback(pageActionTabsCallback);
 
+        stopTTSButton = rootView.findViewById(R.id.button_tts_stop);
+        stopTTSButton.setOnClickListener(click -> {
+            tts.get().stop();
+            stopTTSButton.hide();
+        });
+
         errorView = rootView.findViewById(R.id.page_error);
 
         bottomContentView = rootView.findViewById(R.id.page_bottom_view);
+
+        PageActionToolbarHideHandler stopTTSButtonHideHandler = new PageActionToolbarHideHandler(stopTTSButton, null);
+        stopTTSButtonHideHandler.setScrollView(webView);
 
         PageActionToolbarHideHandler pageActionToolbarHideHandler
                 = new PageActionToolbarHideHandler(tabLayout, null);
@@ -472,6 +495,9 @@ public class PageFragment extends Fragment implements BackPressedHandler {
                 ? System.currentTimeMillis()
                 : 0;
         Prefs.pageLastShown(time);
+
+        tts.get().stop();
+        stopTTSButton.hide();
     }
 
     @Override
