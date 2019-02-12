@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import org.wikipedia.R;
 import org.wikipedia.util.log.L;
@@ -109,12 +108,10 @@ public final class FileUtil {
             int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             return cursor.getString(columnIndex);
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             L.e(e);
             return "";
-        }
-        finally {
+        } finally {
             if (cursor != null) {
                 cursor.close();
             }
