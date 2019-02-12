@@ -20,8 +20,7 @@ public class TextToSpeechWrapper {
             if (status == TextToSpeech.SUCCESS) {
                 tts.setPitch(Prefs.getTTSPitch());
                 tts.setSpeechRate(Prefs.getTTSSpeechRate());
-            }
-            else {
+            } else {
                 System.err.println("ERROR: Failed to initialize TTS engine.");
             }
         });
@@ -55,13 +54,11 @@ public class TextToSpeechWrapper {
                     tts.setPitch(Prefs.getTTSPitch());
                     tts.setSpeechRate(Prefs.getTTSSpeechRate());
                     speakWithUtteranceListener(text);
-                }
-                else {
+                } else {
                     System.err.println("ERROR: Failed to initialize TTS engine.");
                 }
             });
-        }
-        else {
+        } else {
             speakWithUtteranceListener(text);
         }
     }
