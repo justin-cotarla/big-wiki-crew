@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tts_pitch_entries">
+        <item>@string/tts_pitch_quarter</item>
+        <item>@string/tts_pitch_half</item>
+        <item>@string/tts_pitch_normal</item>
+        <item>@string/tts_pitch_double</item>
+        <item>@string/tts_pitch_triple</item>
+    </string-array>
+    <array name="tts_pitch_values">
+        <item>0.25f</item>
+        <item>0.5f</item>
+        <item>1.0f</item>
+        <item>2.0f</item>
+        <item>3.0f</item>
+    </array>
+    <string-array name="tts_speech_rate_entries">
+        <item>@string/tts_speech_rate_quarter</item>
+        <item>@string/tts_speech_rate_half</item>
+        <item>@string/tts_speech_rate_normal</item>
+        <item>@string/tts_speech_rate_double</item>
+        <item>@string/tts_speech_rate_triple</item>
+    </string-array>
+    <array name="tts_speech_rate_values">
+        <item>0.25f</item>
+        <item>0.5f</item>
+        <item>1.0f</item>
+        <item>2.0f</item>
+        <item>3.0f</item>
+    </array>
+</resources>
