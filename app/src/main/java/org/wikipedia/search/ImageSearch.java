@@ -25,7 +25,10 @@ import java.util.Arrays;
 public class ImageSearch {
     private Vision vision;
 
-    //Pass in the application context with this.getApplicationContext() to access resources
+    /** Image search uses Google Vision API to find the best web entity for an image
+     *
+     * @param applicationContext, used to access the API key
+     */
     public ImageSearch(Context applicationContext) {
         Vision.Builder visionBuilder = new Vision.Builder(
                 new NetHttpTransport(),
@@ -42,6 +45,12 @@ public class ImageSearch {
         this.vision = vision;
     }
 
+    /**Takes in a byte array which is the photo, sends it to the API and searched for the best web entity relating to it
+     *
+     * @param photo, takes in a byte array which is the photo to be searched
+     * @return string, Returns the web entity with the highest score from Google Vision API
+     * @throws ImageSearchException
+     */
     public String searchPhoto(byte[] photo) throws ImageSearchException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                 .permitAll().build();
@@ -71,6 +80,13 @@ public class ImageSearch {
         }
     }
 
+    /**
+     *  Extracts the web entity from the response received from the api
+     *
+     * @param batchResponse , response from the image search from Google Vision API
+     * @return  string, Returns the web entity with the highest score from Google Vision API
+     * @throws ImageSearchException
+     */
     String extractEntityFromResponse(BatchAnnotateImagesResponse batchResponse) throws ImageSearchException {
         AnnotateImageResponse response = batchResponse.getResponses()
                 .get(0);
