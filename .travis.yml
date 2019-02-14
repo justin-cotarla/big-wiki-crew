@@ -35,7 +35,19 @@ android:
 before_script:
   - chmod +x gradlew
 
-script:
-  - ./gradlew clean assembleDebug
-  - ./gradlew checkstyle
-  - ./gradlew testDevDebug
+jobs:
+  include:
+  - stage: build
+    name: "Assemble Debug"
+    script: ./gradlew clean assembleDebug
+  - stage: static-analysis
+    name: "Static Analysis"
+    script: ./gradlew checkstyle
+  - stage: test
+    name: "Deploy to GCP"
+    script: ./gradlew testDevDebug
+
+stages:
+  - build
+  - static-analysis
+  - test
