@@ -146,6 +146,11 @@ public interface Service {
     @NonNull Observable<MwQueryResponse> nearbySearch(@NonNull @Query("ggscoord") String coord,
                                                 @Query("ggsradius") double radius);
 
+    @GET(MW_API_PREFIX + "action=query&formatversion=2"
+            + "&redirects=&converttitles=&prop=description%7Cpageimages&piprop=thumbnail"
+            + "&pilicense=any&generator=categorymembers&pithumbsize=" + PREFERRED_THUMB_SIZE)
+    @NonNull Observable<MwQueryResponse> getPagesInCategory(@Query("gcmtitle") String category, @Query("gcmlimit") int limit);
+
 
     // ------- Miscellaneous -------
 
