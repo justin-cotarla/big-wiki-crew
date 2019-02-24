@@ -266,6 +266,10 @@
             android:name=".editactionfeed.EditTasksActivity"
             android:label="@string/edit_tasks_activity_title"
             android:theme="@style/AppTheme.ActionBar" />
+
+        <activity
+            android:name=".feed.categories.CategoriesActivity" />
+
         <provider
             android:authorities="${applicationId}"
             android:name=".database.AppContentProvider"
