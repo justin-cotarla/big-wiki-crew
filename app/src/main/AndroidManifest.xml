@@ -268,7 +268,9 @@
             android:theme="@style/AppTheme.ActionBar" />
 
         <activity
-            android:name=".feed.categories.CategoriesActivity" />
+            android:name=".feed.categories.CategoriesActivity"
+            android:label="@string/view_categories_card_title"
+            android:theme="@style/AppTheme.ActionBar"/>
 
         <provider
             android:authorities="${applicationId}"
