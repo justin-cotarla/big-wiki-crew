@@ -19,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import org.wikipedia.BackPressedHandler;
 import org.wikipedia.Constants;
@@ -26,6 +27,7 @@ import org.wikipedia.R;
 import org.wikipedia.WikipediaApp;
 import org.wikipedia.activity.FragmentUtil;
 import org.wikipedia.analytics.FeedFunnel;
+import org.wikipedia.feed.categories.CategoriesActivity;
 import org.wikipedia.feed.configure.ConfigureActivity;
 import org.wikipedia.feed.configure.ConfigureItemLanguageDialogView;
 import org.wikipedia.feed.configure.LanguageItemAdapter;
@@ -123,6 +125,16 @@ public class FeedFragment extends Fragment implements BackPressedHandler {
         feedView.setAdapter(feedAdapter);
         feedView.setCallback(feedCallback);
         feedView.addOnScrollListener(feedScrollListener);
+
+        // FIXME: TEMPORARY WAY OF VIEWING CATEGORIES
+        Button button = view.findViewById(R.id.temporary_categories_button);
+        button.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(requireActivity(), CategoriesActivity.class));
+            }
+        });
 
         swipeRefreshLayout.setColorSchemeResources(ResourceUtil.getThemedAttributeId(requireContext(), R.attr.colorAccent));
         swipeRefreshLayout.setOnRefreshListener(this::refresh);
