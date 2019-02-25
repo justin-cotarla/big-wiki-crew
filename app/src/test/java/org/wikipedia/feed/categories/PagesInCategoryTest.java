@@ -4,12 +4,11 @@ import com.google.gson.stream.MalformedJsonException;
 
 import org.junit.Test;
 import org.wikipedia.dataclient.WikiSite;
+import org.wikipedia.search.SearchResults;
 import org.wikipedia.test.MockRetrofitTest;
 
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
-
-import org.wikipedia.search.SearchResults;
 
 public class PagesInCategoryTest extends MockRetrofitTest {
     private static final WikiSite TESTWIKI = new WikiSite("test.wikimedia.org");
