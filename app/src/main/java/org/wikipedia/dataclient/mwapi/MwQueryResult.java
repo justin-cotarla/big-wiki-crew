@@ -193,6 +193,24 @@ public class MwQueryResult extends BaseModel implements PostProcessingTypeAdapte
         }
     }
 
+    private static class CategoryMember {
+        @SerializedName("pageid") private int pageId;
+        private int ns;
+        private String title;
+
+        public int pageId() {
+            return pageId;
+        }
+
+        public int ns() {
+            return ns;
+        }
+
+        public String title() {
+            return title;
+        }
+    }
+
     private static class Redirect {
         @SuppressWarnings("unused") private int index;
         @SuppressWarnings("unused") @Nullable private String from;
