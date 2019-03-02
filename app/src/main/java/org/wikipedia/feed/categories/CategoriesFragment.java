@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +71,7 @@ public class CategoriesFragment extends Fragment {
     }
 
     private void searchOnCategory(String category) {
-        disposables.add(ServiceFactory.get(wiki).getPagesInCategory("Category:"+category, BATCH_SIZE)
+        disposables.add(ServiceFactory.get(wiki).getPagesInCategory("Category:" + category, BATCH_SIZE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(response -> {
@@ -83,7 +82,6 @@ public class CategoriesFragment extends Fragment {
                 })
                 .subscribe(results -> {
                     // Do something with search results
-//                    Log.d("RESULT", results.getResults().get(0).toString());
                     Toast.makeText(requireActivity(), results.getResults().get(0).getPageTitle().getText(), Toast.LENGTH_LONG).show();
                 }, caught -> {
                     Toast.makeText(requireActivity(), caught.getMessage(), Toast.LENGTH_LONG).show();
