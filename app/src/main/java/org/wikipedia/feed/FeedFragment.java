@@ -128,13 +128,7 @@ public class FeedFragment extends Fragment implements BackPressedHandler {
 
         // FIXME: TEMPORARY WAY OF VIEWING CATEGORIES
         Button button = view.findViewById(R.id.temporary_categories_button);
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(requireActivity(), CategoriesActivity.class));
-            }
-        });
+        button.setOnClickListener(v -> startActivity(CategoriesActivity.newIntent(requireActivity(), app.getWikiSite())));
 
         swipeRefreshLayout.setColorSchemeResources(ResourceUtil.getThemedAttributeId(requireContext(), R.attr.colorAccent));
         swipeRefreshLayout.setOnRefreshListener(this::refresh);

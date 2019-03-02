@@ -781,4 +781,5 @@
     <string name="categories_society">Society</string>
     <string name="categories_human_activities">Human Activities</string>
     <string name="categories_culture">Culture</string>
+    <string name="category_card_text">card_text</string>
 </resources>
