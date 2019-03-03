@@ -71,7 +71,7 @@ public class CategoriesFragment extends Fragment {
     }
 
     private void searchOnCategory(String category) {
-        disposables.add(ServiceFactory.get(wiki).getPagesInCategory("Category:" + category, BATCH_SIZE)
+        disposables.add(ServiceFactory.get(wiki).getPagesInCategory("Category:" + category.replace(" ", "_"), BATCH_SIZE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(response -> {
