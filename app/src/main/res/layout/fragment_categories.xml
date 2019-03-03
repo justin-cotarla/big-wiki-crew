@@ -44,6 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="8dp"
                     app:cardUseCompatPadding="true">
@@ -62,6 +63,7 @@
                             app:srcCompat="@drawable/ic_categories_culture"/>
 
                         <TextView
+                            android:tag="@string/category_card_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -81,6 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="8dp"
                     app:cardUseCompatPadding="true">
@@ -99,6 +102,7 @@
                             app:srcCompat="@drawable/ic_categories_geography"/>
 
                         <TextView
+                            android:tag="@string/category_card_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -118,6 +122,7 @@
                     android:layout_width="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="8dp"
                     app:cardUseCompatPadding="true">
@@ -136,6 +141,7 @@
                             app:srcCompat="@drawable/ic_categories_health"/>
 
                         <TextView
+                            android:tag="@string/category_card_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -155,6 +161,7 @@
                     android:layout_width="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="8dp"
                     app:cardUseCompatPadding="true">
@@ -173,6 +180,7 @@
                             app:srcCompat="@drawable/ic_categories_history"/>
 
                         <TextView
+                            android:tag="@string/category_card_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -192,6 +200,7 @@
                     android:layout_width="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="8dp"
                     app:cardUseCompatPadding="true">
@@ -210,6 +219,7 @@
                             app:srcCompat="@drawable/ic_categories_human_activities"/>
 
                         <TextView
+                            android:tag="@string/category_card_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -229,6 +239,7 @@
                     android:layout_width="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="8dp"
                     app:cardUseCompatPadding="true">
@@ -247,6 +258,7 @@
                             app:srcCompat="@drawable/ic_categories_mathematics"/>
 
                         <TextView
+                            android:tag="@string/category_card_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -266,6 +278,7 @@
                     android:layout_width="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="8dp"
                     app:cardUseCompatPadding="true">
@@ -284,6 +297,7 @@
                             app:srcCompat="@drawable/ic_categories_nature"/>
 
                         <TextView
+                            android:tag="@string/category_card_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -303,6 +317,7 @@
                     android:layout_width="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="8dp"
                     app:cardUseCompatPadding="true">
@@ -321,6 +336,7 @@
                             app:srcCompat="@drawable/ic_categories_people"/>
 
                         <TextView
+                            android:tag="@string/category_card_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -340,6 +356,7 @@
                     android:layout_width="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="8dp"
                     app:cardUseCompatPadding="true">
@@ -358,6 +375,7 @@
                             app:srcCompat="@drawable/ic_categories_philosophy"/>
 
                         <TextView
+                            android:tag="@string/category_card_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -377,6 +395,7 @@
                     android:layout_width="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="8dp"
                     app:cardUseCompatPadding="true">
@@ -395,6 +414,7 @@
                             app:srcCompat="@drawable/ic_categories_religion"/>
 
                         <TextView
+                            android:tag="@string/category_card_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -414,6 +434,7 @@
                     android:layout_width="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="8dp"
                     app:cardUseCompatPadding="true">
@@ -432,6 +453,7 @@
                             app:srcCompat="@drawable/ic_categories_society"/>
 
                         <TextView
+                            android:tag="@string/category_card_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -451,6 +473,7 @@
                     android:layout_width="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="8dp"
                     app:cardUseCompatPadding="true">
@@ -469,6 +492,7 @@
                             app:srcCompat="@drawable/ic_categories_technology"/>
 
                         <TextView
+                            android:tag="@string/category_card_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
