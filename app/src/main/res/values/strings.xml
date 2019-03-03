@@ -779,7 +779,7 @@
     <string name="categories_people">People</string>
     <string name="categories_history">History</string>
     <string name="categories_society">Society</string>
-    <string name="categories_human_activities">Human Activities</string>
+    <string name="categories_human_activities">Human activities</string>
     <string name="categories_culture">Culture</string>
     <string name="category_card_text">card_text</string>
 </resources>
