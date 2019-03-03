@@ -146,7 +146,7 @@ public class ShareHandler {
             @Override
             public void onError(String utteranceId) {
                 fragment.getActivity().runOnUiThread(() -> fragment.getStopTTSButton().hide());
-                System.err.println("ERROR: Something went wrong during the TTS process.");
+                L.e("ERROR: Something went wrong during the TTS process.");
             }
         });
 
