@@ -81,7 +81,7 @@ public class CategoriesFragment extends Fragment {
                     return new SearchResults();
                 })
                 .subscribe(results -> {
-                    // Do something with search results
+                    // TODO: Do something with search results here and eventually remove these toasts.
                     Toast.makeText(requireActivity(), results.getResults().get(0).getPageTitle().getText(), Toast.LENGTH_LONG).show();
                 }, caught -> {
                     Toast.makeText(requireActivity(), caught.getMessage(), Toast.LENGTH_LONG).show();
