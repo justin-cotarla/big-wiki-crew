@@ -10,8 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
-
 import org.wikipedia.R;
 import org.wikipedia.history.HistoryEntry;
 import org.wikipedia.page.PageActivity;
@@ -57,12 +55,16 @@ public class CategoriesResultFragment extends Fragment {
         CategoriesResultAdapter customerAdapter = new CategoriesResultAdapter();
         categoryResultList.setAdapter(customerAdapter);
 
-        // TODO: category result title
+        // Change the fragment title
+        getActivity().setTitle(categoryTopic);
 
         return view;
     }
 
-    class CategoriesResultAdapter extends BaseAdapter {
+    /**
+     * Dynamically add layouts to the ListView based off category result
+     */
+    private class CategoriesResultAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {

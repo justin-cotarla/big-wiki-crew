@@ -14,10 +14,12 @@ import android.widget.Toast;
 import org.wikipedia.R;
 import org.wikipedia.dataclient.ServiceFactory;
 import org.wikipedia.dataclient.WikiSite;
+import org.wikipedia.dataclient.mwapi.MwQueryPage;
 import org.wikipedia.search.SearchResult;
 import org.wikipedia.search.SearchResults;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -73,13 +75,27 @@ public class CategoriesFragment extends Fragment {
         }
     }
 
+    private Boolean isAPortalCategory(String title) {
+        return title.contains("Portal");
+    }
+
     private void searchOnCategory(String category) {
         disposables.add(ServiceFactory.get(wiki).getPagesInCategory("Category:" + category.replace(" ", "_"), BATCH_SIZE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(response -> {
                     if (response != null && response.success() && response.query().pages() != null) {
-                        return new SearchResults(response.query().pages(), wiki, response.continuation(), null);
+                        List<MwQueryPage> pages = response.query().pages();
+                        List<MwQueryPage> toDelete = new ArrayList<>();
+                        for (MwQueryPage page : pages) {
+                            if (isAPortalCategory(page.title())) {
+                                toDelete.add(page);
+                            }
+                        }
+                        for (MwQueryPage deleteCandidate : toDelete) {
+                            pages.remove(deleteCandidate);
+                        }
+                        return new SearchResults(pages, wiki, response.continuation(), null);
                     }
                     return new SearchResults();
                 })
