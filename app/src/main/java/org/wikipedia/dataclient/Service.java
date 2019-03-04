@@ -148,7 +148,7 @@ public interface Service {
 
     @GET(MW_API_PREFIX + "action=query&formatversion=2"
             + "&redirects=&converttitles=&prop=description%7Cpageimages&piprop=thumbnail"
-            + "&pilicense=any&generator=categorymembers&cmtype=page&pithumbsize=" + PREFERRED_THUMB_SIZE)
+            + "&pilicense=any&generator=categorymembers&gcmtype=page&pithumbsize=" + PREFERRED_THUMB_SIZE)
     @NonNull Observable<MwQueryResponse> getPagesInCategory(@Query("gcmtitle") String category, @Query("gcmlimit") int limit);
 
 
