@@ -23,6 +23,7 @@ import org.wikipedia.bridge.CommunicationBridge;
 import org.wikipedia.dataclient.ServiceFactory;
 import org.wikipedia.dataclient.mwapi.MwQueryPage;
 import org.wikipedia.gallery.ImageLicense;
+import org.wikipedia.language.TranslateDialog;
 import org.wikipedia.page.Namespace;
 import org.wikipedia.page.NoDimBottomSheetDialog;
 import org.wikipedia.page.Page;
@@ -55,6 +56,7 @@ public class ShareHandler {
     private static final String PAYLOAD_PURPOSE_SHARE = "share";
     private static final String PAYLOAD_PURPOSE_DEFINE = "define";
     private static final String PAYLOAD_PURPOSE_HEAR = "hear";
+    private static final String PAYLOAD_PURPOSE_TRANSLATE = "translate";
     private static final String PAYLOAD_PURPOSE_EDIT_HERE = "edit_here";
     private static final String PAYLOAD_TEXT_KEY = "text";
 
@@ -89,6 +91,9 @@ public class ShareHandler {
                 case PAYLOAD_PURPOSE_HEAR:
                     onHearPayload(text);
                     break;
+                case PAYLOAD_PURPOSE_TRANSLATE:
+                    onTranslatePayload(text);
+                    break;
                 case PAYLOAD_PURPOSE_EDIT_HERE:
                     onEditHerePayload(messagePayload.optInt("sectionID", 0), text, messagePayload.optBoolean("editDescription", false));
                     break;
@@ -112,6 +117,11 @@ public class ShareHandler {
     public void showWiktionaryDefinition(String text) {
         PageTitle title = fragment.getTitle();
         fragment.showBottomSheet(WiktionaryDialog.newInstance(title, text));
+    }
+
+    public void showTranslateMenu(String text) {
+        PageTitle title = fragment.getTitle();
+        fragment.showBottomSheet(TranslateDialog.newInstance(title, text));
     }
 
     private void onSharePayload(@NonNull String text) {
@@ -167,6 +177,10 @@ public class ShareHandler {
 
             tts.addToQueueWithUtteranceId(text, "shareHandler");
         }
+    }
+
+    private void onTranslatePayload(String text) {
+        showTranslateMenu(text.toLowerCase(Locale.getDefault()));
     }
 
     private void onEditHerePayload(int sectionID, String text, boolean isEditingDescription) {
@@ -249,6 +263,9 @@ public class ShareHandler {
 
         MenuItem hearItem = menu.findItem(R.id.menu_text_select_hear);
         hearItem.setOnMenuItemClickListener(new RequestTextSelectOnMenuItemClickListener(PAYLOAD_PURPOSE_HEAR));
+
+        MenuItem translateItem = menu.findItem(R.id.menu_text_select_translate);
+        translateItem.setOnMenuItemClickListener(new RequestTextSelectOnMenuItemClickListener(PAYLOAD_PURPOSE_TRANSLATE));
 
         MenuItem editItem = menu.findItem(R.id.menu_text_edit_here);
         editItem.setOnMenuItemClickListener(new RequestTextSelectOnMenuItemClickListener(PAYLOAD_PURPOSE_EDIT_HERE));
