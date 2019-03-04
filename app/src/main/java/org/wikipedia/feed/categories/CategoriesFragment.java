@@ -86,15 +86,7 @@ public class CategoriesFragment extends Fragment {
                 .map(response -> {
                     if (response != null && response.success() && response.query().pages() != null) {
                         List<MwQueryPage> pages = response.query().pages();
-                        List<MwQueryPage> toDelete = new ArrayList<>();
-                        for (MwQueryPage page : pages) {
-                            if (isAPortalCategory(page.title())) {
-                                toDelete.add(page);
-                            }
-                        }
-                        for (MwQueryPage deleteCandidate : toDelete) {
-                            pages.remove(deleteCandidate);
-                        }
+                        pages.removeIf(page -> isAPortalCategory(page.title()));
                         return new SearchResults(pages, wiki, response.continuation(), null);
                     }
                     return new SearchResults();
