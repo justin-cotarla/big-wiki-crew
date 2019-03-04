@@ -17,6 +17,7 @@ import org.wikipedia.history.HistoryEntry;
 import org.wikipedia.page.PageActivity;
 import org.wikipedia.page.PageTitle;
 import org.wikipedia.search.SearchResult;
+import org.wikipedia.views.ViewUtil;
 
 import java.util.ArrayList;
 
@@ -56,8 +57,8 @@ public class CategoriesResultFragment extends Fragment {
         CategoriesResultAdapter customerAdapter = new CategoriesResultAdapter();
         categoryResultList.setAdapter(customerAdapter);
 
-        TextView result = view.findViewById(R.id.categories_results_topic);
-        result.setText(categoryTopic);
+        // TODO: category result title
+
         return view;
     }
 
@@ -81,16 +82,10 @@ public class CategoriesResultFragment extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             convertView = getLayoutInflater().inflate(R.layout.item_categories_result, null);
-            TextView categoryTitle = (TextView) convertView.findViewById(R.id.categories_results_name);
-            categoryTitle.setText(categoryResult.get(position).getPageTitle().getText());
-
-            // TODO: Fix UI
-//            ViewUtil.loadImageUrlInto(convertView.findViewById(R.id.page_list_item_image),
-//                    result.getPageTitle().getThumbUrl());
-//
-//            System.out.println(result.getPageTitle().getThumbUrl());
-//            System.out.println(result.getPageTitle().getDescription());
-
+            TextView categoryTitle = (TextView) convertView.findViewById(R.id.item_categories_result_title);
+            categoryTitle.setText(categoryResult.get(position).getPageTitle().getDisplayText());
+            ViewUtil.loadImageUrlInto(convertView.findViewById(R.id.item_categories_result_image),
+                    categoryResult.get(position).getPageTitle().getThumbUrl());
             return convertView;
         }
     }
