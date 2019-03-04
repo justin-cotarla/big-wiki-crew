@@ -529,6 +529,8 @@
     <string name="view_continue_reading_card_title">Continue reading</string>
     <string name="view_because_you_read_card_title">Because you read</string>
     <string name="view_categories_card_title">Categories</string>
+    <string name="view_categories_card_subtitle">Browse articles by category</string>
+    <string name="view_categories_card_action">View categories</string>
     <string name="view_random_card_title">Randomizer</string>
     <string name="view_random_card_subtitle">Flip through random articles to read from Wikipedia.</string>
     <string name="view_random_card_action">Roll the dice</string>
@@ -573,6 +575,7 @@
     <string name="feed_item_type_featured_image">Daily featured image from Wikimedia Commons</string>
     <string name="feed_item_type_main_page">Main page of Wikipedia with daily featured content</string>
     <string name="feed_item_type_randomizer">Generate random articles to read</string>
+    <string name="feed_item_type_categories">Explore articles by category</string>
     <string name="feed_empty_message">There\'s nothing on your Explore feed</string>
     <string name="feed_configure_onboarding_action">Customize</string>
     <string name="feed_configure_onboarding_text"><![CDATA[<strong>Customize your Explore feed</strong><br /><br />You can now choose what to show on your feed, and also prioritize your favorite types of content.]]></string>
