@@ -37,9 +37,6 @@ public class CategoriesResultFragment extends Fragment {
     @NonNull
     public static CategoriesResultFragment newInstance(String categoryTopic) {
         CategoriesResultFragment instance = new CategoriesResultFragment();
-        Bundle args = new Bundle();
-        args.putString(CATEGORY_TOPIC, categoryTopic);
-        instance.setArguments(args);
         return instance;
     }
 
