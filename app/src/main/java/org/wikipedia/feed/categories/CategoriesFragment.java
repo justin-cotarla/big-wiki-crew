@@ -14,7 +14,10 @@ import android.widget.Toast;
 import org.wikipedia.R;
 import org.wikipedia.dataclient.ServiceFactory;
 import org.wikipedia.dataclient.WikiSite;
+import org.wikipedia.search.SearchResult;
 import org.wikipedia.search.SearchResults;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -81,8 +84,8 @@ public class CategoriesFragment extends Fragment {
                     return new SearchResults();
                 })
                 .subscribe(results -> {
-                    // TODO: Do something with search results here and eventually remove these toasts.
-                    Toast.makeText(requireActivity(), results.getResults().get(0).getPageTitle().getText(), Toast.LENGTH_LONG).show();
+                    ArrayList<SearchResult> categoryResult = (ArrayList<SearchResult>)results.getResults();
+                    startActivity(CategoriesResultActivity.newIntent(requireContext(), category, categoryResult));
                 }, caught -> {
                     Toast.makeText(requireActivity(), caught.getMessage(), Toast.LENGTH_LONG).show();
                 }));
