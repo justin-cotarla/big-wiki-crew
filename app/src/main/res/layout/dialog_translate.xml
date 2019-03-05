@@ -33,17 +33,27 @@
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/ic_translate_black"/>
 
-                <TextView
-                    android:id="@+id/translate_dialog_title"
+                <LinearLayout
+                    android:id="@+id/language_scroll_container"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_margin="8dp"
-                    android:gravity="center_vertical"
-                    android:textColor="?attr/primary_text_color"
-                    android:textSize="20sp"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    tools:text="Lorem ipsum" />
+                    android:layout_height="wrap_content"
+                    android:background="?attr/page_toolbar_color"
+                    android:elevation="6dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="?attr/material_theme_border_color" />
+
+                    <org.wikipedia.views.LanguageScrollView
+                        android:id="@+id/lang_scroll"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:theme="@style/PageToolbarTheme" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
