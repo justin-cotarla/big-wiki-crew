@@ -25,13 +25,6 @@
             android:scrollbars="vertical"
             app:minColumnWidth="@dimen/view_feed_min_column_width"/>
 
-        <!-- FIXME: TEMPORARY WAY OF VIEWING CATEGORIES -->
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="View Categories (tmp)"
-            android:id="@+id/temporary_categories_button"/>
-
         <LinearLayout
             android:id="@+id/fragment_feed_empty_container"
             android:layout_width="match_parent"
