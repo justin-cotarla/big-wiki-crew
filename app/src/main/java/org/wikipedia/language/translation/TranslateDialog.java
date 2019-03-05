@@ -108,6 +108,13 @@ public class TranslateDialog extends ExtendedBottomSheetDialogFragment implement
             initialized = true;
             return;
         }
+
+        // Original text
+        if (selectedLanguageCode.equals(TranslationClient.Language.EN.name())) {
+            translationText.setText(selectedText);
+            return;
+        }
+
         translateText(selectedText, selectedLanguageCode);
     }
 
