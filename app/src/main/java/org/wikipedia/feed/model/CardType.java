@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import org.wikipedia.feed.FeedContentType;
 import org.wikipedia.feed.announcement.AnnouncementCardView;
 import org.wikipedia.feed.becauseyouread.BecauseYouReadCardView;
-import org.wikipedia.feed.categories.CategoriesCard;
 import org.wikipedia.feed.categories.CategoriesCardView;
 import org.wikipedia.feed.dayheader.DayHeaderCardView;
 import org.wikipedia.feed.featured.FeaturedArticleCardView;
