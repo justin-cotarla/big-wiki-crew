@@ -35,7 +35,7 @@ public class CategoriesResultFragment extends Fragment {
     @BindView(R.id.categories_results_list) ListView categoryResultList;
 
     @NonNull
-    public static CategoriesResultFragment newInstance(String categoryTopic) {
+    public static CategoriesResultFragment newInstance() {
         CategoriesResultFragment instance = new CategoriesResultFragment();
         return instance;
     }
