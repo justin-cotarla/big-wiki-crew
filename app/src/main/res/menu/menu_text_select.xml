@@ -29,8 +29,9 @@
           app:showAsAction="ifRoom" />
 
     <item android:id="@+id/menu_text_select_translate"
-          android:title="Translate"
+          android:title="@string/menu_text_select_translate"
           android:icon="@drawable/ic_translate_black"
+          android:visible="false"
           app:showAsAction="ifRoom"/>
 
 </menu>
