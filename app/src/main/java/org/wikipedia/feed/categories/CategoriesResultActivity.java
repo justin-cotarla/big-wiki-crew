@@ -29,6 +29,6 @@ public class CategoriesResultActivity extends SingleFragmentActivity<CategoriesR
 
     @Override
     protected CategoriesResultFragment createFragment() {
-        return CategoriesResultFragment.newInstance(getIntent().getStringExtra(CATEGORY_TOPIC));
+        return CategoriesResultFragment.newInstance();
     }
 }
