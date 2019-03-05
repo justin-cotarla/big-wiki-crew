@@ -27,13 +27,13 @@ public class CategoriesCardView extends StaticCardView<CategoriesCard> {
         setAction(R.drawable.ic_arrow_forward_black_24dp, R.string.view_categories_card_action);
     }
 
-    protected void onContentClick(View v){
+    protected void onContentClick(View v) {
         if (getCallback() != null) {
             getCallback().onCategoriesClick(CategoriesCardView.this);
         }
     }
 
-    protected void onActionClick(View v){
+    protected void onActionClick(View v) {
         if (getCallback() != null) {
             getCallback().onCategoriesClick(CategoriesCardView.this);
         }
