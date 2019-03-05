@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.wikipedia.R;
@@ -32,6 +33,7 @@ public class TranslateDialog extends ExtendedBottomSheetDialogFragment implement
     private static final String TITLE = "title";
     private static final String SELECTED_TEXT = "selected_text";
 
+    private ProgressBar progressBar;
     private PageTitle pageTitle;
     private CompositeDisposable disposables = new CompositeDisposable();
     private View rootView;
@@ -75,6 +77,7 @@ public class TranslateDialog extends ExtendedBottomSheetDialogFragment implement
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.dialog_translate, container);
         unbinder = ButterKnife.bind(this, rootView);
+        progressBar = rootView.findViewById(R.id.dialog_translate_progress);
 
         ArrayList<TranslationClient.Language> langList = new ArrayList<>(Arrays.asList(TranslationClient.Language.values()));
         ArrayList<String> langNames = new ArrayList<>();
@@ -92,10 +95,13 @@ public class TranslateDialog extends ExtendedBottomSheetDialogFragment implement
     }
 
     private void translateText(String text, String language) {
+        progressBar.setVisibility(View.VISIBLE);
+        translationText.setText("");
         disposables.add(translationClient.translate(text, language)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(translationResponse -> {
+                    progressBar.setVisibility(View.GONE);
                     String translated = translationResponse.getData().getTranslations().get(0).getTranslatedText();
                     translationText.setText(translated);
                 }));
