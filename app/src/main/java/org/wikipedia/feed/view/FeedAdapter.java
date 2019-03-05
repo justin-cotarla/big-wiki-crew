@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import org.wikipedia.feed.FeedCoordinatorBase;
 import org.wikipedia.feed.announcement.AnnouncementCardView;
 import org.wikipedia.feed.becauseyouread.BecauseYouReadCardView;
+import org.wikipedia.feed.categories.CategoriesCardView;
 import org.wikipedia.feed.dayheader.DayHeaderCardView;
 import org.wikipedia.feed.image.FeaturedImageCardView;
 import org.wikipedia.feed.model.Card;
@@ -29,7 +30,9 @@ public class FeedAdapter<T extends View & FeedCardView<?>> extends DefaultRecycl
     public interface Callback extends ItemTouchHelperSwipeAdapter.Callback,
             ListCardItemView.Callback, CardHeaderView.Callback,  FeaturedImageCardView.Callback,
             SearchCardView.Callback, NewsListCardView.Callback, AnnouncementCardView.Callback,
-            RandomCardView.Callback, ListCardView.Callback, BecauseYouReadCardView.Callback {
+            RandomCardView.Callback, ListCardView.Callback, BecauseYouReadCardView.Callback,
+            CategoriesCardView.Callback {
+
         void onShowCard(@Nullable Card card);
         void onRequestMore();
         void onRetryFromOffline();
