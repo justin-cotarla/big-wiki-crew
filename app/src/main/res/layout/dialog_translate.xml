@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="16dp"
                 android:textColor="?attr/primary_text_color"
-                android:text="Cannot Find Translation"
+                android:text="@string/translate_dialog_no_translation"
                 android:visibility="gone" />
 
             <TextView

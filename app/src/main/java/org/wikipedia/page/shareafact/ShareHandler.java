@@ -24,6 +24,7 @@ import org.wikipedia.dataclient.ServiceFactory;
 import org.wikipedia.dataclient.mwapi.MwQueryPage;
 import org.wikipedia.gallery.ImageLicense;
 import org.wikipedia.language.translation.TranslateDialog;
+import org.wikipedia.language.translation.TranslationClient;
 import org.wikipedia.page.Namespace;
 import org.wikipedia.page.NoDimBottomSheetDialog;
 import org.wikipedia.page.Page;
@@ -261,11 +262,14 @@ public class ShareHandler {
             defineItem.setOnMenuItemClickListener(new RequestTextSelectOnMenuItemClickListener(PAYLOAD_PURPOSE_DEFINE));
         }
 
+        MenuItem translateItem = menu.findItem(R.id.menu_text_select_translate);
+        if (isTranslationDialogEnabledForArticleLanguage()) {
+            translateItem.setVisible(true);
+            translateItem.setOnMenuItemClickListener(new RequestTextSelectOnMenuItemClickListener(PAYLOAD_PURPOSE_TRANSLATE));
+        }
+
         MenuItem hearItem = menu.findItem(R.id.menu_text_select_hear);
         hearItem.setOnMenuItemClickListener(new RequestTextSelectOnMenuItemClickListener(PAYLOAD_PURPOSE_HEAR));
-
-        MenuItem translateItem = menu.findItem(R.id.menu_text_select_translate);
-        translateItem.setOnMenuItemClickListener(new RequestTextSelectOnMenuItemClickListener(PAYLOAD_PURPOSE_TRANSLATE));
 
         MenuItem editItem = menu.findItem(R.id.menu_text_edit_here);
         editItem.setOnMenuItemClickListener(new RequestTextSelectOnMenuItemClickListener(PAYLOAD_PURPOSE_EDIT_HERE));
@@ -283,6 +287,11 @@ public class ShareHandler {
     private boolean isWiktionaryDialogEnabledForArticleLanguage() {
         return Arrays.asList(WiktionaryDialog.getEnabledLanguages())
                 .contains(fragment.getTitle().getWikiSite().languageCode());
+    }
+
+    private boolean isTranslationDialogEnabledForArticleLanguage() {
+        return fragment.getTitle().getWikiSite().languageCode().toUpperCase()
+                .equals(TranslationClient.Language.EN.name());
     }
 
     private void postShowShareToolTip(final MenuItem shareItem) {
