@@ -19,7 +19,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import org.wikipedia.BackPressedHandler;
 import org.wikipedia.Constants;
@@ -28,6 +27,7 @@ import org.wikipedia.WikipediaApp;
 import org.wikipedia.activity.FragmentUtil;
 import org.wikipedia.analytics.FeedFunnel;
 import org.wikipedia.feed.categories.CategoriesActivity;
+import org.wikipedia.feed.categories.CategoriesCardView;
 import org.wikipedia.feed.configure.ConfigureActivity;
 import org.wikipedia.feed.configure.ConfigureItemLanguageDialogView;
 import org.wikipedia.feed.configure.LanguageItemAdapter;
@@ -126,9 +126,6 @@ public class FeedFragment extends Fragment implements BackPressedHandler {
         feedView.setCallback(feedCallback);
         feedView.addOnScrollListener(feedScrollListener);
 
-        // FIXME: TEMPORARY WAY OF VIEWING CATEGORIES
-        Button button = view.findViewById(R.id.temporary_categories_button);
-        button.setOnClickListener(v -> startActivity(CategoriesActivity.newIntent(requireActivity(), app.getWikiSite())));
 
         swipeRefreshLayout.setColorSchemeResources(ResourceUtil.getThemedAttributeId(requireContext(), R.attr.colorAccent));
         swipeRefreshLayout.setOnRefreshListener(this::refresh);
@@ -515,6 +512,11 @@ public class FeedFragment extends Fragment implements BackPressedHandler {
         @Override
         public void onMoreContentSelected(@NonNull Card card) {
             startActivity(MostReadArticlesActivity.newIntent(requireContext(), (MostReadListCard) card));
+        }
+
+        @Override
+        public void onCategoriesClick(CategoriesCardView view) {
+        startActivity(CategoriesActivity.newIntent(requireActivity(), app.getWikiSite()));
         }
     }
 

@@ -8,6 +8,7 @@ import org.wikipedia.R;
 import org.wikipedia.WikipediaApp;
 import org.wikipedia.feed.aggregated.AggregatedFeedContentClient;
 import org.wikipedia.feed.becauseyouread.BecauseYouReadClient;
+import org.wikipedia.feed.categories.CategoriesClient;
 import org.wikipedia.feed.dataclient.FeedClient;
 import org.wikipedia.feed.mainpage.MainPageClient;
 import org.wikipedia.feed.random.RandomClient;
@@ -75,6 +76,13 @@ public enum FeedContentType implements EnumCode {
         @Override
         public FeedClient newClient(AggregatedFeedContentClient aggregatedClient, int age) {
             return isEnabled() ? new BecauseYouReadClient() : null;
+        }
+    },
+    CATEGORIES(9, R.string.view_categories_card_title, R.string.feed_item_type_categories, false) {
+        @Nullable
+        @Override
+        public FeedClient newClient(AggregatedFeedContentClient aggregatedClient, int age) {
+            return isEnabled() && age == 0 ? new CategoriesClient() : null;
         }
     };
 
