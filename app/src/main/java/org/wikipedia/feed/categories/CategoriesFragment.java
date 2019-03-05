@@ -14,7 +14,12 @@ import android.widget.Toast;
 import org.wikipedia.R;
 import org.wikipedia.dataclient.ServiceFactory;
 import org.wikipedia.dataclient.WikiSite;
+import org.wikipedia.dataclient.mwapi.MwQueryPage;
+import org.wikipedia.search.SearchResult;
 import org.wikipedia.search.SearchResults;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -70,19 +75,25 @@ public class CategoriesFragment extends Fragment {
         }
     }
 
+    private Boolean isAPortalCategory(String title) {
+        return title.contains("Portal");
+    }
+
     private void searchOnCategory(String category) {
         disposables.add(ServiceFactory.get(wiki).getPagesInCategory("Category:" + category.replace(" ", "_"), BATCH_SIZE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(response -> {
                     if (response != null && response.success() && response.query().pages() != null) {
-                        return new SearchResults(response.query().pages(), wiki, response.continuation(), null);
+                        List<MwQueryPage> pages = response.query().pages();
+                        pages.removeIf(page -> isAPortalCategory(page.title()));
+                        return new SearchResults(pages, wiki, response.continuation(), null);
                     }
                     return new SearchResults();
                 })
                 .subscribe(results -> {
-                    // TODO: Do something with search results here and eventually remove these toasts.
-                    Toast.makeText(requireActivity(), results.getResults().get(0).getPageTitle().getText(), Toast.LENGTH_LONG).show();
+                    ArrayList<SearchResult> categoryResult = (ArrayList<SearchResult>)results.getResults();
+                    startActivity(CategoriesResultActivity.newIntent(requireContext(), category, categoryResult));
                 }, caught -> {
                     Toast.makeText(requireActivity(), caught.getMessage(), Toast.LENGTH_LONG).show();
                 }));
