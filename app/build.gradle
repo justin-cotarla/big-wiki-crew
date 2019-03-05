@@ -245,6 +245,8 @@ dependencies {
     implementation 'com.google.http-client:google-http-client-gson:1.20.0' exclude module: 'httpclient'
     implementation 'com.google.apis:google-api-services-vision:v1-rev2-1.21.0'
 
+    implementation 'com.google.code.findbugs:jsr305:2.0.1'
+
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
 
     android.productFlavors.each { flavor ->
