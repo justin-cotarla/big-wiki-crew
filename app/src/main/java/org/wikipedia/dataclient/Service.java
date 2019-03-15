@@ -157,6 +157,9 @@ public interface Service {
                                                            @Query("aclimit") int limit,
                                                            @Query("acmin") int minMembers);
 
+    @GET(MW_API_PREFIX + "action=query&formatversion=2"
+            + "prop=categories&clshow=!hidden")
+    @NonNull Observable<MwQueryResponse> getCategoriesInPage(@Query("titles") String title, @Query("cllimit") int limit);
 
     // ------- Miscellaneous -------
 
