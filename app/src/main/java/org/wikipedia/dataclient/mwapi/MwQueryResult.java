@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MwQueryResult extends BaseModel implements PostProcessingTypeAdapter.PostProcessable {
+    @SuppressWarnings("unused") @Nullable @SerializedName("allcategories") private List<MwQueryCategory> categories;
     @SuppressWarnings("unused") @Nullable private List<MwQueryPage> pages;
     @SuppressWarnings("unused") @Nullable private List<Redirect> redirects;
     @SuppressWarnings("unused") @Nullable private List<ConvertedTitle> converted;
@@ -38,6 +39,10 @@ public class MwQueryResult extends BaseModel implements PostProcessingTypeAdapte
 
     @Nullable public List<MwQueryPage> pages() {
         return pages;
+    }
+
+    @Nullable public List<MwQueryCategory> categories() {
+        return categories;
     }
 
     @Nullable public MwQueryPage firstPage() {
