@@ -12,11 +12,18 @@ import org.wikipedia.model.EnumCode;
 import org.wikipedia.model.EnumCodeMap;
 import org.wikipedia.nearby.NearbyLazyLoadFragment;
 import org.wikipedia.readinglist.ReadingListsFragment;
+import org.wikipedia.random.RandomFragment;
 
 public enum NavTab implements EnumCode {
     EXPLORE(R.string.nav_item_feed, R.drawable.ic_globe) {
         @NonNull @Override public Fragment newInstance() {
             return FeedFragment.newInstance();
+        }
+    },
+    DISCOVER(R.string.nav_item_discover, R.drawable.ic_discover_black_24dp) {
+        @NonNull @Override public Fragment newInstance() {
+            // TODO: Discover fragmnet
+            return RandomFragment.newInstance();
         }
     },
     READING_LISTS(R.string.nav_item_reading_lists, R.drawable.ic_bookmark_white_24dp) {
