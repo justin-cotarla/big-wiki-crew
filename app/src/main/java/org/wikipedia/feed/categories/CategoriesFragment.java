@@ -45,8 +45,6 @@ public class CategoriesFragment extends Fragment {
     private Unbinder unbinder;
     private WikiSite wiki;
     private CompositeDisposable disposables = new CompositeDisposable();
-
-    @Nullable private ActionMode actionMode;
     private CategoriesFragment.SearchCallback searchActionModeCallback = new SearchCallback();
 
     @BindView(R.id.categories_toolbar) Toolbar categoriesToolbar;
@@ -143,6 +141,8 @@ public class CategoriesFragment extends Fragment {
     }
 
     private class SearchCallback extends SearchActionModeCallback {
+        @Nullable private ActionMode actionMode;
+
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             actionMode = mode;
