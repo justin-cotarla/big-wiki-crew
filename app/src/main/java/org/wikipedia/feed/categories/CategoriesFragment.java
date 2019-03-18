@@ -160,7 +160,21 @@ public class CategoriesFragment extends Fragment {
 
         @Override
         protected void onQueryChange(String s) {
-
+            disposables.add(ServiceFactory.get(wiki).searchForCategory(s, BATCH_SIZE, 1)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .map(response -> {
+                        if (response != null && response.success() && response.query().categories() != null) {
+                            return new CategoriesSearchResults(response.query().categories(), response.continuation());
+                        }
+                        return new CategoriesSearchResults();
+                    })
+                    .subscribe(results -> {
+                        Toast.makeText(requireActivity(), results.getResults().get(0), Toast.LENGTH_SHORT).show();
+                    }, caught -> {
+                        Toast.makeText(requireActivity(), caught.getMessage(), Toast.LENGTH_LONG).show();
+                    })
+            );
         }
 
         @Override
