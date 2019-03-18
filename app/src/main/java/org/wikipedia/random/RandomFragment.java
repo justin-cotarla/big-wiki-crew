@@ -100,7 +100,6 @@ public class RandomFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(adapter);
         spinner.bringToFront();
-        spinner.setOnItemSelectedListener(new DiscoverDropdownAdapter());
 
         return view;
     }
@@ -246,19 +245,6 @@ public class RandomFragment extends Fragment {
             }
         }
         return null;
-    }
-
-    private class DiscoverDropdownAdapter implements AdapterView.OnItemSelectedListener {
-
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
     }
 
     private class RandomItemAdapter extends FragmentPagerAdapter {
