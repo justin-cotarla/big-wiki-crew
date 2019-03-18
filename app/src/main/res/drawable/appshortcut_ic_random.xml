@@ -11,5 +11,5 @@
         android:bottom="@dimen/app_shortcut_icon_margin"
         android:left="@dimen/app_shortcut_icon_margin"
         android:right="@dimen/app_shortcut_icon_margin"
-        android:drawable="@drawable/ic_casino_accent50_24dp"/>
+        android:drawable="@drawable/ic_discover_black_24pd"/>
 </layer-list>

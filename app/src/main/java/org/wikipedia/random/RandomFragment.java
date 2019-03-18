@@ -20,7 +20,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import org.wikipedia.R;
 import org.wikipedia.WikipediaApp;
@@ -281,64 +280,60 @@ public class RandomFragment extends Fragment {
         }
     }
 
-    // Overide the viewpager default ontouchlister
+    // Override the viewpager default ontouchlister
     private class ViewPagerTouchListener implements ViewPager.OnTouchListener {
 
 
         @Override
-        public boolean onTouch(View view, MotionEvent MsnEvtPsgVal) {
-            gd.onTouchEvent(MsnEvtPsgVal);
+        public boolean onTouch(View view, MotionEvent event) {
+            gd.onTouchEvent(event);
             return true;
         }
 
         GestureDetector gd = new GestureDetector(requireActivity(), new GestureDetector.SimpleOnGestureListener() {
 
-            // Minimal x and y axis swipe distance.
-            int MIN_SWIPE_DISTANCE_X = 100;
-            int MIN_SWIPE_DISTANCE_Y = 500;
+            // Min x and y axis swipe distance
+            final int xMinDistance = 100;
+            final int yMinDistance = 500;
 
-            // Maximal x and y axis swipe distance.
-            int MAX_SWIPE_DISTANCE_X = 1000;
-            int MAX_SWIPE_DISTANCE_Y = 1000;
+            // Max x and y axis swipe distance
+            final int xMaxDistance = 1000;
+            final int yMaxDistance = 1000;
 
             @Override
             public boolean onDoubleTap(MotionEvent e) {
-                Toast.makeText(getActivity(), "onDoubleTap", Toast.LENGTH_SHORT).show();
+                saveButton.performClick();
                 return true;
             }
-
 
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 
-                // Get swipe delta value in x axis.
+                // Get swipe delta value in x axis
                 float deltaX = e1.getX() - e2.getX();
 
-                // Get swipe delta value in y axis.
+                // Get swipe delta value in y axis
                 float deltaY = e1.getY() - e2.getY();
 
-                // Get absolute value.
+                // Get absolute value
                 float deltaXAbs = Math.abs(deltaX);
                 float deltaYAbs = Math.abs(deltaY);
 
-                // Only when swipe distance between minimal and maximal distance value then we treat it as effective swipe
-                if ((deltaXAbs >= MIN_SWIPE_DISTANCE_X) && (deltaXAbs <= MAX_SWIPE_DISTANCE_X)) {
+                // Valid swipes if delta is between min and max distance
+                if ((deltaXAbs >= xMinDistance) && (deltaXAbs <= xMaxDistance)) {
                     if (deltaX > 0) {
-                        Toast.makeText(getActivity(), "Swipe left", Toast.LENGTH_SHORT).show();
                         moveNext();
                     } else {
-                        Toast.makeText(getActivity(), "Swipe right", Toast.LENGTH_SHORT).show();
                         movePrevious();
                     }
                 }
 
-                if ((deltaYAbs >= MIN_SWIPE_DISTANCE_Y) && (deltaYAbs <= MAX_SWIPE_DISTANCE_Y)) {
+                if ((deltaYAbs >= yMinDistance) && (deltaYAbs <= yMaxDistance)) {
                     if (deltaY > 0) {
                         PageTitle title = getTopTitle();
-                        Toast.makeText(getActivity(), "Swipe up", Toast.LENGTH_SHORT).show();
                         onSelectPage(title);
                     } else {
-                        Toast.makeText(getActivity(), "Swipe down", Toast.LENGTH_SHORT).show();
+                        // handle swipe down
                     }
                 }
                 return true;

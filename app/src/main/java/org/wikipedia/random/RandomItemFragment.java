@@ -26,7 +26,6 @@ import org.wikipedia.views.WikiErrorView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -92,6 +91,7 @@ public class RandomItemFragment extends Fragment {
     }
 
     private void getRandomPage() {
+        // TODO: Update the feed based off the dropdown value
         Toast.makeText(getActivity(), parent().getDropdownValue(), Toast.LENGTH_LONG).show();
         disposables.add(ServiceFactory.getRest(WikipediaApp.getInstance().getWikiSite()).getRandomSummary()
                 .subscribeOn(Schedulers.io())
@@ -109,12 +109,6 @@ public class RandomItemFragment extends Fragment {
         errorView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
         containerView.setVisibility(View.GONE);
-    }
-
-    @OnClick(R.id.view_random_article_card_text_container) void onClick(View v) {
-        if (getTitle() != null) {
-            parent().onSelectPage(getTitle());
-        }
     }
 
     public void updateContents() {

@@ -533,10 +533,10 @@
     <string name="view_categories_card_title">Categories</string>
     <string name="view_categories_card_subtitle">Browse articles by category</string>
     <string name="view_categories_card_action">View categories</string>
-    <string name="view_random_card_title">Randomizer</string>
-    <string name="view_random_card_subtitle">Flip through random articles to read from Wikipedia.</string>
-    <string name="view_random_card_action">Roll the dice</string>
-    <string name="view_next_random_article">Load another random article</string>
+    <string name="view_random_card_title">Discover</string>
+    <string name="view_random_card_subtitle">Flip through articles to read from Wikipedia.</string>
+    <string name="view_random_card_action">Swipe away</string>
+    <string name="view_next_random_article">Load another article</string>
     <string name="view_main_page_card_title">Today on Wikipedia</string>
     <string name="view_main_page_card_subtitle">Main page on %s</string>
     <string name="view_main_page_card_action">View main page</string>
@@ -683,7 +683,7 @@
     <!-- /Onboarding -->
 
     <!-- App Shortcuts -->
-    <string name="app_shortcuts_random">Random</string>
+    <string name="app_shortcuts_random">Discover</string>
     <string name="app_shortcuts_continue_reading">Continue reading</string>
     <string name="app_shortcuts_search">Search</string>
     <string name="more_trending_text">More like this</string>
