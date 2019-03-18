@@ -2,12 +2,20 @@ package org.wikipedia.feed.categories;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,12 +23,15 @@ import org.wikipedia.R;
 import org.wikipedia.dataclient.ServiceFactory;
 import org.wikipedia.dataclient.WikiSite;
 import org.wikipedia.dataclient.mwapi.MwQueryPage;
+import org.wikipedia.history.SearchActionModeCallback;
 import org.wikipedia.search.SearchResult;
 import org.wikipedia.search.SearchResults;
+import org.wikipedia.views.ViewUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -34,6 +45,16 @@ public class CategoriesFragment extends Fragment {
     private Unbinder unbinder;
     private WikiSite wiki;
     private CompositeDisposable disposables = new CompositeDisposable();
+    private CategoriesFragment.SearchCallback searchActionModeCallback = new SearchCallback();
+
+    @BindView(R.id.categories_toolbar) Toolbar categoriesToolbar;
+    @BindView(R.id.categories_scroll_view) ScrollView container;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @NonNull
     public static CategoriesFragment newInstance(WikiSite wikiSite) {
@@ -63,6 +84,26 @@ public class CategoriesFragment extends Fragment {
         unbinder = null;
         disposables.clear();
         super.onDestroyView();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_feed, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_feed_search:
+                getAppCompatActivity().startSupportActionMode(searchActionModeCallback);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private AppCompatActivity getAppCompatActivity() {
+        return (AppCompatActivity) getActivity();
     }
 
     private void setupCategoriesGrid(GridLayout grid) {
@@ -97,5 +138,53 @@ public class CategoriesFragment extends Fragment {
                 }, caught -> {
                     Toast.makeText(requireActivity(), caught.getMessage(), Toast.LENGTH_LONG).show();
                 }));
+    }
+
+    private class SearchCallback extends SearchActionModeCallback {
+        @Nullable private ActionMode actionMode;
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            actionMode = mode;
+            ViewUtil.finishActionModeWhenTappingOnView(getView(), actionMode);
+            ViewUtil.finishActionModeWhenTappingOnView(container, actionMode);
+
+            return super.onCreateActionMode(mode, menu);
+        }
+
+        @Override
+        protected void onQueryChange(String s) {
+            disposables.add(ServiceFactory.get(wiki).searchForCategory(s, BATCH_SIZE, 1)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .map(response -> {
+                        if (response != null && response.success() && response.query().categories() != null) {
+                            return new CategoriesSearchResults(response.query().categories(), response.continuation());
+                        }
+                        return new CategoriesSearchResults();
+                    })
+                    .subscribe(results -> {
+                        Toast.makeText(requireActivity(), results.getResults().get(0), Toast.LENGTH_SHORT).show();
+                    }, caught -> {
+                        Toast.makeText(requireActivity(), caught.getMessage(), Toast.LENGTH_LONG).show();
+                    })
+            );
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            super.onDestroyActionMode(mode);
+            actionMode = null;
+        }
+
+        @Override
+        protected String getSearchHintString() {
+            return getString(R.string.search_hint_categories);
+        }
+
+        @Override
+        protected boolean finishActionModeIfKeyboardHiding() {
+            return true;
+        }
     }
 }
