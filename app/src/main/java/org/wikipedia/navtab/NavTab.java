@@ -20,12 +20,12 @@ public enum NavTab implements EnumCode {
             return FeedFragment.newInstance();
         }
     },
-    DISCOVER(R.string.nav_item_discover, R.drawable.ic_discover_black_24dp) {
-        @NonNull @Override public Fragment newInstance() {
-            // TODO: Discover fragmnet
-            return RandomFragment.newInstance();
-        }
-    },
+//    DISCOVER(R.string.nav_item_discover, R.drawable.ic_discover_black_24dp) {
+//        @NonNull @Override public Fragment newInstance() {
+//            // TODO: Discover fragmnet
+//            return RandomFragment.newInstance();
+//        }
+//    },
     READING_LISTS(R.string.nav_item_reading_lists, R.drawable.ic_bookmark_white_24dp) {
         @NonNull @Override public Fragment newInstance() {
             return ReadingListsFragment.newInstance();

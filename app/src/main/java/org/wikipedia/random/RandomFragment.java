@@ -11,10 +11,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.wikipedia.R;
 import org.wikipedia.WikipediaApp;
@@ -31,6 +37,9 @@ import org.wikipedia.util.AnimationUtil;
 import org.wikipedia.util.FeedbackUtil;
 import org.wikipedia.util.log.L;
 
+import java.util.Arrays;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -41,15 +50,22 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class RandomFragment extends Fragment {
-    @BindView(R.id.random_item_pager) ViewPager randomPager;
-    @BindView(R.id.random_next_button) FloatingActionButton nextButton;
-    @BindView(R.id.random_save_button) ImageView saveButton;
-    @BindView(R.id.random_back_button) View backButton;
+    @BindView(R.id.spinner)
+    Spinner spinner;
+    @BindView(R.id.random_item_pager)
+    ViewPager randomPager;
+    @BindView(R.id.random_next_button)
+    FloatingActionButton nextButton;
+    @BindView(R.id.random_save_button)
+    ImageView saveButton;
+    @BindView(R.id.random_back_button)
+    View backButton;
     private Unbinder unbinder;
     private ExclusiveBottomSheetPresenter bottomSheetPresenter = new ExclusiveBottomSheetPresenter();
     private boolean saveButtonState;
     private ViewPagerListener viewPagerListener = new ViewPagerListener();
-    @Nullable private RandomizerFunnel funnel;
+    @Nullable
+    private RandomizerFunnel funnel;
     private CompositeDisposable disposables = new CompositeDisposable();
 
     @NonNull
@@ -69,6 +85,7 @@ public class RandomFragment extends Fragment {
         randomPager.setAdapter(new RandomItemAdapter((AppCompatActivity) requireActivity()));
         randomPager.setPageTransformer(true, new AnimationUtil.PagerTransformer());
         randomPager.addOnPageChangeListener(viewPagerListener);
+        randomPager.setOnTouchListener(new ViewPagerTouchListener());
 
         updateSaveShareButton();
         updateBackButton(0);
@@ -78,7 +95,29 @@ public class RandomFragment extends Fragment {
 
         funnel = new RandomizerFunnel(WikipediaApp.getInstance(), WikipediaApp.getInstance().getWikiSite(),
                 requireActivity().getIntent().getIntExtra(RandomActivity.INVOKE_SOURCE_EXTRA, 0));
+
+        List<String> values = setDiscoverDropdownValues();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, values);
+        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        spinner.setAdapter(adapter);
+        spinner.bringToFront();
+        spinner.setOnItemSelectedListener(new DiscoverDropdownAdapter());
+
         return view;
+    }
+
+    public List<String> setDiscoverDropdownValues() {
+        return Arrays.asList("Random", "Trending");
+    }
+
+    // Get the next page in viewpager
+    public void moveNext() {
+        randomPager.setCurrentItem(randomPager.getCurrentItem() + 1, true);
+    }
+
+    // Get the previous page in viewpager
+    public void movePrevious() {
+        randomPager.setCurrentItem(randomPager.getCurrentItem() - 1, true);
     }
 
     @Override
@@ -94,28 +133,31 @@ public class RandomFragment extends Fragment {
         super.onDestroyView();
     }
 
-    @OnClick(R.id.random_next_button) void onNextClick() {
+    @OnClick(R.id.random_next_button)
+    void onNextClick() {
         if (nextButton.getDrawable() instanceof Animatable) {
             ((Animatable) nextButton.getDrawable()).start();
         }
         viewPagerListener.setNextPageSelectedAutomatic();
-        randomPager.setCurrentItem(randomPager.getCurrentItem() + 1, true);
+        moveNext();
         if (funnel != null) {
             funnel.clickedForward();
         }
     }
 
-    @OnClick(R.id.random_back_button) void onBackClick() {
+    @OnClick(R.id.random_back_button)
+    void onBackClick() {
         viewPagerListener.setNextPageSelectedAutomatic();
         if (randomPager.getCurrentItem() > 0) {
-            randomPager.setCurrentItem(randomPager.getCurrentItem() - 1, true);
+            movePrevious();
             if (funnel != null) {
                 funnel.clickedBack();
             }
         }
     }
 
-    @OnClick(R.id.random_save_button) void onSaveShareClick() {
+    @OnClick(R.id.random_save_button)
+    void onSaveShareClick() {
         PageTitle title = getTopTitle();
         if (title == null) {
             return;
@@ -147,6 +189,10 @@ public class RandomFragment extends Fragment {
     public void onSelectPage(@NonNull PageTitle title) {
         startActivity(PageActivity.newIntentForNewTab(requireActivity(),
                 new HistoryEntry(title, HistoryEntry.SOURCE_RANDOM), title));
+    }
+
+    public String getDropdownValue() {
+        return spinner.getSelectedItem().toString();
     }
 
     public void onAddPageToList(@NonNull PageTitle title) {
@@ -185,12 +231,14 @@ public class RandomFragment extends Fragment {
         updateSaveShareButton();
     }
 
-    @Nullable private PageTitle getTopTitle() {
+    @Nullable
+    private PageTitle getTopTitle() {
         RandomItemFragment f = getTopChild();
         return f == null ? null : f.getTitle();
     }
 
-    @Nullable private RandomItemFragment getTopChild() {
+    @Nullable
+    private RandomItemFragment getTopChild() {
         FragmentManager fm = getFragmentManager();
         for (Fragment f : fm.getFragments()) {
             if (f instanceof RandomItemFragment
@@ -201,7 +249,20 @@ public class RandomFragment extends Fragment {
         return null;
     }
 
-    private class RandomItemAdapter extends FragmentPagerAdapter{
+    private class DiscoverDropdownAdapter implements AdapterView.OnItemSelectedListener {
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    }
+
+    private class RandomItemAdapter extends FragmentPagerAdapter {
 
         RandomItemAdapter(AppCompatActivity activity) {
             super(activity.getSupportFragmentManager());
@@ -218,6 +279,71 @@ public class RandomFragment extends Fragment {
             f.setPagerPosition(position);
             return f;
         }
+    }
+
+    // Overide the viewpager default ontouchlister
+    private class ViewPagerTouchListener implements ViewPager.OnTouchListener {
+
+
+        @Override
+        public boolean onTouch(View view, MotionEvent MsnEvtPsgVal) {
+            gd.onTouchEvent(MsnEvtPsgVal);
+            return true;
+        }
+
+        GestureDetector gd = new GestureDetector(requireActivity(), new GestureDetector.SimpleOnGestureListener() {
+
+            // Minimal x and y axis swipe distance.
+            int MIN_SWIPE_DISTANCE_X = 100;
+            int MIN_SWIPE_DISTANCE_Y = 500;
+
+            // Maximal x and y axis swipe distance.
+            int MAX_SWIPE_DISTANCE_X = 1000;
+            int MAX_SWIPE_DISTANCE_Y = 1000;
+
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                Toast.makeText(getActivity(), "onDoubleTap", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+
+                // Get swipe delta value in x axis.
+                float deltaX = e1.getX() - e2.getX();
+
+                // Get swipe delta value in y axis.
+                float deltaY = e1.getY() - e2.getY();
+
+                // Get absolute value.
+                float deltaXAbs = Math.abs(deltaX);
+                float deltaYAbs = Math.abs(deltaY);
+
+                // Only when swipe distance between minimal and maximal distance value then we treat it as effective swipe
+                if ((deltaXAbs >= MIN_SWIPE_DISTANCE_X) && (deltaXAbs <= MAX_SWIPE_DISTANCE_X)) {
+                    if (deltaX > 0) {
+                        Toast.makeText(getActivity(), "Swipe left", Toast.LENGTH_SHORT).show();
+                        moveNext();
+                    } else {
+                        Toast.makeText(getActivity(), "Swipe right", Toast.LENGTH_SHORT).show();
+                        movePrevious();
+                    }
+                }
+
+                if ((deltaYAbs >= MIN_SWIPE_DISTANCE_Y) && (deltaYAbs <= MAX_SWIPE_DISTANCE_Y)) {
+                    if (deltaY > 0) {
+                        PageTitle title = getTopTitle();
+                        Toast.makeText(getActivity(), "Swipe up", Toast.LENGTH_SHORT).show();
+                        onSelectPage(title);
+                    } else {
+                        Toast.makeText(getActivity(), "Swipe down", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                return true;
+            }
+        });
     }
 
     private class ViewPagerListener implements ViewPager.OnPageChangeListener {

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.wikipedia.R;
 import org.wikipedia.WikipediaApp;
@@ -38,7 +39,6 @@ public class RandomItemFragment extends Fragment {
     @BindView(R.id.view_random_article_card_article_subtitle) GoneIfEmptyTextView articleSubtitleView;
     @BindView(R.id.view_random_article_card_extract) TextView extractView;
     @BindView(R.id.random_item_error_view) WikiErrorView errorView;
-
     private CompositeDisposable disposables = new CompositeDisposable();
     @Nullable private RbPageSummary summary;
     private int pagerPosition = -1;
@@ -66,6 +66,7 @@ public class RandomItemFragment extends Fragment {
         setRetainInstance(true);
     }
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -91,6 +92,7 @@ public class RandomItemFragment extends Fragment {
     }
 
     private void getRandomPage() {
+        Toast.makeText(getActivity(), parent().getDropdownValue(), Toast.LENGTH_LONG).show();
         disposables.add(ServiceFactory.getRest(WikipediaApp.getInstance().getWikiSite()).getRandomSummary()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
