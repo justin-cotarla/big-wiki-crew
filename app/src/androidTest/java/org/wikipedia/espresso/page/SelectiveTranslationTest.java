@@ -13,7 +13,6 @@ import android.view.ViewParent;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,16 +21,24 @@ import org.wikipedia.main.MainActivity;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.*;
-import static android.support.test.espresso.assertion.ViewAssertions.*;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.longClick;
+import static android.support.test.espresso.action.ViewActions.replaceText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isPlatformPopup;
-import static android.support.test.espresso.matcher.ViewMatchers.*;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.AllOf.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
+@SuppressWarnings("checkstyle:magicnumber")
 public class SelectiveTranslationTest {
 
     @Rule
@@ -129,14 +136,14 @@ public class SelectiveTranslationTest {
                 .atPosition(1).inRoot(isPlatformPopup());
         linearLayout2.perform(click());
 
-        ViewInteraction actionBar$Tab = onView(
+        ViewInteraction actionBarTab = onView(
                 allOf(childAtPosition(
                         childAtPosition(
                                 withId(R.id.horizontal_scroll_languages),
                                 0),
                         1),
                         isDisplayed()));
-        actionBar$Tab.check(matches(isDisplayed()));
+        actionBarTab.check(matches(isDisplayed()));
 
         ViewInteraction textView = onView(
                 withId(R.id.translate_translated_text));
