@@ -8,508 +8,526 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
-    <ScrollView
-        android:id="@+id/categories_scroll_view"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/categories_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="top">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:theme="@style/ToolbarTheme"
+        app:layout_collapseMode="pin">
 
-        <LinearLayout
+    </android.support.v7.widget.Toolbar>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <ScrollView
+            android:id="@+id/categories_scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="10"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:layout_gravity="top">
 
-            <TextView
-                android:id="@+id/top_categories"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="16dp"
-                android:text="@string/top_categories"
-                android:textAlignment="center"
-                android:textStyle="bold"
-                android:textSize="24sp"/>
+                android:weightSum="10"
+                android:orientation="vertical">
 
-            <GridLayout
-                android:id="@+id/categories_grid_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:rowCount="6"
-                android:layout_margin="16dp">
-
-                <!-- R1C1 -->
-                <android.support.v7.widget.CardView
-                    android:id="@+id/categories_culture"
+                <TextView
+                    android:id="@+id/top_categories"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    app:cardUseCompatPadding="true">
+                    android:textAlignment="center"
+                    android:paddingTop="16dp"
+                    android:text="@string/top_categories"
+                    android:textStyle="bold"
+                    android:textSize="24sp"/>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                <GridLayout
+                    android:id="@+id/categories_grid_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2"
+                    android:rowCount="6"
+                    android:layout_margin="16dp">
+
+                    <!-- R1C1 -->
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/categories_culture"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:padding="10dp">
+                        android:layout_width="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="8dp"
+                        app:cardUseCompatPadding="true">
 
-                        <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_categories_culture"/>
-
-                        <TextView
-                            android:tag="@string/category_card_text"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:textAlignment="center"
-                            android:textColor="@color/base10"
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:text="@string/categories_culture"/>
-                    </LinearLayout>
+                            android:orientation="vertical"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:padding="10dp">
 
-                </android.support.v7.widget.CardView>
+                            <ImageView
+                                android:layout_width="75dp"
+                                android:layout_height="75dp"
+                                android:layout_gravity="center"
+                                app:srcCompat="@drawable/ic_categories_culture"/>
 
-                <!-- R1C2 -->
-                <android.support.v7.widget.CardView
-                    android:id="@+id/categories_geography"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    app:cardUseCompatPadding="true">
+                            <TextView
+                                android:tag="@string/category_card_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textAlignment="center"
+                                android:textColor="@color/base10"
+                                android:textStyle="bold"
+                                android:textSize="16sp"
+                                android:text="@string/categories_culture"/>
+                        </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    </android.support.v7.widget.CardView>
+
+                    <!-- R1C2 -->
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/categories_geography"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:padding="10dp">
+                        android:layout_width="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="8dp"
+                        app:cardUseCompatPadding="true">
 
-                        <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_categories_geography"/>
-
-                        <TextView
-                            android:tag="@string/category_card_text"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:textAlignment="center"
-                            android:textColor="@color/base10"
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:text="@string/categories_geography"/>
-                    </LinearLayout>
+                            android:orientation="vertical"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:padding="10dp">
 
-                </android.support.v7.widget.CardView>
+                            <ImageView
+                                android:layout_width="75dp"
+                                android:layout_height="75dp"
+                                android:layout_gravity="center"
+                                app:srcCompat="@drawable/ic_categories_geography"/>
 
-                <!-- R2C1 -->
-                <android.support.v7.widget.CardView
-                    android:id="@+id/categories_health"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    app:cardUseCompatPadding="true">
+                            <TextView
+                                android:tag="@string/category_card_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textAlignment="center"
+                                android:textColor="@color/base10"
+                                android:textStyle="bold"
+                                android:textSize="16sp"
+                                android:text="@string/categories_geography"/>
+                        </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    </android.support.v7.widget.CardView>
+
+                    <!-- R2C1 -->
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/categories_health"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:padding="10dp">
+                        android:layout_width="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="8dp"
+                        app:cardUseCompatPadding="true">
 
-                        <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_categories_health"/>
-
-                        <TextView
-                            android:tag="@string/category_card_text"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:textAlignment="center"
-                            android:textColor="@color/base10"
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:text="@string/categories_health"/>
-                    </LinearLayout>
+                            android:orientation="vertical"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:padding="10dp">
 
-                </android.support.v7.widget.CardView>
+                            <ImageView
+                                android:layout_width="75dp"
+                                android:layout_height="75dp"
+                                android:layout_gravity="center"
+                                app:srcCompat="@drawable/ic_categories_health"/>
 
-                <!-- R2C2 -->
-                <android.support.v7.widget.CardView
-                    android:id="@+id/categories_history"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    app:cardUseCompatPadding="true">
+                            <TextView
+                                android:tag="@string/category_card_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textAlignment="center"
+                                android:textColor="@color/base10"
+                                android:textStyle="bold"
+                                android:textSize="16sp"
+                                android:text="@string/categories_health"/>
+                        </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    </android.support.v7.widget.CardView>
+
+                    <!-- R2C2 -->
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/categories_history"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:padding="10dp">
+                        android:layout_width="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="8dp"
+                        app:cardUseCompatPadding="true">
 
-                        <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_categories_history"/>
-
-                        <TextView
-                            android:tag="@string/category_card_text"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:textAlignment="center"
-                            android:textColor="@color/base10"
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:text="@string/categories_history"/>
-                    </LinearLayout>
+                            android:orientation="vertical"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:padding="10dp">
 
-                </android.support.v7.widget.CardView>
+                            <ImageView
+                                android:layout_width="75dp"
+                                android:layout_height="75dp"
+                                android:layout_gravity="center"
+                                app:srcCompat="@drawable/ic_categories_history"/>
 
-                <!-- R3C1 -->
-                <android.support.v7.widget.CardView
-                    android:id="@+id/categories_human_activities"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    app:cardUseCompatPadding="true">
+                            <TextView
+                                android:tag="@string/category_card_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textAlignment="center"
+                                android:textColor="@color/base10"
+                                android:textStyle="bold"
+                                android:textSize="16sp"
+                                android:text="@string/categories_history"/>
+                        </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    </android.support.v7.widget.CardView>
+
+                    <!-- R3C1 -->
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/categories_human_activities"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:padding="10dp">
+                        android:layout_width="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="8dp"
+                        app:cardUseCompatPadding="true">
 
-                        <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_categories_human_activities"/>
-
-                        <TextView
-                            android:tag="@string/category_card_text"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:textAlignment="center"
-                            android:textColor="@color/base10"
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:text="@string/categories_human_activities"/>
-                    </LinearLayout>
+                            android:orientation="vertical"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:padding="10dp">
 
-                </android.support.v7.widget.CardView>
+                            <ImageView
+                                android:layout_width="75dp"
+                                android:layout_height="75dp"
+                                android:layout_gravity="center"
+                                app:srcCompat="@drawable/ic_categories_human_activities"/>
 
-                <!-- R3C2 -->
-                <android.support.v7.widget.CardView
-                    android:id="@+id/categories_mathematics"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    app:cardUseCompatPadding="true">
+                            <TextView
+                                android:tag="@string/category_card_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textAlignment="center"
+                                android:textColor="@color/base10"
+                                android:textStyle="bold"
+                                android:textSize="16sp"
+                                android:text="@string/categories_human_activities"/>
+                        </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    </android.support.v7.widget.CardView>
+
+                    <!-- R3C2 -->
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/categories_mathematics"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:padding="10dp">
+                        android:layout_width="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="8dp"
+                        app:cardUseCompatPadding="true">
 
-                        <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_categories_mathematics"/>
-
-                        <TextView
-                            android:tag="@string/category_card_text"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:textAlignment="center"
-                            android:textColor="@color/base10"
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:text="@string/categories_mathematics"/>
-                    </LinearLayout>
+                            android:orientation="vertical"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:padding="10dp">
 
-                </android.support.v7.widget.CardView>
+                            <ImageView
+                                android:layout_width="75dp"
+                                android:layout_height="75dp"
+                                android:layout_gravity="center"
+                                app:srcCompat="@drawable/ic_categories_mathematics"/>
 
-                <!-- R4C1 -->
-                <android.support.v7.widget.CardView
-                    android:id="@+id/categories_nature"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    app:cardUseCompatPadding="true">
+                            <TextView
+                                android:tag="@string/category_card_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textAlignment="center"
+                                android:textColor="@color/base10"
+                                android:textStyle="bold"
+                                android:textSize="16sp"
+                                android:text="@string/categories_mathematics"/>
+                        </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    </android.support.v7.widget.CardView>
+
+                    <!-- R4C1 -->
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/categories_nature"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:padding="10dp">
+                        android:layout_width="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="8dp"
+                        app:cardUseCompatPadding="true">
 
-                        <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_categories_nature"/>
-
-                        <TextView
-                            android:tag="@string/category_card_text"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:textAlignment="center"
-                            android:textColor="@color/base10"
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:text="@string/categories_nature"/>
-                    </LinearLayout>
+                            android:orientation="vertical"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:padding="10dp">
 
-                </android.support.v7.widget.CardView>
+                            <ImageView
+                                android:layout_width="75dp"
+                                android:layout_height="75dp"
+                                android:layout_gravity="center"
+                                app:srcCompat="@drawable/ic_categories_nature"/>
 
-                <!-- R4C2 -->
-                <android.support.v7.widget.CardView
-                    android:id="@+id/categories_people"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    app:cardUseCompatPadding="true">
+                            <TextView
+                                android:tag="@string/category_card_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textAlignment="center"
+                                android:textColor="@color/base10"
+                                android:textStyle="bold"
+                                android:textSize="16sp"
+                                android:text="@string/categories_nature"/>
+                        </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    </android.support.v7.widget.CardView>
+
+                    <!-- R4C2 -->
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/categories_people"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:padding="10dp">
+                        android:layout_width="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="8dp"
+                        app:cardUseCompatPadding="true">
 
-                        <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_categories_people"/>
-
-                        <TextView
-                            android:tag="@string/category_card_text"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:textAlignment="center"
-                            android:textColor="@color/base10"
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:text="@string/categories_people"/>
-                    </LinearLayout>
+                            android:orientation="vertical"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:padding="10dp">
 
-                </android.support.v7.widget.CardView>
+                            <ImageView
+                                android:layout_width="75dp"
+                                android:layout_height="75dp"
+                                android:layout_gravity="center"
+                                app:srcCompat="@drawable/ic_categories_people"/>
 
-                <!-- R5C1 -->
-                <android.support.v7.widget.CardView
-                    android:id="@+id/categories_philosophy"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    app:cardUseCompatPadding="true">
+                            <TextView
+                                android:tag="@string/category_card_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textAlignment="center"
+                                android:textColor="@color/base10"
+                                android:textStyle="bold"
+                                android:textSize="16sp"
+                                android:text="@string/categories_people"/>
+                        </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    </android.support.v7.widget.CardView>
+
+                    <!-- R5C1 -->
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/categories_philosophy"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:padding="10dp">
+                        android:layout_width="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="8dp"
+                        app:cardUseCompatPadding="true">
 
-                        <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_categories_philosophy"/>
-
-                        <TextView
-                            android:tag="@string/category_card_text"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:textAlignment="center"
-                            android:textColor="@color/base10"
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:text="@string/categories_philosophy"/>
-                    </LinearLayout>
+                            android:orientation="vertical"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:padding="10dp">
 
-                </android.support.v7.widget.CardView>
+                            <ImageView
+                                android:layout_width="75dp"
+                                android:layout_height="75dp"
+                                android:layout_gravity="center"
+                                app:srcCompat="@drawable/ic_categories_philosophy"/>
 
-                <!-- R5C2 -->
-                <android.support.v7.widget.CardView
-                    android:id="@+id/categories_religion"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    app:cardUseCompatPadding="true">
+                            <TextView
+                                android:tag="@string/category_card_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textAlignment="center"
+                                android:textColor="@color/base10"
+                                android:textStyle="bold"
+                                android:textSize="16sp"
+                                android:text="@string/categories_philosophy"/>
+                        </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    </android.support.v7.widget.CardView>
+
+                    <!-- R5C2 -->
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/categories_religion"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:padding="10dp">
+                        android:layout_width="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="8dp"
+                        app:cardUseCompatPadding="true">
 
-                        <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_categories_religion"/>
-
-                        <TextView
-                            android:tag="@string/category_card_text"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:textAlignment="center"
-                            android:textColor="@color/base10"
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:text="@string/categories_religion"/>
-                    </LinearLayout>
+                            android:orientation="vertical"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:padding="10dp">
 
-                </android.support.v7.widget.CardView>
+                            <ImageView
+                                android:layout_width="75dp"
+                                android:layout_height="75dp"
+                                android:layout_gravity="center"
+                                app:srcCompat="@drawable/ic_categories_religion"/>
 
-                <!-- R6C1 -->
-                <android.support.v7.widget.CardView
-                    android:id="@+id/categories_society"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    app:cardUseCompatPadding="true">
+                            <TextView
+                                android:tag="@string/category_card_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textAlignment="center"
+                                android:textColor="@color/base10"
+                                android:textStyle="bold"
+                                android:textSize="16sp"
+                                android:text="@string/categories_religion"/>
+                        </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    </android.support.v7.widget.CardView>
+
+                    <!-- R6C1 -->
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/categories_society"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:padding="10dp">
+                        android:layout_width="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="8dp"
+                        app:cardUseCompatPadding="true">
 
-                        <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_categories_society"/>
-
-                        <TextView
-                            android:tag="@string/category_card_text"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:textAlignment="center"
-                            android:textColor="@color/base10"
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:text="@string/categories_society"/>
-                    </LinearLayout>
+                            android:orientation="vertical"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:padding="10dp">
 
-                </android.support.v7.widget.CardView>
+                            <ImageView
+                                android:layout_width="75dp"
+                                android:layout_height="75dp"
+                                android:layout_gravity="center"
+                                app:srcCompat="@drawable/ic_categories_society"/>
 
-                <!-- R6C2 -->
-                <android.support.v7.widget.CardView
-                    android:id="@+id/categories_technology"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="8dp"
-                    app:cardUseCompatPadding="true">
+                            <TextView
+                                android:tag="@string/category_card_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textAlignment="center"
+                                android:textColor="@color/base10"
+                                android:textStyle="bold"
+                                android:textSize="16sp"
+                                android:text="@string/categories_society"/>
+                        </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    </android.support.v7.widget.CardView>
+
+                    <!-- R6C2 -->
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/categories_technology"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:padding="10dp">
+                        android:layout_width="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="8dp"
+                        app:cardUseCompatPadding="true">
 
-                        <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_categories_technology"/>
-
-                        <TextView
-                            android:tag="@string/category_card_text"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:textAlignment="center"
-                            android:textColor="@color/base10"
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:text="@string/categories_technology"/>
-                    </LinearLayout>
+                            android:orientation="vertical"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:padding="10dp">
 
-                </android.support.v7.widget.CardView>
+                            <ImageView
+                                android:layout_width="75dp"
+                                android:layout_height="75dp"
+                                android:layout_gravity="center"
+                                app:srcCompat="@drawable/ic_categories_technology"/>
 
-            </GridLayout>
+                            <TextView
+                                android:tag="@string/category_card_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textAlignment="center"
+                                android:textColor="@color/base10"
+                                android:textStyle="bold"
+                                android:textSize="16sp"
+                                android:text="@string/categories_technology"/>
+                        </LinearLayout>
 
-        </LinearLayout>
+                    </android.support.v7.widget.CardView>
 
-    </ScrollView>
+                </GridLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+    </FrameLayout>
+
+
 
 </android.support.design.widget.CoordinatorLayout>
