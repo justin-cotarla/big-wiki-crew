@@ -15,6 +15,10 @@ import org.wikipedia.R;
 import org.wikipedia.dataclient.ServiceFactory;
 import org.wikipedia.dataclient.WikiSite;
 import org.wikipedia.dataclient.mwapi.MwQueryPage;
+import org.wikipedia.feed.categories.recommended.RecommendedCategoriesItemCard;
+import org.wikipedia.feed.categories.recommended.RecommendedCategoriesListCardView;
+import org.wikipedia.feed.categories.result.CategoriesResultActivity;
+import org.wikipedia.feed.view.HorizontalScrollingListCardItemView;
 import org.wikipedia.search.SearchResult;
 import org.wikipedia.search.SearchResults;
 
@@ -63,6 +67,13 @@ public class CategoriesFragment extends Fragment {
         unbinder = null;
         disposables.clear();
         super.onDestroyView();
+    }
+
+    class ItemCallback implements RecommendedCategoriesListCardView.Callback {
+        @Override
+        public void onRecommendedCategorySelect(RecommendedCategoriesItemCard card, HorizontalScrollingListCardItemView view) {
+            searchOnCategory(card.item().name());
+        }
     }
 
     private void setupCategoriesGrid(GridLayout grid) {
