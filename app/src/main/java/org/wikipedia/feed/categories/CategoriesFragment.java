@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -178,6 +179,8 @@ public class CategoriesFragment extends Fragment {
                     String name = item.title();
                     searchOnCategory(name.substring(name.indexOf(':') + 1));
                 });
+
+                setListViewHeightBasedOnChildren(recommendedCategoriesListView);
             }
         });
 
@@ -305,5 +308,25 @@ public class CategoriesFragment extends Fragment {
 
             return convertView;
         }
+    }
+
+    // Method required for ListView in ScrollView
+    private void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
     }
 }
