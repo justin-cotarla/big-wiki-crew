@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.wikipedia.R;
 import org.wikipedia.WikipediaApp;
@@ -91,8 +90,6 @@ public class RandomItemFragment extends Fragment {
     }
 
     private void getRandomPage() {
-        // TODO: Update the feed based off the dropdown value
-        Toast.makeText(getActivity(), parent().getDropdownValue(), Toast.LENGTH_LONG).show();
         disposables.add(ServiceFactory.getRest(WikipediaApp.getInstance().getWikiSite()).getRandomSummary()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
