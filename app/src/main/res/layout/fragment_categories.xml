@@ -18,46 +18,53 @@
 
     </android.support.v7.widget.Toolbar>
 
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <ListView
+            android:id="@+id/categories_search_results_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
         <ScrollView
             android:id="@+id/categories_scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="top">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="10"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:weightSum="10">
+
 
                 <TextView
                     android:id="@+id/top_categories"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
                     android:paddingTop="16dp"
                     android:text="@string/top_categories"
-                    android:textStyle="bold"
-                    android:textSize="24sp"/>
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
                 <GridLayout
                     android:id="@+id/categories_grid_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
                     android:columnCount="2"
-                    android:rowCount="6"
-                    android:layout_margin="16dp">
+                    android:rowCount="6">
 
                     <!-- R1C1 -->
                     <android.support.v7.widget.CardView
                         android:id="@+id/categories_culture"
-                        android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
                         android:foreground="?android:attr/selectableItemBackground"
@@ -68,26 +75,26 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:layout_gravity="center_horizontal|center_vertical"
+                            android:orientation="vertical"
                             android:padding="10dp">
 
                             <ImageView
                                 android:layout_width="75dp"
                                 android:layout_height="75dp"
                                 android:layout_gravity="center"
-                                app:srcCompat="@drawable/ic_categories_culture"/>
+                                app:srcCompat="@drawable/ic_categories_culture" />
 
                             <TextView
-                                android:tag="@string/category_card_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
+                                android:tag="@string/category_card_text"
+                                android:text="@string/categories_culture"
                                 android:textAlignment="center"
                                 android:textColor="@color/base10"
-                                android:textStyle="bold"
                                 android:textSize="16sp"
-                                android:text="@string/categories_culture"/>
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                     </android.support.v7.widget.CardView>
@@ -95,8 +102,8 @@
                     <!-- R1C2 -->
                     <android.support.v7.widget.CardView
                         android:id="@+id/categories_geography"
-                        android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
                         android:foreground="?android:attr/selectableItemBackground"
@@ -107,26 +114,26 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:layout_gravity="center_horizontal|center_vertical"
+                            android:orientation="vertical"
                             android:padding="10dp">
 
                             <ImageView
                                 android:layout_width="75dp"
                                 android:layout_height="75dp"
                                 android:layout_gravity="center"
-                                app:srcCompat="@drawable/ic_categories_geography"/>
+                                app:srcCompat="@drawable/ic_categories_geography" />
 
                             <TextView
-                                android:tag="@string/category_card_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
+                                android:tag="@string/category_card_text"
+                                android:text="@string/categories_geography"
                                 android:textAlignment="center"
                                 android:textColor="@color/base10"
-                                android:textStyle="bold"
                                 android:textSize="16sp"
-                                android:text="@string/categories_geography"/>
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                     </android.support.v7.widget.CardView>
@@ -134,8 +141,8 @@
                     <!-- R2C1 -->
                     <android.support.v7.widget.CardView
                         android:id="@+id/categories_health"
-                        android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
                         android:foreground="?android:attr/selectableItemBackground"
@@ -146,26 +153,26 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:layout_gravity="center_horizontal|center_vertical"
+                            android:orientation="vertical"
                             android:padding="10dp">
 
                             <ImageView
                                 android:layout_width="75dp"
                                 android:layout_height="75dp"
                                 android:layout_gravity="center"
-                                app:srcCompat="@drawable/ic_categories_health"/>
+                                app:srcCompat="@drawable/ic_categories_health" />
 
                             <TextView
-                                android:tag="@string/category_card_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
+                                android:tag="@string/category_card_text"
+                                android:text="@string/categories_health"
                                 android:textAlignment="center"
                                 android:textColor="@color/base10"
-                                android:textStyle="bold"
                                 android:textSize="16sp"
-                                android:text="@string/categories_health"/>
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                     </android.support.v7.widget.CardView>
@@ -173,8 +180,8 @@
                     <!-- R2C2 -->
                     <android.support.v7.widget.CardView
                         android:id="@+id/categories_history"
-                        android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
                         android:foreground="?android:attr/selectableItemBackground"
@@ -185,26 +192,26 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:layout_gravity="center_horizontal|center_vertical"
+                            android:orientation="vertical"
                             android:padding="10dp">
 
                             <ImageView
                                 android:layout_width="75dp"
                                 android:layout_height="75dp"
                                 android:layout_gravity="center"
-                                app:srcCompat="@drawable/ic_categories_history"/>
+                                app:srcCompat="@drawable/ic_categories_history" />
 
                             <TextView
-                                android:tag="@string/category_card_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
+                                android:tag="@string/category_card_text"
+                                android:text="@string/categories_history"
                                 android:textAlignment="center"
                                 android:textColor="@color/base10"
-                                android:textStyle="bold"
                                 android:textSize="16sp"
-                                android:text="@string/categories_history"/>
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                     </android.support.v7.widget.CardView>
@@ -212,8 +219,8 @@
                     <!-- R3C1 -->
                     <android.support.v7.widget.CardView
                         android:id="@+id/categories_human_activities"
-                        android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
                         android:foreground="?android:attr/selectableItemBackground"
@@ -224,26 +231,26 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:layout_gravity="center_horizontal|center_vertical"
+                            android:orientation="vertical"
                             android:padding="10dp">
 
                             <ImageView
                                 android:layout_width="75dp"
                                 android:layout_height="75dp"
                                 android:layout_gravity="center"
-                                app:srcCompat="@drawable/ic_categories_human_activities"/>
+                                app:srcCompat="@drawable/ic_categories_human_activities" />
 
                             <TextView
-                                android:tag="@string/category_card_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
+                                android:tag="@string/category_card_text"
+                                android:text="@string/categories_human_activities"
                                 android:textAlignment="center"
                                 android:textColor="@color/base10"
-                                android:textStyle="bold"
                                 android:textSize="16sp"
-                                android:text="@string/categories_human_activities"/>
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                     </android.support.v7.widget.CardView>
@@ -251,8 +258,8 @@
                     <!-- R3C2 -->
                     <android.support.v7.widget.CardView
                         android:id="@+id/categories_mathematics"
-                        android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
                         android:foreground="?android:attr/selectableItemBackground"
@@ -263,26 +270,26 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:layout_gravity="center_horizontal|center_vertical"
+                            android:orientation="vertical"
                             android:padding="10dp">
 
                             <ImageView
                                 android:layout_width="75dp"
                                 android:layout_height="75dp"
                                 android:layout_gravity="center"
-                                app:srcCompat="@drawable/ic_categories_mathematics"/>
+                                app:srcCompat="@drawable/ic_categories_mathematics" />
 
                             <TextView
-                                android:tag="@string/category_card_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
+                                android:tag="@string/category_card_text"
+                                android:text="@string/categories_mathematics"
                                 android:textAlignment="center"
                                 android:textColor="@color/base10"
-                                android:textStyle="bold"
                                 android:textSize="16sp"
-                                android:text="@string/categories_mathematics"/>
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                     </android.support.v7.widget.CardView>
@@ -290,8 +297,8 @@
                     <!-- R4C1 -->
                     <android.support.v7.widget.CardView
                         android:id="@+id/categories_nature"
-                        android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
                         android:foreground="?android:attr/selectableItemBackground"
@@ -302,26 +309,26 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:layout_gravity="center_horizontal|center_vertical"
+                            android:orientation="vertical"
                             android:padding="10dp">
 
                             <ImageView
                                 android:layout_width="75dp"
                                 android:layout_height="75dp"
                                 android:layout_gravity="center"
-                                app:srcCompat="@drawable/ic_categories_nature"/>
+                                app:srcCompat="@drawable/ic_categories_nature" />
 
                             <TextView
-                                android:tag="@string/category_card_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
+                                android:tag="@string/category_card_text"
+                                android:text="@string/categories_nature"
                                 android:textAlignment="center"
                                 android:textColor="@color/base10"
-                                android:textStyle="bold"
                                 android:textSize="16sp"
-                                android:text="@string/categories_nature"/>
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                     </android.support.v7.widget.CardView>
@@ -329,8 +336,8 @@
                     <!-- R4C2 -->
                     <android.support.v7.widget.CardView
                         android:id="@+id/categories_people"
-                        android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
                         android:foreground="?android:attr/selectableItemBackground"
@@ -341,26 +348,26 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:layout_gravity="center_horizontal|center_vertical"
+                            android:orientation="vertical"
                             android:padding="10dp">
 
                             <ImageView
                                 android:layout_width="75dp"
                                 android:layout_height="75dp"
                                 android:layout_gravity="center"
-                                app:srcCompat="@drawable/ic_categories_people"/>
+                                app:srcCompat="@drawable/ic_categories_people" />
 
                             <TextView
-                                android:tag="@string/category_card_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
+                                android:tag="@string/category_card_text"
+                                android:text="@string/categories_people"
                                 android:textAlignment="center"
                                 android:textColor="@color/base10"
-                                android:textStyle="bold"
                                 android:textSize="16sp"
-                                android:text="@string/categories_people"/>
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                     </android.support.v7.widget.CardView>
@@ -368,8 +375,8 @@
                     <!-- R5C1 -->
                     <android.support.v7.widget.CardView
                         android:id="@+id/categories_philosophy"
-                        android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
                         android:foreground="?android:attr/selectableItemBackground"
@@ -380,26 +387,26 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:layout_gravity="center_horizontal|center_vertical"
+                            android:orientation="vertical"
                             android:padding="10dp">
 
                             <ImageView
                                 android:layout_width="75dp"
                                 android:layout_height="75dp"
                                 android:layout_gravity="center"
-                                app:srcCompat="@drawable/ic_categories_philosophy"/>
+                                app:srcCompat="@drawable/ic_categories_philosophy" />
 
                             <TextView
-                                android:tag="@string/category_card_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
+                                android:tag="@string/category_card_text"
+                                android:text="@string/categories_philosophy"
                                 android:textAlignment="center"
                                 android:textColor="@color/base10"
-                                android:textStyle="bold"
                                 android:textSize="16sp"
-                                android:text="@string/categories_philosophy"/>
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                     </android.support.v7.widget.CardView>
@@ -407,8 +414,8 @@
                     <!-- R5C2 -->
                     <android.support.v7.widget.CardView
                         android:id="@+id/categories_religion"
-                        android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
                         android:foreground="?android:attr/selectableItemBackground"
@@ -419,26 +426,26 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:layout_gravity="center_horizontal|center_vertical"
+                            android:orientation="vertical"
                             android:padding="10dp">
 
                             <ImageView
                                 android:layout_width="75dp"
                                 android:layout_height="75dp"
                                 android:layout_gravity="center"
-                                app:srcCompat="@drawable/ic_categories_religion"/>
+                                app:srcCompat="@drawable/ic_categories_religion" />
 
                             <TextView
-                                android:tag="@string/category_card_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
+                                android:tag="@string/category_card_text"
+                                android:text="@string/categories_religion"
                                 android:textAlignment="center"
                                 android:textColor="@color/base10"
-                                android:textStyle="bold"
                                 android:textSize="16sp"
-                                android:text="@string/categories_religion"/>
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                     </android.support.v7.widget.CardView>
@@ -446,8 +453,8 @@
                     <!-- R6C1 -->
                     <android.support.v7.widget.CardView
                         android:id="@+id/categories_society"
-                        android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
                         android:foreground="?android:attr/selectableItemBackground"
@@ -458,26 +465,26 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:layout_gravity="center_horizontal|center_vertical"
+                            android:orientation="vertical"
                             android:padding="10dp">
 
                             <ImageView
                                 android:layout_width="75dp"
                                 android:layout_height="75dp"
                                 android:layout_gravity="center"
-                                app:srcCompat="@drawable/ic_categories_society"/>
+                                app:srcCompat="@drawable/ic_categories_society" />
 
                             <TextView
-                                android:tag="@string/category_card_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
+                                android:tag="@string/category_card_text"
+                                android:text="@string/categories_society"
                                 android:textAlignment="center"
                                 android:textColor="@color/base10"
-                                android:textStyle="bold"
                                 android:textSize="16sp"
-                                android:text="@string/categories_society"/>
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                     </android.support.v7.widget.CardView>
@@ -485,8 +492,8 @@
                     <!-- R6C2 -->
                     <android.support.v7.widget.CardView
                         android:id="@+id/categories_technology"
-                        android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
                         android:foreground="?android:attr/selectableItemBackground"
@@ -497,26 +504,26 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:layout_gravity="center_horizontal|center_vertical"
+                            android:orientation="vertical"
                             android:padding="10dp">
 
                             <ImageView
                                 android:layout_width="75dp"
                                 android:layout_height="75dp"
                                 android:layout_gravity="center"
-                                app:srcCompat="@drawable/ic_categories_technology"/>
+                                app:srcCompat="@drawable/ic_categories_technology" />
 
                             <TextView
-                                android:tag="@string/category_card_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
+                                android:tag="@string/category_card_text"
+                                android:text="@string/categories_technology"
                                 android:textAlignment="center"
                                 android:textColor="@color/base10"
-                                android:textStyle="bold"
                                 android:textSize="16sp"
-                                android:text="@string/categories_technology"/>
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                     </android.support.v7.widget.CardView>
