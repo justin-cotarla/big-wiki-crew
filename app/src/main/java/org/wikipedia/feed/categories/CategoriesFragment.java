@@ -30,6 +30,7 @@ import org.wikipedia.dataclient.mwapi.MwQueryPage;
 import org.wikipedia.feed.categories.recommended.RecommendedCategoriesArrayAdapter;
 import org.wikipedia.feed.categories.recommended.RecommendedCategoriesClient;
 import org.wikipedia.feed.categories.result.CategoriesResultActivity;
+import org.wikipedia.feed.categories.result.CategoriesSearchResults;
 import org.wikipedia.history.SearchActionModeCallback;
 import org.wikipedia.search.SearchResult;
 import org.wikipedia.search.SearchResults;
