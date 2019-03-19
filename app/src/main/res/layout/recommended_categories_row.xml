@@ -20,7 +20,8 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:paddingRight="10dp"
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
         app:srcCompat="@drawable/ic_arrow_forward_black_24dp" />

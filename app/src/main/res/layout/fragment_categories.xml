@@ -31,7 +31,7 @@
                 android:textSize="24sp"/>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/categories_recommended"
+                android:id="@+id/recommended_categories_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -41,7 +41,7 @@
                 <ListView
                     android:id="@+id/recommended_categories_list"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="match_parent"/>
 
             </android.support.v7.widget.CardView>
 

@@ -23,6 +23,10 @@ public class RecommendedCategoriesArrayAdapter extends ArrayAdapter<MwQueryPage.
         inflater = (LayoutInflater.from(context));
     }
 
+    public List<MwQueryPage.Category> getValues() {
+        return this.categories;
+    }
+
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         view = inflater.inflate(R.layout.recommended_categories_row, parent, false);

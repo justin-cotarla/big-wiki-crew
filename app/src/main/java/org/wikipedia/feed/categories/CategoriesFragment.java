@@ -46,6 +46,8 @@ public class CategoriesFragment extends Fragment {
     ListView recommendedCategoriesListView;
     @BindView(R.id.recommended_categories_title)
     TextView recommendedCategoriesTitle;
+    @BindView(R.id.recommended_categories_card)
+    CardView recommendedCategoriesCard;
 
 
     @NonNull
@@ -65,8 +67,7 @@ public class CategoriesFragment extends Fragment {
         wiki = requireActivity().getIntent().getParcelableExtra(WIKISITE);
 
         populateRecommendedCategories(getContext());
-
-        if (recommendedCategoriesTitle.getVisibility() != GONE && recommendedCategoriesListView.getVisibility() != GONE) {
+        if (recommendedCategoriesCard.isShown()) {
             recommendedCategoriesListView.setOnItemClickListener((parent, view1, position, id) -> {
                 MwQueryPage.Category item = (MwQueryPage.Category) parent.getItemAtPosition(position);
                 String name = item.title();
@@ -109,11 +110,13 @@ public class CategoriesFragment extends Fragment {
                 RecommendedCategoriesArrayAdapter categoriesAdapter = new RecommendedCategoriesArrayAdapter(context, pageTitles);
                 recommendedCategoriesListView.setAdapter(categoriesAdapter);
             }
-            else {
-                recommendedCategoriesListView.setVisibility(GONE);
-                recommendedCategoriesTitle.setVisibility(GONE);
-            }
         });
+
+        if (recommendedCategoriesListView.getAdapter() == null || ((RecommendedCategoriesArrayAdapter) recommendedCategoriesListView.getAdapter()).getValues().isEmpty()) {
+            recommendedCategoriesListView.setVisibility(GONE);
+            recommendedCategoriesTitle.setVisibility(GONE);
+            recommendedCategoriesCard.setVisibility(GONE);
+        }
     }
 
     private void searchOnCategory(String category) {
