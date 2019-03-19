@@ -42,15 +42,40 @@
                 android:weightSum="10">
 
 
-                <TextView
-                    android:id="@+id/top_categories"
+            <TextView
+                android:id="@+id/recommended_categories_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:text="@string/recommended_categories"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:textSize="24sp"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/recommended_categories_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:cardElevation="8dp"
+                app:cardUseCompatPadding="true">
+
+                <ListView
+                    android:id="@+id/recommended_categories_list"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
-                    android:text="@string/top_categories"
-                    android:textAlignment="center"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
+                    android:layout_height="match_parent"/>
+
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:id="@+id/top_categories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:text="@string/top_categories"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:textSize="24sp"/>
 
                 <GridLayout
                     android:id="@+id/categories_grid_layout"
@@ -60,17 +85,16 @@
                     android:columnCount="2"
                     android:rowCount="6">
 
-                    <!-- R1C1 -->
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/categories_culture"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="8dp"
-                        app:cardUseCompatPadding="true">
+                <!-- R1C1 -->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/categories_culture"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardElevation="8dp"
+                    app:cardUseCompatPadding="true">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -99,17 +123,16 @@
 
                     </android.support.v7.widget.CardView>
 
-                    <!-- R1C2 -->
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/categories_geography"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="8dp"
-                        app:cardUseCompatPadding="true">
+                <!-- R1C2 -->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/categories_geography"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardElevation="8dp"
+                    app:cardUseCompatPadding="true">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -138,17 +161,16 @@
 
                     </android.support.v7.widget.CardView>
 
-                    <!-- R2C1 -->
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/categories_health"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="8dp"
-                        app:cardUseCompatPadding="true">
+                <!-- R2C1 -->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/categories_health"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardElevation="8dp"
+                    app:cardUseCompatPadding="true">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -177,17 +199,16 @@
 
                     </android.support.v7.widget.CardView>
 
-                    <!-- R2C2 -->
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/categories_history"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="8dp"
-                        app:cardUseCompatPadding="true">
+                <!-- R2C2 -->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/categories_history"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardElevation="8dp"
+                    app:cardUseCompatPadding="true">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -216,17 +237,16 @@
 
                     </android.support.v7.widget.CardView>
 
-                    <!-- R3C1 -->
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/categories_human_activities"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="8dp"
-                        app:cardUseCompatPadding="true">
+                <!-- R3C1 -->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/categories_human_activities"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardElevation="8dp"
+                    app:cardUseCompatPadding="true">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -255,17 +275,16 @@
 
                     </android.support.v7.widget.CardView>
 
-                    <!-- R3C2 -->
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/categories_mathematics"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="8dp"
-                        app:cardUseCompatPadding="true">
+                <!-- R3C2 -->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/categories_mathematics"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardElevation="8dp"
+                    app:cardUseCompatPadding="true">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -294,17 +313,16 @@
 
                     </android.support.v7.widget.CardView>
 
-                    <!-- R4C1 -->
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/categories_nature"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="8dp"
-                        app:cardUseCompatPadding="true">
+                <!-- R4C1 -->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/categories_nature"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardElevation="8dp"
+                    app:cardUseCompatPadding="true">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -333,17 +351,16 @@
 
                     </android.support.v7.widget.CardView>
 
-                    <!-- R4C2 -->
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/categories_people"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="8dp"
-                        app:cardUseCompatPadding="true">
+                <!-- R4C2 -->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/categories_people"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardElevation="8dp"
+                    app:cardUseCompatPadding="true">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -372,17 +389,16 @@
 
                     </android.support.v7.widget.CardView>
 
-                    <!-- R5C1 -->
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/categories_philosophy"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="8dp"
-                        app:cardUseCompatPadding="true">
+                <!-- R5C1 -->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/categories_philosophy"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardElevation="8dp"
+                    app:cardUseCompatPadding="true">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -411,17 +427,16 @@
 
                     </android.support.v7.widget.CardView>
 
-                    <!-- R5C2 -->
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/categories_religion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="8dp"
-                        app:cardUseCompatPadding="true">
+                <!-- R5C2 -->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/categories_religion"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardElevation="8dp"
+                    app:cardUseCompatPadding="true">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -450,17 +465,16 @@
 
                     </android.support.v7.widget.CardView>
 
-                    <!-- R6C1 -->
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/categories_society"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="8dp"
-                        app:cardUseCompatPadding="true">
+                <!-- R6C1 -->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/categories_society"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardElevation="8dp"
+                    app:cardUseCompatPadding="true">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -489,17 +503,16 @@
 
                     </android.support.v7.widget.CardView>
 
-                    <!-- R6C2 -->
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/categories_technology"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="8dp"
-                        app:cardUseCompatPadding="true">
+                <!-- R6C2 -->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/categories_technology"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardElevation="8dp"
+                    app:cardUseCompatPadding="true">
 
                         <LinearLayout
                             android:layout_width="match_parent"

@@ -1,5 +1,6 @@
 package org.wikipedia.feed.categories;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -26,6 +28,10 @@ import org.wikipedia.R;
 import org.wikipedia.dataclient.ServiceFactory;
 import org.wikipedia.dataclient.WikiSite;
 import org.wikipedia.dataclient.mwapi.MwQueryPage;
+import org.wikipedia.feed.categories.recommended.RecommendedCategoriesArrayAdapter;
+import org.wikipedia.feed.categories.recommended.RecommendedCategoriesClient;
+import org.wikipedia.feed.categories.result.CategoriesResultActivity;
+import org.wikipedia.feed.categories.result.CategoriesSearchResults;
 import org.wikipedia.history.SearchActionModeCallback;
 import org.wikipedia.search.SearchResult;
 import org.wikipedia.search.SearchResults;
@@ -41,6 +47,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
+import static android.view.View.GONE;
 import static org.wikipedia.feed.categories.CategoriesActivity.WIKISITE;
 
 public class CategoriesFragment extends Fragment {
@@ -50,6 +57,14 @@ public class CategoriesFragment extends Fragment {
     private WikiSite wiki;
     private CompositeDisposable disposables = new CompositeDisposable();
     private CategoriesFragment.SearchCallback searchActionModeCallback = new SearchCallback();
+
+
+    @BindView(R.id.recommended_categories_list)
+    ListView recommendedCategoriesListView;
+    @BindView(R.id.recommended_categories_title)
+    TextView recommendedCategoriesTitle;
+    @BindView(R.id.recommended_categories_card)
+    CardView recommendedCategoriesCard;
 
     @BindView(R.id.categories_toolbar) Toolbar categoriesToolbar;
     @BindView(R.id.categories_scroll_view) ScrollView container;
@@ -80,6 +95,8 @@ public class CategoriesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_categories, container, false);
         unbinder = ButterKnife.bind(this, view);
         wiki = requireActivity().getIntent().getParcelableExtra(WIKISITE);
+
+        populateRecommendedCategories(getContext());
 
         SearchResultAdapter adapter = new SearchResultAdapter(inflater);
         searchResultsList.setAdapter(adapter);
@@ -145,6 +162,33 @@ public class CategoriesFragment extends Fragment {
 
     private Boolean isAPortalCategory(String title) {
         return title.contains("Portal");
+    }
+
+    private void populateRecommendedCategories(Context context) {
+        RecommendedCategoriesClient recommendedCategoriesClient = new RecommendedCategoriesClient();
+        recommendedCategoriesClient.request(wiki, pageTitles -> {
+            if (pageTitles.size() > 0) {
+                RecommendedCategoriesArrayAdapter categoriesAdapter = new RecommendedCategoriesArrayAdapter(context, pageTitles);
+                recommendedCategoriesListView.setAdapter(categoriesAdapter);
+                recommendedCategoriesListView.setVisibility(View.VISIBLE);
+                recommendedCategoriesTitle.setVisibility(View.VISIBLE);
+                recommendedCategoriesCard.setVisibility(View.VISIBLE);
+
+                recommendedCategoriesListView.setOnItemClickListener((parent, view1, position, id) -> {
+                    MwQueryPage.Category item = (MwQueryPage.Category) parent.getItemAtPosition(position);
+                    String name = item.title();
+                    searchOnCategory(name.substring(name.indexOf(':') + 1));
+                });
+
+                setListViewHeightBasedOnChildren(recommendedCategoriesListView);
+            }
+        });
+
+        if (recommendedCategoriesListView.getAdapter() == null || ((RecommendedCategoriesArrayAdapter) recommendedCategoriesListView.getAdapter()).getValues().isEmpty()) {
+            recommendedCategoriesListView.setVisibility(GONE);
+            recommendedCategoriesTitle.setVisibility(GONE);
+            recommendedCategoriesCard.setVisibility(GONE);
+        }
     }
 
     private void searchOnCategory(String category) {
@@ -264,5 +308,25 @@ public class CategoriesFragment extends Fragment {
 
             return convertView;
         }
+    }
+
+    // Method required for ListView in ScrollView
+    private void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
     }
 }
