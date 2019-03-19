@@ -262,29 +262,6 @@ public class CategoriesFragment extends Fragment {
             TextView categorySearchResultTitle = convertView.findViewById(R.id.item_categories_result_title);
             categorySearchResultTitle.setText(categoryTitle);
 
-//            if (TextUtils.isEmpty(result.getRedirectFrom())) {
-//                redirectText.setVisibility(View.GONE);
-//                redirectArrow.setVisibility(View.GONE);
-//                descriptionText.setText(StringUtils.capitalize(result.getPageTitle().getDescription()));
-//            } else {
-//                redirectText.setVisibility(View.VISIBLE);
-//                redirectArrow.setVisibility(View.VISIBLE);
-//                redirectText.setText(String.format(getString(R.string.search_redirect_from), result.getRedirectFrom()));
-//                descriptionText.setVisibility(View.GONE);
-//            }
-//
-//            // ...and lastly, if we've scrolled to the last item in the list, then
-//            // continue searching!
-//            if (position == (totalResults.size() - 1) && WikipediaApp.getInstance().isOnline()) {
-//                if (lastFullTextResults == null) {
-//                    // the first full text search
-//                    doFullTextSearch(currentSearchTerm, null, false);
-//                } else if (lastFullTextResults.getContinuation() != null) {
-//                    // subsequent full text searches
-//                    doFullTextSearch(currentSearchTerm, lastFullTextResults.getContinuation(), false);
-//                }
-//            }
-
             return convertView;
         }
     }
