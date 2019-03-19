@@ -96,13 +96,6 @@ public class CategoriesFragment extends Fragment {
         wiki = requireActivity().getIntent().getParcelableExtra(WIKISITE);
 
         populateRecommendedCategories(getContext());
-        if (recommendedCategoriesCard.isShown()) {
-            recommendedCategoriesListView.setOnItemClickListener((parent, view1, position, id) -> {
-                MwQueryPage.Category item = (MwQueryPage.Category) parent.getItemAtPosition(position);
-                String name = item.title();
-                searchOnCategory(name.substring(name.indexOf(':') + 1));
-            });
-        }
 
         SearchResultAdapter adapter = new SearchResultAdapter(inflater);
         searchResultsList.setAdapter(adapter);
@@ -176,6 +169,15 @@ public class CategoriesFragment extends Fragment {
             if (pageTitles.size() > 0) {
                 RecommendedCategoriesArrayAdapter categoriesAdapter = new RecommendedCategoriesArrayAdapter(context, pageTitles);
                 recommendedCategoriesListView.setAdapter(categoriesAdapter);
+                recommendedCategoriesListView.setVisibility(View.VISIBLE);
+                recommendedCategoriesTitle.setVisibility(View.VISIBLE);
+                recommendedCategoriesCard.setVisibility(View.VISIBLE);
+
+                recommendedCategoriesListView.setOnItemClickListener((parent, view1, position, id) -> {
+                    MwQueryPage.Category item = (MwQueryPage.Category) parent.getItemAtPosition(position);
+                    String name = item.title();
+                    searchOnCategory(name.substring(name.indexOf(':') + 1));
+                });
             }
         });
 
