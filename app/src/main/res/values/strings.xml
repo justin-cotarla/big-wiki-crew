@@ -52,6 +52,7 @@
     <string name="menu_text_select_share">Share</string>
     <string name="menu_text_select_define">Define</string>
     <string name="menu_text_select_hear">Hear</string>
+    <string name="menu_text_select_translate">Translate</string>
     <string name="menu_text_select_edit_here">Edit here</string>
 
     <!-- Nearby -->
@@ -214,6 +215,7 @@
     <string name="find_previous">Find previous</string>
     <string name="find_first_occurence">This is the first occurrence</string>
     <string name="find_last_occurence">This is the last occurrence</string>
+    <string name="translate_dialog_no_translation">Cannot Find Translation</string>
     <!-- need this and next? -->
     <string name="abusefilter_title_warn">This may be an unconstructive edit. Are you sure you want to publish it?</string>
     <string name="abusefilter_title_disallow">You cannot publish this edit. Please go back and change it.</string>
@@ -528,6 +530,9 @@
     <!-- The Feed -->
     <string name="view_continue_reading_card_title">Continue reading</string>
     <string name="view_because_you_read_card_title">Because you read</string>
+    <string name="view_categories_card_title">Categories</string>
+    <string name="view_categories_card_subtitle">Browse articles by category</string>
+    <string name="view_categories_card_action">View categories</string>
     <string name="view_random_card_title">Randomizer</string>
     <string name="view_random_card_subtitle">Flip through random articles to read from Wikipedia.</string>
     <string name="view_random_card_action">Roll the dice</string>
@@ -572,6 +577,7 @@
     <string name="feed_item_type_featured_image">Daily featured image from Wikimedia Commons</string>
     <string name="feed_item_type_main_page">Main page of Wikipedia with daily featured content</string>
     <string name="feed_item_type_randomizer">Generate random articles to read</string>
+    <string name="feed_item_type_categories">Explore articles by category</string>
     <string name="feed_empty_message">There\'s nothing on your Explore feed</string>
     <string name="feed_configure_onboarding_action">Customize</string>
     <string name="feed_configure_onboarding_text"><![CDATA[<strong>Customize your Explore feed</strong><br /><br />You can now choose what to show on your feed, and also prioritize your favorite types of content.]]></string>
@@ -745,7 +751,7 @@
     <string name="image_search_dialog_gallery">Choose from gallery</string>
     <!-- /Image Search Dialog -->
 
-    <!-- No History !-->
+    <!-- No History -->
     <string name="preference_title_turn_off_history">Turn off history</string>
     <string name="preference_summary_turn_off_history">Browse articles without saving any reading history.</string>
     <string name="history_turned_off_title">History is turned off</string>
@@ -765,4 +771,20 @@
     <string name="tts_speech_rate_double">2x</string>
     <string name="tts_speech_rate_triple">3x</string>
     <!-- /Text-to-speech -->
+    
+    <!-- Categories -->
+    <string name="top_categories">Top Categories</string>
+    <string name="categories_geography">Geography</string>
+    <string name="categories_health">Health</string>
+    <string name="categories_philosophy">Philosophy</string>
+    <string name="categories_mathematics">Mathematics</string>
+    <string name="categories_nature">Nature</string>
+    <string name="categories_technology">Technology</string>
+    <string name="categories_religion">Religion</string>
+    <string name="categories_people">People</string>
+    <string name="categories_history">History</string>
+    <string name="categories_society">Society</string>
+    <string name="categories_human_activities">Human activities</string>
+    <string name="categories_culture">Culture</string>
+    <string name="category_card_text">card_text</string>
 </resources>

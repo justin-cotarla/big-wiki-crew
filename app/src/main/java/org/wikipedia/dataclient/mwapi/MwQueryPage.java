@@ -40,7 +40,7 @@ public class MwQueryPage extends BaseModel {
         return title;
     }
 
-    public int index() {
+    @Nullable public int index() {
         return index;
     }
 
