@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # regex to validate in commit msg
 commit_regex='(#[0-9]+|merge)'
 error_msg="Aborting commit. Your commit message is missing either a issue number ('#9') or 'Merge'"
