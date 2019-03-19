@@ -172,8 +172,7 @@ public class CategoriesFragment extends Fragment {
                 recommendedCategoriesCard.setVisibility(View.VISIBLE);
 
                 recommendedCategoriesListView.setOnItemClickListener((parent, view1, position, id) -> {
-                    MwQueryPage.Category item = (MwQueryPage.Category) parent.getItemAtPosition(position);
-                    String name = item.title();
+                    String name = ((MwQueryPage.Category) parent.getItemAtPosition(position)).title();
                     searchOnCategory(name.substring(name.indexOf(':') + 1));
                 });
 
