@@ -42,7 +42,7 @@ public class RecommendedCategoriesClient {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(response -> {
-                    if (response != null && response.success() && response.query().pages() != null) {
+                    if (response != null && response.success() && response.query().pages() != null && !response.query().pages().isEmpty()) {
                          return response.query().pages().get(0).categories();
                     }
                     return Collections.emptyList();
