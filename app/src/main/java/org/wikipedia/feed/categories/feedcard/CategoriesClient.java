@@ -1,4 +1,4 @@
-package org.wikipedia.feed.categories;
+package org.wikipedia.feed.categories.card;
 
 import org.wikipedia.dataclient.WikiSite;
 import org.wikipedia.feed.dataclient.DummyClient;

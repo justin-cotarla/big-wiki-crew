@@ -273,7 +273,7 @@
             android:theme="@style/AppTheme.ActionBar"/>
 
         <activity
-            android:name=".feed.categories.CategoriesResultActivity"
+            android:name=".feed.categories.result.CategoriesResultActivity"
             android:label="Categories Result"
             android:theme="@style/AppTheme.ActionBar"/>
 
