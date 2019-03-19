@@ -19,7 +19,7 @@ import io.reactivex.schedulers.Schedulers;
 public class RecommendedCategoriesClient {
 
     public interface Delegate {
-        void run(List<MwQueryPage.Category> pageTitles);
+        void run(List<MwQueryPage.Category> categories);
     }
 
     private final int HISTORY_ENTRY_INDEX = 0;
@@ -32,10 +32,10 @@ public class RecommendedCategoriesClient {
         disposables.add(Observable.fromCallable(new MainPageReadMoreTopicTask(HISTORY_ENTRY_INDEX))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(entry -> getCardForHistoryEntry(entry, wiki, callback)));
+                .subscribe(entry -> getCategoriesForHistoryEntry(entry, wiki, callback)));
     }
 
-    private void getCardForHistoryEntry(@NonNull final HistoryEntry entry, WikiSite wiki,
+    private void getCategoriesForHistoryEntry(@NonNull final HistoryEntry entry, WikiSite wiki,
                                         final Delegate callback) {
 
         disposables.add(ServiceFactory.get(wiki).getCategoriesInPage(entry.getTitle().toString(), CATEGORY_LIMIT)
