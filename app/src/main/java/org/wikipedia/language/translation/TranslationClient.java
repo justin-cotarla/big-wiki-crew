@@ -41,6 +41,11 @@ public class TranslationClient {
         service = retrofit.create(TranslationService.class);
     }
 
+    public TranslationClient(String apiKey, TranslationService service) {
+        this.apiKey = apiKey;
+        this.service = service;
+    }
+
     public Observable<TranslationResponse> translate(String text, String target, String source) {
         return service.translate(text, source, target, apiKey);
     }
