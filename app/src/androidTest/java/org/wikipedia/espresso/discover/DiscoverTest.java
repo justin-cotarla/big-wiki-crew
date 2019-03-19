@@ -1,7 +1,7 @@
 package org.wikipedia.espresso.discover;
 
 import android.support.test.espresso.ViewInteraction;
-import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
@@ -23,7 +23,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.StringEndsWith.endsWith;
@@ -57,15 +56,9 @@ public class DiscoverTest {
 
     private void testDiscoverCardInFeed() {
         waitFor(2000);
-
-        whileWithMaxSteps(
-                () -> !discoverCardIsDisplayed(),
-                () -> {
-                    onView(withId(R.id.fragment_feed_feed)).perform(ViewActions.swipeUp());
-                    waitFor(1000);
-                },
-                10
-        );
+        onView(withId(R.id.fragment_feed_feed)).perform(RecyclerViewActions.scrollTo(
+                withClassName(endsWith("RandomCardView"))
+        ));
         waitFor(2000);
         onView(withClassName(endsWith("RandomCardView"))).perform(click());
     }
@@ -123,8 +116,8 @@ public class DiscoverTest {
         imageView2.check(matches(isDisplayed()));
 
     }
-    
-    private void testDiscoverButtons () {
+
+    private void testDiscoverButtons() {
 
         ViewInteraction floatingActionButton = onView(
                 allOf(withId(R.id.random_next_button), withContentDescription("Load another article"),
