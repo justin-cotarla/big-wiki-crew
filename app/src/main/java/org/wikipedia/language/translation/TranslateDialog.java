@@ -34,12 +34,13 @@ public class TranslateDialog extends ExtendedBottomSheetDialogFragment implement
     private static final String SELECTED_TEXT = "selected_text";
 
     private ProgressBar progressBar;
-    private PageTitle pageTitle;
     private CompositeDisposable disposables = new CompositeDisposable();
     private View rootView;
     private TranslationClient translationClient;
 
     private boolean initialized = false;
+
+    private PageTitle pageTitle;
     private String selectedText;
 
     @BindView(R.id.lang_scroll) LanguageScrollView languageScrollView;
@@ -63,6 +64,16 @@ public class TranslateDialog extends ExtendedBottomSheetDialogFragment implement
         translationClient = new TranslationClient(getContext());
         pageTitle = getArguments().getParcelable(TITLE);
         selectedText = getArguments().getString(SELECTED_TEXT);
+   }
+
+   public void onCreate(Bundle savedInstanceState, TranslationClient translationClient, ProgressBar progressBar, TextView translationText, CompositeDisposable disposables, String selectedText) {
+        super.onCreate(savedInstanceState);
+        this.translationClient = translationClient;
+        this.pageTitle = getArguments().getParcelable(TITLE);
+        this.selectedText = selectedText;
+        this.progressBar = progressBar;
+        this.translationText = translationText;
+        this.disposables = disposables;
    }
 
     @Override
@@ -94,7 +105,7 @@ public class TranslateDialog extends ExtendedBottomSheetDialogFragment implement
         return rootView;
     }
 
-    private void translateText(String text, String language) {
+    public void translateText(String text, String language) {
         progressBar.setVisibility(View.VISIBLE);
         translationText.setText("");
         disposables.add(translationClient.translate(text, language)
@@ -105,7 +116,6 @@ public class TranslateDialog extends ExtendedBottomSheetDialogFragment implement
                     String translated = translationResponse.getData().getTranslations().get(0).getTranslatedText();
                     translationText.setText(translated);
                 }));
-
     }
 
     @Override
