@@ -59,12 +59,9 @@ public class CategoriesFragment extends Fragment {
     private CategoriesFragment.SearchCallback searchActionModeCallback = new SearchCallback();
 
 
-    @BindView(R.id.recommended_categories_list)
-    ListView recommendedCategoriesListView;
-    @BindView(R.id.recommended_categories_title)
-    TextView recommendedCategoriesTitle;
-    @BindView(R.id.recommended_categories_card)
-    CardView recommendedCategoriesCard;
+    @BindView(R.id.recommended_categories_list) ListView recommendedCategoriesListView;
+    @BindView(R.id.recommended_categories_title) TextView recommendedCategoriesTitle;
+    @BindView(R.id.recommended_categories_card) CardView recommendedCategoriesCard;
 
     @BindView(R.id.categories_toolbar) Toolbar categoriesToolbar;
     @BindView(R.id.categories_scroll_view) ScrollView container;
