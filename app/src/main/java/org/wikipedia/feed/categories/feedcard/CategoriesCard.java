@@ -1,4 +1,4 @@
-package org.wikipedia.feed.categories;
+package org.wikipedia.feed.categories.feedcard;
 
 import android.support.annotation.NonNull;
 
