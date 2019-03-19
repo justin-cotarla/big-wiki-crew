@@ -1,5 +1,6 @@
 package org.wikipedia.random;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.graphics.drawable.Animatable;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.GestureDetector;
@@ -16,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -84,7 +85,14 @@ public class RandomFragment extends Fragment {
         randomPager.setAdapter(new RandomItemAdapter((AppCompatActivity) requireActivity()));
         randomPager.setPageTransformer(true, new AnimationUtil.PagerTransformer());
         randomPager.addOnPageChangeListener(viewPagerListener);
-        randomPager.setOnTouchListener(new ViewPagerTouchListener());
+        GestureDetectorCompat gdt = new GestureDetectorCompat(requireActivity(), new SwipeGestureListener(requireActivity()));
+        randomPager.setOnTouchListener(new ViewPager.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return gdt.onTouchEvent(event);
+            }
+
+        });
 
         updateSaveShareButton();
         updateBackButton(0);
@@ -266,67 +274,6 @@ public class RandomFragment extends Fragment {
         }
     }
 
-    // Override the viewpager default ontouchlister
-    private class ViewPagerTouchListener implements ViewPager.OnTouchListener {
-
-
-        @Override
-        public boolean onTouch(View view, MotionEvent event) {
-            gd.onTouchEvent(event);
-            return true;
-        }
-
-        GestureDetector gd = new GestureDetector(requireActivity(), new GestureDetector.SimpleOnGestureListener() {
-
-            // Min x and y axis swipe distance
-            final int xMinDistance = 100;
-            final int yMinDistance = 500;
-
-            // Max x and y axis swipe distance
-            final int xMaxDistance = 1000;
-            final int yMaxDistance = 1000;
-
-            @Override
-            public boolean onDoubleTap(MotionEvent e) {
-                saveButton.performClick();
-                return true;
-            }
-
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-
-                // Get swipe delta value in x axis
-                float deltaX = e1.getX() - e2.getX();
-
-                // Get swipe delta value in y axis
-                float deltaY = e1.getY() - e2.getY();
-
-                // Get absolute value
-                float deltaXAbs = Math.abs(deltaX);
-                float deltaYAbs = Math.abs(deltaY);
-
-                // Valid swipes if delta is between min and max distance
-                if ((deltaXAbs >= xMinDistance) && (deltaXAbs <= xMaxDistance)) {
-                    if (deltaX > 0) {
-                        moveNext();
-                    } else {
-                        movePrevious();
-                    }
-                }
-
-                if ((deltaYAbs >= yMinDistance) && (deltaYAbs <= yMaxDistance)) {
-                    if (deltaY > 0) {
-                        PageTitle title = getTopTitle();
-                        onSelectPage(title);
-                    } else {
-                        // handle swipe down
-                    }
-                }
-                return true;
-            }
-        });
-    }
-
     private class ViewPagerListener implements ViewPager.OnPageChangeListener {
         private int prevPosition;
         private boolean nextPageSelectedAutomatic;
@@ -360,6 +307,105 @@ public class RandomFragment extends Fragment {
 
         @Override
         public void onPageScrollStateChanged(int state) {
+        }
+    }
+
+    public class SwipeGestureListener implements GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener {
+
+        // Min x and y axis swipe distance
+        static final int X_MIN_DISTANCE = 100;
+        static final int Y_MIN_DISTANCE = 300;
+
+        // Max x and y axis swipe distance
+        static final int X_MAX_DISTANCE = 1000;
+        static final int Y_MAX_DISTANCE = 1000;
+
+        private Activity activity;
+        private MotionEvent mLastOnDownEvent = null;
+
+        public SwipeGestureListener(Activity activity) {
+            this.activity = activity;
+        }
+
+        @Override
+        public boolean onDown(MotionEvent e) {
+            mLastOnDownEvent = e;
+            return true;
+        }
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            if (e1 == null) {
+                e1 = mLastOnDownEvent;
+            }
+            if (e1 == null || e2 == null) {
+                return false;
+            }
+
+            // Get swipe delta value in x axis
+            float deltaX = e1.getX() - e2.getX();
+
+            // Get swipe delta value in y axis
+            float deltaY = e1.getY() - e2.getY();
+
+            // Get absolute value
+            float deltaXAbs = Math.abs(deltaX);
+            float deltaYAbs = Math.abs(deltaY);
+
+            // Valid swipes if delta is between min and max distance
+            if ((deltaXAbs >= X_MIN_DISTANCE) && (deltaXAbs <= X_MAX_DISTANCE)) {
+                if (deltaX > 0) {
+                    moveNext();
+                } else {
+                    movePrevious();
+                }
+            }
+
+            if ((deltaYAbs >= Y_MIN_DISTANCE) && (deltaYAbs <= Y_MAX_DISTANCE)) {
+                if (deltaY > 0) {
+                    PageTitle title = getTopTitle();
+                    onSelectPage(title);
+                } else {
+                    // handle swipe down
+                }
+            }
+            return true;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            return false;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+
+        }
+
+        @Override
+        public void onShowPress(MotionEvent e) {
+
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            return false;
+        }
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            return false;
+        }
+
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            saveButton.performClick();
+            return true;
+        }
+
+        @Override
+        public boolean onDoubleTapEvent(MotionEvent e) {
+            return false;
         }
     }
 }
