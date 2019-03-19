@@ -8,13 +8,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.GridLayout;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +45,7 @@ import static org.wikipedia.feed.categories.CategoriesActivity.WIKISITE;
 
 public class CategoriesFragment extends Fragment {
     private static final int BATCH_SIZE = 20;
+
     private Unbinder unbinder;
     private WikiSite wiki;
     private CompositeDisposable disposables = new CompositeDisposable();
@@ -49,6 +53,11 @@ public class CategoriesFragment extends Fragment {
 
     @BindView(R.id.categories_toolbar) Toolbar categoriesToolbar;
     @BindView(R.id.categories_scroll_view) ScrollView container;
+    @BindView(R.id.categories_search_results_list) ListView searchResultsList;
+
+    private List<String> searchResults = new ArrayList<>();
+
+    private boolean searching = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +80,24 @@ public class CategoriesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_categories, container, false);
         unbinder = ButterKnife.bind(this, view);
         wiki = requireActivity().getIntent().getParcelableExtra(WIKISITE);
+
+        SearchResultAdapter adapter = new SearchResultAdapter(inflater);
+        searchResultsList.setAdapter(adapter);
+        searchResultsList.setOnItemClickListener((parent, view1, position, id) -> {
+            searchOnCategory(searchResults.get(position));
+        });
+
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener((v, keyCode, event) -> {
+            if (keyCode == KeyEvent.KEYCODE_BACK && searching) {
+                searching = false;
+                this.container.setVisibility(View.VISIBLE);
+                searchResultsList.setVisibility(View.GONE);
+                return true;
+            }
+            return false;
+        });
 
         GridLayout topCategories = view.findViewById(R.id.categories_grid_layout);
         setupCategoriesGrid(topCategories);
@@ -140,6 +167,10 @@ public class CategoriesFragment extends Fragment {
                 }));
     }
 
+    private BaseAdapter getAdapter() {
+        return (BaseAdapter) searchResultsList.getAdapter();
+    }
+
     private class SearchCallback extends SearchActionModeCallback {
         @Nullable private ActionMode actionMode;
 
@@ -154,6 +185,12 @@ public class CategoriesFragment extends Fragment {
 
         @Override
         protected void onQueryChange(String s) {
+            if (s.length() == 0) {
+                searching = false;
+                container.setVisibility(View.VISIBLE);
+                searchResultsList.setVisibility(View.GONE);
+                return;
+            }
             disposables.add(ServiceFactory.get(wiki).searchForCategory(s, BATCH_SIZE, 1)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -164,7 +201,11 @@ public class CategoriesFragment extends Fragment {
                         return new CategoriesSearchResults();
                     })
                     .subscribe(results -> {
-                        Toast.makeText(requireActivity(), results.getResults().get(0), Toast.LENGTH_SHORT).show();
+                        searching = true;
+                        container.setVisibility(View.GONE);
+                        searchResultsList.setVisibility(View.VISIBLE);
+                        searchResults = results.getResults();
+                        getAdapter().notifyDataSetChanged();
                     }, caught -> {
                         Toast.makeText(requireActivity(), caught.getMessage(), Toast.LENGTH_LONG).show();
                     })
@@ -185,6 +226,66 @@ public class CategoriesFragment extends Fragment {
         @Override
         protected boolean finishActionModeIfKeyboardHiding() {
             return true;
+        }
+    }
+
+
+    private final class SearchResultAdapter extends BaseAdapter {
+        private final LayoutInflater inflater;
+
+        SearchResultAdapter(LayoutInflater inflater) {
+            this.inflater = inflater;
+        }
+
+        @Override
+        public int getCount() {
+            return searchResults.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return searchResults.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.item_category_search_result, parent, false);
+            }
+            String categoryTitle = (String) getItem(position);
+
+            TextView categorySearchResultTitle = convertView.findViewById(R.id.item_categories_result_title);
+            categorySearchResultTitle.setText(categoryTitle);
+
+//            if (TextUtils.isEmpty(result.getRedirectFrom())) {
+//                redirectText.setVisibility(View.GONE);
+//                redirectArrow.setVisibility(View.GONE);
+//                descriptionText.setText(StringUtils.capitalize(result.getPageTitle().getDescription()));
+//            } else {
+//                redirectText.setVisibility(View.VISIBLE);
+//                redirectArrow.setVisibility(View.VISIBLE);
+//                redirectText.setText(String.format(getString(R.string.search_redirect_from), result.getRedirectFrom()));
+//                descriptionText.setVisibility(View.GONE);
+//            }
+//
+//            // ...and lastly, if we've scrolled to the last item in the list, then
+//            // continue searching!
+//            if (position == (totalResults.size() - 1) && WikipediaApp.getInstance().isOnline()) {
+//                if (lastFullTextResults == null) {
+//                    // the first full text search
+//                    doFullTextSearch(currentSearchTerm, null, false);
+//                } else if (lastFullTextResults.getContinuation() != null) {
+//                    // subsequent full text searches
+//                    doFullTextSearch(currentSearchTerm, lastFullTextResults.getContinuation(), false);
+//                }
+//            }
+
+            return convertView;
         }
     }
 }
