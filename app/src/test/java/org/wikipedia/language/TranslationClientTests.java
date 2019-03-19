@@ -29,4 +29,10 @@ public class TranslationClientTests {
         translationClient.translate(text, target);
         verify(translationService).translate(text, "EN", target, apiKey);
     }
+
+    @Test
+    public void testTranslateNotEnglish() {
+        translationClient.translate(text, target, "FR");
+        verify(translationService).translate(text, "FR", target, apiKey);
+    }
 }
