@@ -152,7 +152,7 @@ public interface Service {
     @NonNull Observable<MwQueryResponse> getPagesInCategory(@Query("gcmtitle") String category, @Query("gcmlimit") int limit);
 
     @GET(MW_API_PREFIX + "action=query&formatversion=2"
-            + "list=allcategories&acdir=ascending&acprop=size")
+            + "&list=allcategories&acdir=ascending&acprop=size")
     @NonNull Observable<MwQueryResponse> searchForCategory(@Query("acprefix") String searchTerm,
                                                            @Query("aclimit") int limit,
                                                            @Query("acmin") int minMembers);
