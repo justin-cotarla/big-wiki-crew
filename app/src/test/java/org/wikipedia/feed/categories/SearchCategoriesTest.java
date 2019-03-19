@@ -3,6 +3,7 @@ package org.wikipedia.feed.categories;
 import com.google.gson.stream.MalformedJsonException;
 
 import org.junit.Test;
+import org.wikipedia.feed.categories.result.CategoriesSearchResults;
 import org.wikipedia.test.MockRetrofitTest;
 
 import io.reactivex.Observable;

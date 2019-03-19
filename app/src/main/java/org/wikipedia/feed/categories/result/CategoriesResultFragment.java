@@ -1,4 +1,4 @@
-package org.wikipedia.feed.categories;
+package org.wikipedia.feed.categories.result;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,8 +24,8 @@ import butterknife.ButterKnife;
 import butterknife.OnItemClick;
 import butterknife.Unbinder;
 
-import static org.wikipedia.feed.categories.CategoriesResultActivity.CATEGORY_RESULT;
-import static org.wikipedia.feed.categories.CategoriesResultActivity.CATEGORY_TOPIC;
+import static org.wikipedia.feed.categories.result.CategoriesResultActivity.CATEGORY_RESULT;
+import static org.wikipedia.feed.categories.result.CategoriesResultActivity.CATEGORY_TOPIC;
 
 public class CategoriesResultFragment extends Fragment {
     private Unbinder unbinder;
