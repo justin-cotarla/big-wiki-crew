@@ -1,5 +1,6 @@
 package org.wikipedia.feed.categories;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,22 +17,23 @@ import org.wikipedia.R;
 import org.wikipedia.dataclient.ServiceFactory;
 import org.wikipedia.dataclient.WikiSite;
 import org.wikipedia.dataclient.mwapi.MwQueryPage;
-import org.wikipedia.feed.categories.recommended.RecommendedCategoriesItemCard;
-import org.wikipedia.feed.categories.recommended.RecommendedCategoriesListCardView;
+import org.wikipedia.feed.categories.recommended.RecommendedCategoriesArrayAdapter;
+import org.wikipedia.feed.categories.recommended.RecommendedCategoriesClient;
 import org.wikipedia.feed.categories.result.CategoriesResultActivity;
-import org.wikipedia.feed.view.HorizontalScrollingListCardItemView;
 import org.wikipedia.search.SearchResult;
 import org.wikipedia.search.SearchResults;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
+import static android.view.View.GONE;
 import static org.wikipedia.feed.categories.CategoriesActivity.WIKISITE;
 
 public class CategoriesFragment extends Fragment {
@@ -38,6 +41,12 @@ public class CategoriesFragment extends Fragment {
     private Unbinder unbinder;
     private WikiSite wiki;
     private CompositeDisposable disposables = new CompositeDisposable();
+
+    @BindView(R.id.recommended_categories_list)
+    ListView recommendedCategoriesListView;
+    @BindView(R.id.recommended_categories_title)
+    TextView recommendedCategoriesTitle;
+
 
     @NonNull
     public static CategoriesFragment newInstance(WikiSite wikiSite) {
@@ -55,6 +64,16 @@ public class CategoriesFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         wiki = requireActivity().getIntent().getParcelableExtra(WIKISITE);
 
+        populateRecommendedCategories(getContext());
+
+        if (recommendedCategoriesTitle.getVisibility() != GONE && recommendedCategoriesListView.getVisibility() != GONE) {
+            recommendedCategoriesListView.setOnItemClickListener((parent, view1, position, id) -> {
+                MwQueryPage.Category item = (MwQueryPage.Category) parent.getItemAtPosition(position);
+                String name = item.title();
+                searchOnCategory(name.substring(name.indexOf(':') + 1));
+            });
+        }
+
         GridLayout topCategories = view.findViewById(R.id.categories_grid_layout);
         setupCategoriesGrid(topCategories);
 
@@ -69,13 +88,6 @@ public class CategoriesFragment extends Fragment {
         super.onDestroyView();
     }
 
-    class ItemCallback implements RecommendedCategoriesListCardView.Callback {
-        @Override
-        public void onRecommendedCategorySelect(RecommendedCategoriesItemCard card, HorizontalScrollingListCardItemView view) {
-            searchOnCategory(card.item().name());
-        }
-    }
-
     private void setupCategoriesGrid(GridLayout grid) {
         for (int i = 0; i < grid.getChildCount(); i++) {
             CardView card = (CardView) grid.getChildAt(i);
@@ -88,6 +100,20 @@ public class CategoriesFragment extends Fragment {
 
     private Boolean isAPortalCategory(String title) {
         return title.contains("Portal");
+    }
+
+    private void populateRecommendedCategories(Context context) {
+        RecommendedCategoriesClient recommendedCategoriesClient = new RecommendedCategoriesClient();
+        recommendedCategoriesClient.request(wiki, pageTitles -> {
+            if (pageTitles.size() > 0) {
+                RecommendedCategoriesArrayAdapter categoriesAdapter = new RecommendedCategoriesArrayAdapter(context, pageTitles);
+                recommendedCategoriesListView.setAdapter(categoriesAdapter);
+            }
+            else {
+                recommendedCategoriesListView.setVisibility(GONE);
+                recommendedCategoriesTitle.setVisibility(GONE);
+            }
+        });
     }
 
     private void searchOnCategory(String category) {

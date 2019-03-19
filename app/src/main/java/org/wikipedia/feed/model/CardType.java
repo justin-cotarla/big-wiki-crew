@@ -108,7 +108,6 @@ public enum CardType implements EnumCode {
             return new CategoriesCardView(ctx);
         }
     },
-    RECOMMENDED_CATEGORIES(22),
     DAY_HEADER(97) {
         @NonNull @Override public FeedCardView<?> newView(@NonNull Context ctx) {
             return new DayHeaderCardView(ctx);
