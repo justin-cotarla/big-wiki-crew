@@ -18,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
@@ -102,12 +101,6 @@ public class RandomFragment extends Fragment {
 
         funnel = new RandomizerFunnel(WikipediaApp.getInstance(), WikipediaApp.getInstance().getWikiSite(),
                 requireActivity().getIntent().getIntExtra(RandomActivity.INVOKE_SOURCE_EXTRA, 0));
-
-        List<String> values = setDiscoverDropdownValues();
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, values);
-        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        spinner.setAdapter(adapter);
-        spinner.bringToFront();
 
         return view;
     }
@@ -195,10 +188,6 @@ public class RandomFragment extends Fragment {
     public void onSelectPage(@NonNull PageTitle title) {
         startActivity(PageActivity.newIntentForNewTab(requireActivity(),
                 new HistoryEntry(title, HistoryEntry.SOURCE_RANDOM), title));
-    }
-
-    public String getDropdownValue() {
-        return spinner.getSelectedItem().toString();
     }
 
     public void onAddPageToList(@NonNull PageTitle title) {
