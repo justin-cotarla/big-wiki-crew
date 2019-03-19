@@ -22,8 +22,8 @@ public class RecommendedCategoriesClient {
         void run(List<MwQueryPage.Category> categories);
     }
 
-    private final int HISTORY_ENTRY_INDEX = 0;
-    private final int CATEGORY_LIMIT = 5;
+    private static final int HISTORY_ENTRY_INDEX = 0;
+    private static final int CATEGORY_LIMIT = 5;
 
     private CompositeDisposable disposables = new CompositeDisposable();
 
