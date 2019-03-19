@@ -774,6 +774,7 @@
     
     <!-- Categories -->
     <string name="top_categories">Top Categories</string>
+    <string name="recommended_categories">Recommended for You</string>
     <string name="categories_geography">Geography</string>
     <string name="categories_health">Health</string>
     <string name="categories_philosophy">Philosophy</string>

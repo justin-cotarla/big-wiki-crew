@@ -1,4 +1,4 @@
-package org.wikipedia.feed.categories;
+package org.wikipedia.feed.categories.result;
 
 
 import android.content.Context;
