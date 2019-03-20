@@ -1,6 +1,6 @@
 package org.wikipedia.espresso.feed;
 
-import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
@@ -37,12 +37,11 @@ public class FeedCategoryTest {
     @Test
     public void testScrollToCategoriesCard() throws Exception {
         // Wait until the feed is displayed
-        whileWithMaxSteps(
-                () -> !viewIsDisplayed(R.id.fragment_feed_feed),
-                () -> waitFor(WAIT_FOR_2000));
+        waitFor(WAIT_FOR_2000);
 
         testCategoriesCardInFeed();
-        waitFor(2000);
+
+        waitFor(WAIT_FOR_2000);
 
         // Wait until the top categories are displayed
         whileWithMaxSteps(
@@ -50,23 +49,15 @@ public class FeedCategoryTest {
                 () -> waitFor(WAIT_FOR_2000));
 
         testTopCardsExist();
-        waitFor(2000);
+        waitFor(WAIT_FOR_2000);
 
         testBrowseOnCategory();
     }
 
     private void testCategoriesCardInFeed() {
-        waitFor(2000);
-
-        whileWithMaxSteps(
-                () -> !categoryCardIsDisplayed(),
-                () -> {
-                    onView(withId(R.id.fragment_feed_feed)).perform(ViewActions.swipeUp());
-                    waitFor(1000);
-                },
-                10
-        );
-        waitFor(2000);
+        onView(withId(R.id.fragment_feed_feed)).perform(RecyclerViewActions.scrollTo(
+                withClassName(endsWith("CategoriesCardView"))
+        ));
         onView(withClassName(endsWith("CategoriesCardView"))).perform(click());
     }
 
