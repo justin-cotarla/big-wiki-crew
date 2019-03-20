@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'jacoco'
 
 import com.android.build.gradle.internal.dsl.ProductFlavor
 import com.android.ddmlib.DdmPreferences
@@ -83,6 +84,7 @@ android {
     }
     buildTypes {
         debug {
+            testCoverageEnabled true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-rules-debug.pro'
             testProguardFile 'test-proguard-rules.pro'
@@ -166,6 +168,9 @@ android {
             includeAndroidResources = true
             returnDefaultValues = true
         }
+        unitTests.all {
+            jacoco.includeNoLocationClasses = true
+        }
     }
     buildToolsVersion '28.0.3'
 }
@@ -186,6 +191,24 @@ android.applicationVariants.all { variant ->
 
 apply from: '../gradle/src/test.gradle'
 apply from: '../gradle/src/checkstyle.gradle'
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDevDebugUnitTest']) {
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def debugTree = fileTree(dir: "$project.buildDir/intermediates/app_classes/devDebug", excludes: fileFilter)
+    def mainSrc = "$project.projectDir/src/main/java"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = fileTree(dir: project.buildDir, includes: [
+            'jacoco/testDevDebugUnitTest.exec'
+    ])
+}
 
 dependencies {
 
