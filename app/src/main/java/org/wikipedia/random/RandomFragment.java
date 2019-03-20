@@ -111,6 +111,7 @@ public class RandomFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(adapter);
         spinner.bringToFront();
+        spinner.setVisibility(View.GONE);
 
         fetchAggregatedContent();
 
@@ -269,6 +270,7 @@ public class RandomFragment extends Fragment {
                 public void onResponse(Call<AggregatedFeedContent> call, Response<AggregatedFeedContent> response) {
                     if (response.isSuccessful()) {
                         aggregatedContent = response.body();
+                        spinner.setVisibility(View.VISIBLE);
                     }
                 }
                 @Override
