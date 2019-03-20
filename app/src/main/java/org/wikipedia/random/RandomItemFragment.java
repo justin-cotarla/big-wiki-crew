@@ -23,6 +23,8 @@ import org.wikipedia.views.FaceAndColorDetectImageView;
 import org.wikipedia.views.GoneIfEmptyTextView;
 import org.wikipedia.views.WikiErrorView;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -90,6 +92,10 @@ public class RandomItemFragment extends Fragment {
     }
 
     private void getRandomPage() {
+        if (parent().getDropdownValue().equals("Trending")) {
+            getRandomTrendingArticle();
+            return;
+        }
         disposables.add(ServiceFactory.getRest(WikipediaApp.getInstance().getWikiSite()).getRandomSummary()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -98,6 +104,19 @@ public class RandomItemFragment extends Fragment {
                     updateContents();
                     parent().onChildLoaded();
                 }, this::setErrorState));
+    }
+
+    public void getRandomTrendingArticle() {
+        if (parent().getAggregatedContent() != null) {
+            List<RbPageSummary> trendingPages = parent().getAggregatedContent().mostRead().articles();
+            if (!trendingPages.isEmpty()) {
+                summary = trendingPages.get(0);
+                trendingPages.remove(summary);
+                trendingPages.add(summary);
+                updateContents();
+                parent().onChildLoaded();
+            }
+        }
     }
 
     private void setErrorState(@NonNull Throwable t) {
