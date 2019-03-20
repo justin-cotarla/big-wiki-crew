@@ -25,22 +25,22 @@ public class AggregatedFeedContent {
     }
 
     @Nullable
-    RbPageSummary tfa() {
+    public RbPageSummary tfa() {
         return tfa;
     }
 
     @Nullable
-    List<NewsItem> news() {
+    public List<NewsItem> news() {
         return news;
     }
 
     @Nullable
-    MostReadArticles mostRead() {
+    public MostReadArticles mostRead() {
         return mostRead;
     }
 
     @Nullable
-    FeaturedImage potd() {
+    public FeaturedImage potd() {
         return image;
     }
 }

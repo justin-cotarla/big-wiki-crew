@@ -25,6 +25,9 @@ import android.widget.Spinner;
 import org.wikipedia.R;
 import org.wikipedia.WikipediaApp;
 import org.wikipedia.analytics.RandomizerFunnel;
+import org.wikipedia.dataclient.ServiceFactory;
+import org.wikipedia.feed.aggregated.AggregatedFeedContent;
+import org.wikipedia.feed.model.UtcDate;
 import org.wikipedia.history.HistoryEntry;
 import org.wikipedia.page.ExclusiveBottomSheetPresenter;
 import org.wikipedia.page.PageActivity;
@@ -34,6 +37,7 @@ import org.wikipedia.readinglist.ReadingListBookmarkMenu;
 import org.wikipedia.readinglist.database.ReadingListDbHelper;
 import org.wikipedia.readinglist.database.ReadingListPage;
 import org.wikipedia.util.AnimationUtil;
+import org.wikipedia.util.DateUtil;
 import org.wikipedia.util.FeedbackUtil;
 import org.wikipedia.util.log.L;
 
@@ -48,6 +52,9 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RandomFragment extends Fragment {
     @BindView(R.id.spinner)
@@ -68,6 +75,8 @@ public class RandomFragment extends Fragment {
     private RandomizerFunnel funnel;
     private CompositeDisposable disposables = new CompositeDisposable();
 
+    private AggregatedFeedContent aggregatedContent;
+
     @NonNull
     public static RandomFragment newInstance() {
         return new RandomFragment();
@@ -86,13 +95,7 @@ public class RandomFragment extends Fragment {
         randomPager.setPageTransformer(true, new AnimationUtil.PagerTransformer());
         randomPager.addOnPageChangeListener(viewPagerListener);
         GestureDetectorCompat gdt = new GestureDetectorCompat(requireActivity(), new SwipeGestureListener(requireActivity()));
-        randomPager.setOnTouchListener(new ViewPager.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return gdt.onTouchEvent(event);
-            }
-
-        });
+        randomPager.setOnTouchListener((v, event) -> gdt.onTouchEvent(event));
 
         updateSaveShareButton();
         updateBackButton(0);
@@ -108,6 +111,9 @@ public class RandomFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(adapter);
         spinner.bringToFront();
+        spinner.setVisibility(View.GONE);
+
+        fetchAggregatedContent();
 
         return view;
     }
@@ -253,6 +259,30 @@ public class RandomFragment extends Fragment {
             }
         }
         return null;
+    }
+
+    private void fetchAggregatedContent() {
+        UtcDate date = DateUtil.getUtcRequestDateFor(0);
+        for (String appLangCode : WikipediaApp.getInstance().language().getAppLanguageCodes()) {
+            Call<AggregatedFeedContent> call = ServiceFactory.getRest(WikipediaApp.getInstance().getWikiSite()).getAggregatedFeed(appLangCode, date.year(), date.month(), date.date());
+            call.enqueue(new Callback<AggregatedFeedContent>() {
+                @Override
+                public void onResponse(Call<AggregatedFeedContent> call, Response<AggregatedFeedContent> response) {
+                    if (response.isSuccessful()) {
+                        aggregatedContent = response.body();
+                        spinner.setVisibility(View.VISIBLE);
+                    }
+                }
+                @Override
+                public void onFailure(Call<AggregatedFeedContent> call, Throwable t) {
+                    L.e(t);
+                }
+            });
+        }
+    }
+
+    public AggregatedFeedContent getAggregatedContent() {
+        return this.aggregatedContent;
     }
 
     private class RandomItemAdapter extends FragmentPagerAdapter {
