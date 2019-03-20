@@ -1,4 +1,4 @@
-package org.wikipedia.feed.categories;
+package org.wikipedia.feed.categories.feedcard;
 
 import android.content.Context;
 import android.view.View;
