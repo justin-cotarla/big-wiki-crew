@@ -15,6 +15,7 @@ env:
  - ANDROID_API=28
  - ANDROID_BUILD_TOOLS=28.0.3
  - ADB_INSTALL_TIMEOUT=5
+ - CODECOV_TOKEN="8ab569f6-734d-4f49-836a-0dfe8b99375b"
 
 android:
   components:
@@ -37,17 +38,16 @@ before_script:
 
 jobs:
   include:
-  - stage: build
-    name: "Assemble Debug"
-    script: ./gradlew clean assembleDebug
   - stage: static-analysis
     name: "Static Analysis"
     script: ./gradlew checkstyle
   - stage: test
-    name: "Deploy to GCP"
-    script: ./gradlew testDevDebug
+    name: "Test and Coverage Report"
+    script: ./gradlew clean assembleDebug testDevDebug jacocoTestReport
 
 stages:
-  - build
   - static-analysis
   - test
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
