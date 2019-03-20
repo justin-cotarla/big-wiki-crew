@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import org.wikipedia.feed.FeedCoordinatorBase;
 import org.wikipedia.feed.announcement.AnnouncementCardView;
 import org.wikipedia.feed.becauseyouread.BecauseYouReadCardView;
-import org.wikipedia.feed.categories.CategoriesCardView;
+import org.wikipedia.feed.categories.feedcard.CategoriesCardView;
 import org.wikipedia.feed.dayheader.DayHeaderCardView;
 import org.wikipedia.feed.image.FeaturedImageCardView;
 import org.wikipedia.feed.model.Card;

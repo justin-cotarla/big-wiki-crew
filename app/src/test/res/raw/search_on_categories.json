@@ -1,0 +1,81 @@
+{
+  "batchcomplete": true,
+  "continue": {
+    "accontinue": "Marvel_Cinematic_Universe_character_lists",
+    "continue": "-||"
+  },
+  "query": {
+    "allcategories": [
+      {
+        "category": "Marvel-themed areas at Disney parks",
+        "size": 4,
+        "pages": 4,
+        "files": 0,
+        "subcats": 0
+      },
+      {
+        "category": "Marvel 1602",
+        "size": 4,
+        "pages": 4,
+        "files": 0,
+        "subcats": 0
+      },
+      {
+        "category": "Marvel 2099",
+        "size": 4,
+        "pages": 2,
+        "files": 0,
+        "subcats": 2
+      },
+      {
+        "category": "Marvel 2099 characters",
+        "size": 22,
+        "pages": 22,
+        "files": 0,
+        "subcats": 0
+      },
+      {
+        "category": "Marvel 2099 titles",
+        "size": 10,
+        "pages": 10,
+        "files": 0,
+        "subcats": 0
+      },
+      {
+        "category": "Marvel Action Universe",
+        "size": 6,
+        "pages": 6,
+        "files": 0,
+        "subcats": 0
+      },
+      {
+        "category": "Marvel Animated Features",
+        "size": 11,
+        "pages": 11,
+        "files": 0,
+        "subcats": 0
+      },
+      {
+        "category": "Marvel Animation",
+        "size": 16,
+        "pages": 15,
+        "files": 0,
+        "subcats": 1
+      },
+      {
+        "category": "Marvel Cinematic Universe",
+        "size": 21,
+        "pages": 12,
+        "files": 0,
+        "subcats": 9
+      },
+      {
+        "category": "Marvel Cinematic Universe album covers",
+        "size": 28,
+        "pages": 0,
+        "files": 28,
+        "subcats": 0
+      }
+    ]
+  }
+}

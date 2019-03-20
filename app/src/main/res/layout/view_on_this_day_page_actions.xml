@@ -33,25 +33,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground">
+
         <ImageView
             android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/list_item_horizontal_padding"
             android:layout_marginRight="@dimen/list_item_horizontal_padding"
-            android:layout_gravity="center_vertical"
-            app:srcCompat="@drawable/ic_bookmark_white_24dp"
+            android:contentDescription="@null"
             android:tint="?attr/secondary_text_color"
-            android:contentDescription="@null"/>
+            app:srcCompat="@drawable/ic_bookmark_white_24dp" />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="54dp"
             android:layout_weight="1"
+            android:gravity="center_vertical"
             android:paddingLeft="@dimen/list_item_horizontal_padding"
             android:paddingRight="@dimen/list_item_horizontal_padding"
-            android:gravity="center_vertical"
+            android:text="@string/menu_page_add_to_list"
             android:textColor="?attr/primary_text_color"
-            android:textSize="16sp"
-            android:text="@string/menu_page_add_to_list"/>
+            android:textSize="16sp" />
     </LinearLayout>
 
     <LinearLayout
