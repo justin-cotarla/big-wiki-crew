@@ -391,13 +391,10 @@ public class RandomFragment extends Fragment {
                 }
             }
 
-            if ((deltaYAbs >= Y_MIN_DISTANCE) && (deltaYAbs <= Y_MAX_DISTANCE)) {
-                if (deltaY > 0) {
-                    PageTitle title = getTopTitle();
-                    onSelectPage(title);
-                } else {
-                    // handle swipe down
-                }
+            // Valid swipe up
+            if ((deltaYAbs >= Y_MIN_DISTANCE) && (deltaYAbs <= Y_MAX_DISTANCE) && deltaY > 0) {
+                PageTitle title = getTopTitle();
+                onSelectPage(title);
             }
             return true;
         }
