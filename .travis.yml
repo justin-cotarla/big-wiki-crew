@@ -38,24 +38,16 @@ before_script:
 
 jobs:
   include:
-  - stage: build
-    name: "Assemble Debug"
-    script: ./gradlew clean assembleDebug
   - stage: static-analysis
     name: "Static Analysis"
     script: ./gradlew checkstyle
   - stage: test
-    name: "Deploy to GCP"
-    script: ./gradlew testDevDebug
-  - stage: coverage
-    name: "Generate Code Coverage"
-    script: ./gradlew jacocoTestReport
+    name: "Test and Coverage Report"
+    script: ./gradlew clean assembleDebug testDevDebug jacocoTestReport
 
 stages:
-  - build
   - static-analysis
   - test
-  - coverage
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
