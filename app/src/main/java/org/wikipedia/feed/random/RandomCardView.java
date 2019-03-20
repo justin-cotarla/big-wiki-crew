@@ -36,9 +36,9 @@ public class RandomCardView extends StaticCardView<RandomCard> {
         super.setCard(card);
         setTitle(getString(R.string.view_random_card_title));
         setSubtitle(getString(R.string.view_random_card_subtitle));
-        setIcon(R.drawable.ic_casino_accent50_24dp);
+        setIcon(R.drawable.ic_discover_black_24pd);
         setContainerBackground(R.color.accent50);
-        setAction(R.drawable.ic_casino_accent50_24dp, R.string.view_random_card_action);
+        setAction(R.drawable.ic_discover_black_24pd, R.string.view_random_card_action);
     }
 
     protected void onContentClick(View v) {
