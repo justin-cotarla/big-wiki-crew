@@ -774,6 +774,7 @@
     
     <!-- Categories -->
     <string name="top_categories">Top Categories</string>
+    <string name="recommended_categories">Recommended for You</string>
     <string name="categories_geography">Geography</string>
     <string name="categories_health">Health</string>
     <string name="categories_philosophy">Philosophy</string>
@@ -787,4 +788,5 @@
     <string name="categories_human_activities">Human activities</string>
     <string name="categories_culture">Culture</string>
     <string name="category_card_text">card_text</string>
+    <string name="search_hint_categories">Search for a category</string>
 </resources>

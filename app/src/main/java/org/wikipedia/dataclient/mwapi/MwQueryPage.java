@@ -29,6 +29,7 @@ public class MwQueryPage extends BaseModel {
     @SuppressWarnings("unused") @Nullable private String extract;
     @SuppressWarnings("unused") @Nullable private Thumbnail thumbnail;
     @SuppressWarnings("unused") @Nullable private String description;
+    @SuppressWarnings("unused") @Nullable private List<Category> categories;
     @SuppressWarnings("unused") @SerializedName("descriptionsource") @Nullable private String descriptionSource;
     @SuppressWarnings("unused") @SerializedName("imageinfo") @Nullable private List<ImageInfo> imageInfo;
     @SuppressWarnings("unused") @SerializedName("videoinfo") @Nullable private List<VideoInfo> videoInfo;
@@ -88,6 +89,11 @@ public class MwQueryPage extends BaseModel {
     @Nullable
     public String descriptionSource() {
         return descriptionSource;
+    }
+
+    @Nullable
+    public List<Category> categories() {
+        return categories;
     }
 
     @Nullable public ImageInfo imageInfo() {
@@ -188,6 +194,14 @@ public class MwQueryPage extends BaseModel {
 
         public boolean isDisambiguation() {
             return disambiguation != null;
+        }
+    }
+
+    public static class Category {
+        @SuppressWarnings("unused") @NonNull private String title;
+        @NonNull
+        public String title() {
+            return title;
         }
     }
 }
