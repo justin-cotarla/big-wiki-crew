@@ -26,6 +26,8 @@ import org.wikipedia.R;
 import org.wikipedia.WikipediaApp;
 import org.wikipedia.activity.FragmentUtil;
 import org.wikipedia.analytics.FeedFunnel;
+import org.wikipedia.feed.categories.CategoriesActivity;
+import org.wikipedia.feed.categories.feedcard.CategoriesCardView;
 import org.wikipedia.feed.configure.ConfigureActivity;
 import org.wikipedia.feed.configure.ConfigureItemLanguageDialogView;
 import org.wikipedia.feed.configure.LanguageItemAdapter;
@@ -123,6 +125,7 @@ public class FeedFragment extends Fragment implements BackPressedHandler {
         feedView.setAdapter(feedAdapter);
         feedView.setCallback(feedCallback);
         feedView.addOnScrollListener(feedScrollListener);
+
 
         swipeRefreshLayout.setColorSchemeResources(ResourceUtil.getThemedAttributeId(requireContext(), R.attr.colorAccent));
         swipeRefreshLayout.setOnRefreshListener(this::refresh);
@@ -509,6 +512,11 @@ public class FeedFragment extends Fragment implements BackPressedHandler {
         @Override
         public void onMoreContentSelected(@NonNull Card card) {
             startActivity(MostReadArticlesActivity.newIntent(requireContext(), (MostReadListCard) card));
+        }
+
+        @Override
+        public void onCategoriesClick(CategoriesCardView view) {
+        startActivity(CategoriesActivity.newIntent(requireActivity(), app.getWikiSite()));
         }
     }
 

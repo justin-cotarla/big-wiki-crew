@@ -7,6 +7,7 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 
 import org.wikipedia.settings.Prefs;
+import org.wikipedia.util.log.L;
 
 public class TextToSpeechWrapper {
     private TextToSpeech tts;
@@ -21,7 +22,7 @@ public class TextToSpeechWrapper {
                 tts.setPitch(Prefs.getTTSPitch());
                 tts.setSpeechRate(Prefs.getTTSSpeechRate());
             } else {
-                System.err.println("ERROR: Failed to initialize TTS engine.");
+                L.e("ERROR: Failed to initialize TTS engine.");
             }
         });
     }
@@ -55,7 +56,7 @@ public class TextToSpeechWrapper {
                     tts.setSpeechRate(Prefs.getTTSSpeechRate());
                     speakWithUtteranceListener(text);
                 } else {
-                    System.err.println("ERROR: Failed to initialize TTS engine.");
+                    L.e("ERROR: Failed to initialize TTS engine.");
                 }
             });
         } else {
@@ -77,7 +78,7 @@ public class TextToSpeechWrapper {
 
             @Override
             public void onError(String utteranceId) {
-                System.err.println("ERROR: Something went wrong during the TTS process.");
+                L.e("ERROR: Something went wrong during the TTS process.");
             }
         });
         speakWithUtteranceId(text, "ttsWrapper");

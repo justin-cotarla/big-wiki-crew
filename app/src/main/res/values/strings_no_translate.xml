@@ -101,6 +101,7 @@
     <string name="reading_lists_onboarding_bullet_point">\u2022 &#160;&#160;&#160;</string>
 
     <!-- Transition names -->
+    <string name="transition_categories_activity">categoriesActivityTransition</string>
     <string name="transition_news_item">newsItemTransition</string>
     <string name="transition_random_activity">randomActivityTransition</string>
     <string name="transition_on_this_day">onThisDayTransition</string>
