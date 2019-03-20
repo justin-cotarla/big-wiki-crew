@@ -27,7 +27,7 @@ import org.wikipedia.WikipediaApp;
 import org.wikipedia.activity.FragmentUtil;
 import org.wikipedia.analytics.FeedFunnel;
 import org.wikipedia.feed.categories.CategoriesActivity;
-import org.wikipedia.feed.categories.CategoriesCardView;
+import org.wikipedia.feed.categories.feedcard.CategoriesCardView;
 import org.wikipedia.feed.configure.ConfigureActivity;
 import org.wikipedia.feed.configure.ConfigureItemLanguageDialogView;
 import org.wikipedia.feed.configure.LanguageItemAdapter;
