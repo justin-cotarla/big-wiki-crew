@@ -62,6 +62,7 @@ android {
         testApplicationId 'org.wikipedia.test'
         testInstrumentationRunner "org.wikipedia.WikipediaTestRunner"
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -273,6 +274,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation 'com.google.firebase:firebase-perf:16.2.4' // Perfomance Monitoring
 
+    implementation 'com.android.support:multidex:1.0.3'
+
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
     android.productFlavors.each { flavor ->
         String dep
@@ -286,6 +289,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation mockitoCore
     testImplementation 'org.robolectric:robolectric:3.8'
+    testImplementation "org.robolectric:shadows-multidex:4.0.1"
     testImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
     testImplementation 'commons-io:commons-io:2.6'
     androidTestImplementation mockitoCore
