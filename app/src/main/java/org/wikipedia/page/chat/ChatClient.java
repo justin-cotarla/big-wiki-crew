@@ -28,8 +28,8 @@ public class ChatClient {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChild("idCount")) {
-                    idCount = dataSnapshot.child("idCount").getValue(Integer.class) != null ?
-                            dataSnapshot.child("idCount").getValue(Integer.class) : 0;
+                    idCount = dataSnapshot.child("idCount").getValue(Integer.class) != null
+                            ? dataSnapshot.child("idCount").getValue(Integer.class) : 0;
                 }
             }
 
