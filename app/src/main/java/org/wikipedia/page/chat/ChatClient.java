@@ -23,7 +23,7 @@ public class ChatClient {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         this.articlesRef = database.getReference("articles/" + articleId);
 
-        // Read all data from the article node
+        // Read all data from the article node. Set the instance variables here.
         this.articlesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -44,7 +44,8 @@ public class ChatClient {
         return this.idCount;
     }
 
-    public void incrementIdCount() {
+    public void enterChatRoom() {
+        // Update idCount
         this.idCount++;
         this.articlesRef.child("idCount").setValue(this.idCount);
     }
