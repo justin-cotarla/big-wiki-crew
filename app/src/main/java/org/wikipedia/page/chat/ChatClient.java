@@ -1,8 +1,10 @@
 package org.wikipedia.page.chat;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,13 +29,14 @@ public class ChatClient {
 
     private int idCount;
     private boolean lock;
-    private List<Message> messageQueue;
+    private List<Message> sendMessageQueue;
+    private List<Message> messageList;
     private DatabaseReference articlesRef;
 
     public ChatClient(int articleId) {
         this.idCount = 0;
         closeLock();
-        this.messageQueue = new ArrayList<>();
+        this.sendMessageQueue = new ArrayList<>();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         this.articlesRef = database.getReference(articlesPath + "/" + articleId);
 
@@ -56,6 +59,32 @@ public class ChatClient {
         });
     }
 
+    public void readMessages(Context context) {
+        DatabaseReference messageRef = this.articlesRef.child(messagesPath);
+        messageList = new ArrayList<>();
+        messageRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                        Message newMessage = (Message) child.getValue();
+                        if (!messageList.contains(newMessage)) {
+                            messageList.add(newMessage);
+
+                            // THIS IS WHERE YOU WOULD UPDATE THE UI
+                            // PASS A REFERENCE THAT YOU CAN CALL A FUNCTION ON HERE
+                            // IN ORDER TO ADD THE NEW MESSAGE TO THE LIST ON THE UI
+                            // "context.addMessageToChatList(newMessage)"
+                        }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                L.e(databaseError.toException());
+            }
+        });
+    }
+
     public void writeMessage(String message) {
         String user = getUser();
         Date timeStamp = Calendar.getInstance().getTime();
@@ -67,7 +96,7 @@ public class ChatClient {
 
     private void writeMessage(Message message) {
         if (isLocked()) {
-            messageQueue.add(message);
+            sendMessageQueue.add(message);
         } else {
             DatabaseReference messagesRef = articlesRef.child(messagesPath);
             messagesRef.push().setValue(message);
@@ -75,11 +104,11 @@ public class ChatClient {
     }
 
     private void consumeMessageQueue() {
-        for (Message message : this.messageQueue) {
+        for (Message message : this.sendMessageQueue) {
             message.setUser(getUser());
             writeMessage(message);
         }
-        this.messageQueue.clear();
+        this.sendMessageQueue.clear();
     }
 
     public int getIdCount() {
