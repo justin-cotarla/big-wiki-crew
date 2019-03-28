@@ -26,10 +26,10 @@ public class ChatClient {
     private List<Message> messageList;
     private DatabaseReference articlesRef;
 
-    final private String userPrefix = "anon";
-    final private String messagesPath = "messages";
-    final private String articlesPath = "articles";
-    final private String idCountPath = "idCount";
+    private final String userPrefix = "anon";
+    private final String messagesPath = "messages";
+    private final String articlesPath = "articles";
+    private final String idCountPath = "idCount";
 
     public ChatClient(int articleId) {
         this.idCount = 0;
