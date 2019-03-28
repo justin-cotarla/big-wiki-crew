@@ -7,6 +7,8 @@ public class Message {
     private String message;
     private Date timeStamp;
 
+    public Message() { }
+
     public Message(String user, String message, Date timeStamp) {
         this.user = user;
         this.message = message;

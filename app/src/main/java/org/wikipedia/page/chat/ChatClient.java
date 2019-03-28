@@ -16,6 +16,7 @@ import org.wikipedia.util.log.L;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -66,7 +67,7 @@ public class ChatClient {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                        Message newMessage = (Message) child.getValue();
+                        Message newMessage = child.getValue(Message.class);
                         if (!messageList.contains(newMessage)) {
                             messageList.add(newMessage);
 
