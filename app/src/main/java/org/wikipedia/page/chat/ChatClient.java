@@ -2,9 +2,7 @@ package org.wikipedia.page.chat;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -16,23 +14,22 @@ import org.wikipedia.util.log.L;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 /**
  * Each article will have its own instance of ChatClient.
  */
 public class ChatClient {
-    final private String userPrefix = "anon";
-    final private String messagesPath = "messages";
-    final private String articlesPath = "articles";
-    final private String idCountPath = "idCount";
-
     private int idCount;
     private boolean lock;
     private List<Message> sendMessageQueue;
     private List<Message> messageList;
     private DatabaseReference articlesRef;
+
+    final private String userPrefix = "anon";
+    final private String messagesPath = "messages";
+    final private String articlesPath = "articles";
+    final private String idCountPath = "idCount";
 
     public ChatClient(int articleId) {
         this.idCount = 0;
