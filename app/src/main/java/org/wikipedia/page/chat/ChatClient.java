@@ -10,10 +10,17 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.wikipedia.util.log.L;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Each article will have its own instance of ChatClient.
  */
 public class ChatClient {
+    final private String userPrefix = "anon";
+    final private String messagesPath = "messages";
+    final private String articlesPath = "articles";
+
     private int idCount;
 
     private DatabaseReference articlesRef;
@@ -21,7 +28,7 @@ public class ChatClient {
     public ChatClient(int articleId) {
         this.idCount = 0;
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        this.articlesRef = database.getReference("articles/" + articleId);
+        this.articlesRef = database.getReference(articlesPath + "/" + articleId);
 
         // Read all data from the article node. Set the instance variables here.
         this.articlesRef.addValueEventListener(new ValueEventListener() {
@@ -40,8 +47,22 @@ public class ChatClient {
         });
     }
 
+    public void writeMessage(String message) {
+        String user = getUser();
+        Date timeStamp = Calendar.getInstance().getTime();
+
+        Message newMessage = new Message(user, message, timeStamp);
+
+        DatabaseReference messagesRef = articlesRef.child(messagesPath);
+        messagesRef.push().setValue(newMessage);
+    }
+
     public int getIdCount() {
         return this.idCount;
+    }
+
+    public String getUser() {
+        return userPrefix + String.valueOf(getIdCount());
     }
 
     public void enterChatRoom() {
