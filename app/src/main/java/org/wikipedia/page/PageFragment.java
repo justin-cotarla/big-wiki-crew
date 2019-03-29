@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,6 +63,7 @@ import org.wikipedia.media.MediaPlayerImplementation;
 import org.wikipedia.page.action.PageActionTab;
 import org.wikipedia.page.action.PageActionToolbarHideHandler;
 import org.wikipedia.page.bottomcontent.BottomContentView;
+import org.wikipedia.page.chatroom.ChatRoomActivity;
 import org.wikipedia.page.leadimages.LeadImagesHandler;
 import org.wikipedia.page.leadimages.PageHeaderView;
 import org.wikipedia.page.shareafact.ShareHandler;
@@ -170,6 +172,7 @@ public class PageFragment extends Fragment implements BackPressedHandler {
 
     private TextToSpeechWrapper tts;
     private FloatingActionButton stopTTSButton;
+    private RelativeLayout chatRoomLayout;
 
     @NonNull
     private final SwipeRefreshLayout.OnRefreshListener pageRefreshListener = this::refreshPage;
@@ -220,6 +223,11 @@ public class PageFragment extends Fragment implements BackPressedHandler {
         @Override
         public void onFontAndThemeTabSelected() {
             showThemeChooser();
+        }
+
+        @Override
+        public void onChatRoomTabSelected() {
+            startChatRoomActivity();
         }
 
         @Override
@@ -314,12 +322,20 @@ public class PageFragment extends Fragment implements BackPressedHandler {
             stopTTSButton.hide();
         });
 
+        chatRoomLayout = rootView.findViewById(R.id.chat_room_layout);
+        chatRoomLayout.setOnClickListener(click -> {
+            // call chat client?
+        });
+
         errorView = rootView.findViewById(R.id.page_error);
 
         bottomContentView = rootView.findViewById(R.id.page_bottom_view);
 
         PageActionToolbarHideHandler stopTTSButtonHideHandler = new PageActionToolbarHideHandler(stopTTSButton, null);
         stopTTSButtonHideHandler.setScrollView(webView);
+
+        PageActionToolbarHideHandler chatRoomButtonHideHandler = new PageActionToolbarHideHandler(chatRoomLayout, null);
+        chatRoomButtonHideHandler.setScrollView(webView);
 
         PageActionToolbarHideHandler pageActionToolbarHideHandler
                 = new PageActionToolbarHideHandler(tabLayout, null);
@@ -1173,6 +1189,13 @@ public class PageFragment extends Fragment implements BackPressedHandler {
         if (callback != null) {
             callback.onPageShowThemeChooser();
         }
+    }
+
+    // todo: fix
+    public void startChatRoomActivity() {
+        Intent chatIntent = new Intent();
+        chatIntent.setClass(requireActivity(), ChatRoomActivity.class);
+        requireActivity().startActivityForResult(chatIntent, Constants.ACTIVITY_REQUEST_CHAT_ROOM);
     }
 
     public void startSupportActionMode(@NonNull ActionMode.Callback actionModeCallback) {
