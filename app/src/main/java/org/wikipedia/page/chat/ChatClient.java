@@ -32,11 +32,14 @@ public class ChatClient {
     private final String idCountPath = "idCount";
 
     public ChatClient(int articleId) {
+        this(articleId, FirebaseDatabase.getInstance());
+    }
+
+    public ChatClient(int articleId, FirebaseDatabase firebaseDatabase) {
         this.idCount = 0;
         closeLock();
         this.sendMessageQueue = new ArrayList<>();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        this.articlesRef = database.getReference(articlesPath + "/" + articleId);
+        this.articlesRef = firebaseDatabase.getReference(articlesPath + "/" + articleId);
 
         // Read all data from the article node. Set the instance variables here.
         this.articlesRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -101,7 +104,7 @@ public class ChatClient {
         }
     }
 
-    private void consumeMessageQueue() {
+    public void consumeMessageQueue() {
         for (Message message : this.sendMessageQueue) {
             message.setUser(getUser());
             writeMessage(message);
@@ -123,11 +126,11 @@ public class ChatClient {
         this.articlesRef.child("idCount").setValue(this.idCount);
     }
 
-    private void closeLock() {
+    public void closeLock() {
         this.lock = true;
     }
 
-    private void openLock() {
+    public void openLock() {
         this.lock = false;
         consumeMessageQueue();
     }
