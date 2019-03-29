@@ -52,16 +52,6 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintStart_toEndOf="@+id/article_menu_find_in_page"
         app:srcCompat="@drawable/ic_format_size_white_24dp" />
-    <!--<android.support.v7.widget.AppCompatImageView-->
-        <!--android:id="@+id/article_menu_chat_room"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:contentDescription="@string/menu_page_chat_room"-->
-        <!--android:padding="16dp"-->
-        <!--android:tag="5"-->
-        <!--android:background="?attr/selectableItemBackgroundBorderless"-->
-        <!--app:layout_constraintStart_toEndOf="@+id/article_menu_font_and_theme"-->
-        <!--app:srcCompat="@drawable/ic_chat_room_white_24dp"/>-->
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/article_menu_show_toc"
         android:layout_width="wrap_content"

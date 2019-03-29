@@ -226,11 +226,6 @@ public class PageFragment extends Fragment implements BackPressedHandler {
         }
 
         @Override
-        public void onChatRoomTabSelected() {
-            startChatRoomActivity();
-        }
-
-        @Override
         public void onViewToCTabSelected() {
             tocHandler.show();
         }
@@ -1189,13 +1184,6 @@ public class PageFragment extends Fragment implements BackPressedHandler {
         if (callback != null) {
             callback.onPageShowThemeChooser();
         }
-    }
-
-    // todo: fix
-    public void startChatRoomActivity() {
-        Intent chatIntent = new Intent();
-        chatIntent.setClass(requireActivity(), ChatRoomActivity.class);
-        requireActivity().startActivityForResult(chatIntent, Constants.ACTIVITY_REQUEST_CHAT_ROOM);
     }
 
     public void startSupportActionMode(@NonNull ActionMode.Callback actionModeCallback) {
