@@ -2,6 +2,7 @@ package org.wikipedia.page.chat;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,6 +22,7 @@ import java.util.List;
  */
 public class ChatClient {
     private int idCount;
+    private int users;
     private boolean lock;
     private List<Message> sendMessageQueue;
     private List<Message> messageList;
@@ -30,9 +32,12 @@ public class ChatClient {
     private final String messagesPath = "messages";
     private final String articlesPath = "articles";
     private final String idCountPath = "idCount";
+    private final String usersCountPath = "users";
 
     public ChatClient(int articleId) {
+        Log.i("ChatClient",  "articleId: " + articleId);
         this.idCount = 0;
+        this.users = 0;
         closeLock();
         this.sendMessageQueue = new ArrayList<>();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -42,10 +47,17 @@ public class ChatClient {
         this.articlesRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.i("ChatClient",  "onDataChange");
                 if (dataSnapshot.hasChild(idCountPath)) {
                     idCount = dataSnapshot.child(idCountPath).getValue(Integer.class) != null
                             ? dataSnapshot.child(idCountPath).getValue(Integer.class) : 0;
                 }
+
+                if (dataSnapshot.hasChild(usersCountPath)) {
+                    users = dataSnapshot.child(usersCountPath).getValue(Integer.class) != null
+                            ? dataSnapshot.child(usersCountPath).getValue(Integer.class) : 0;
+                }
+
                 enterChatRoom();
                 openLock();
             }
@@ -113,14 +125,25 @@ public class ChatClient {
         return this.idCount;
     }
 
+    public int getUsersCount() {
+        return this.users;
+    }
+
     public String getUser() {
         return userPrefix + String.valueOf(getIdCount());
     }
 
     private void enterChatRoom() {
-        // Update idCount
+        // Update idCount and users count
         this.idCount++;
+        this.users++;
         this.articlesRef.child("idCount").setValue(this.idCount);
+        this.articlesRef.child("users").setValue(this.users);
+    }
+
+    public void leaveChatRoom() {
+        this.users--;
+        this.articlesRef.child("users").setValue(this.users);
     }
 
     private void closeLock() {
