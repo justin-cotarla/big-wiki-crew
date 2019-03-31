@@ -27,6 +27,7 @@ import org.wikipedia.history.HistoryFragment;
 import org.wikipedia.navtab.NavTab;
 import org.wikipedia.notifications.NotificationActivity;
 import org.wikipedia.onboarding.InitialOnboardingActivity;
+import org.wikipedia.onboarding.newfeatures.NewFeaturesActivity;
 import org.wikipedia.readinglist.ReadingListSyncBehaviorDialogs;
 import org.wikipedia.readinglist.database.ReadingListDbHelper;
 import org.wikipedia.settings.AboutActivity;
@@ -295,7 +296,7 @@ public class MainActivity extends SingleFragmentActivity<MainFragment>
         }
 
         @Override public void featureClick() {
-            startActivity(new Intent(MainActivity.this, InitialOnboardingActivity.class));
+            startActivity(new Intent(MainActivity.this, NewFeaturesActivity.class));
             closeMainDrawer();
         }
     }

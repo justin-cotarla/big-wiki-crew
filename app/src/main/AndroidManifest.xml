@@ -234,6 +234,9 @@
             android:name=".onboarding.InitialOnboardingActivity"/>
 
         <activity
+            android:name=".onboarding.newfeatures.NewFeaturesActivity"/>
+
+        <activity
             android:name=".feed.mostread.MostReadArticlesActivity"
             android:theme="@style/AppTheme.ActionBar"/>
 
