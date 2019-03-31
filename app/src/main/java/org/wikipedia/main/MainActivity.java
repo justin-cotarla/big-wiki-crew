@@ -293,5 +293,10 @@ public class MainActivity extends SingleFragmentActivity<MainFragment>
             startActivity(new Intent(MainActivity.this, AboutActivity.class));
             closeMainDrawer();
         }
+
+        @Override public void featureClick() {
+            startActivity(new Intent(MainActivity.this, InitialOnboardingActivity.class));
+            closeMainDrawer();
+        }
     }
 }
