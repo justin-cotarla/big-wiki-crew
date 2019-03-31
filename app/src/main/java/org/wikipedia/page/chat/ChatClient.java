@@ -35,7 +35,6 @@ public class ChatClient {
     private final String usersCountPath = "userCount";
 
     public ChatClient(int articleId) {
-        Log.i("ChatClient",  "articleId: " + articleId);
         this.idCount = 0;
         this.userCount = 0;
         closeLock();
@@ -47,7 +46,6 @@ public class ChatClient {
         this.articlesRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.i("ChatClient",  "onDataChange");
                 if (dataSnapshot.hasChild(idCountPath)) {
                     idCount = dataSnapshot.child(idCountPath).getValue(Integer.class) != null
                             ? dataSnapshot.child(idCountPath).getValue(Integer.class) : 0;
