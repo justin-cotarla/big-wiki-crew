@@ -40,9 +40,10 @@ public class ChatClient {
         closeLock();
         this.sendMessageQueue = new ArrayList<>();
         this.articlesRef = firebaseDatabase.getReference(articlesPath + "/" + articleId);
+        this.connect();
     }
 
-    public void connect() {
+    private void connect() {
         // Read all data from the article node. Set the instance variables here.
         this.articlesRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

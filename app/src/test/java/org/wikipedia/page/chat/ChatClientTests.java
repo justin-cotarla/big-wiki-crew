@@ -14,7 +14,6 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -52,11 +51,8 @@ public class ChatClientTests {
             return null;
         }).when(articlesReferenceMock).addListenerForSingleValueEvent(any(ValueEventListener.class));
 
-        chatClient = spy(new ChatClient(articleId, firebaseDatabaseMock));
-        chatClient.connect();
+        chatClient = new ChatClient(articleId, firebaseDatabaseMock);
 
-        verify(chatClient).enterChatRoom();
-        verify(chatClient).openLock();
         assertThat(chatClient.getIdCount(), is(1));
         verify(refMockIdCount).setValue(1);
     }
@@ -64,7 +60,6 @@ public class ChatClientTests {
     @Test
     public void testWriteMessages() {
         chatClient = new ChatClient(articleId, firebaseDatabaseMock);
-        chatClient.connect();
 
         DatabaseReference refMock = mock(DatabaseReference.class);
         DatabaseReference pushMock = mock(DatabaseReference.class);
@@ -81,7 +76,6 @@ public class ChatClientTests {
     @Test
     public void testWriteMessagesLocked() {
         chatClient = new ChatClient(articleId, firebaseDatabaseMock);
-        chatClient.connect();
 
         DatabaseReference refMock = mock(DatabaseReference.class);
         DatabaseReference pushMock = mock(DatabaseReference.class);
@@ -99,7 +93,6 @@ public class ChatClientTests {
     @Test
     public void testWriteMessagesQueued() {
         chatClient = new ChatClient(articleId, firebaseDatabaseMock);
-        chatClient.connect();
 
         DatabaseReference refMock = mock(DatabaseReference.class);
         DatabaseReference pushMock = mock(DatabaseReference.class);
