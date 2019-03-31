@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class ChatClient {
     private int idCount;
-    private int users;
+    private int userCount;
     private boolean lock;
     private List<Message> sendMessageQueue;
     private List<Message> messageList;
@@ -32,12 +32,12 @@ public class ChatClient {
     private final String messagesPath = "messages";
     private final String articlesPath = "articles";
     private final String idCountPath = "idCount";
-    private final String usersCountPath = "users";
+    private final String usersCountPath = "userCount";
 
     public ChatClient(int articleId) {
         Log.i("ChatClient",  "articleId: " + articleId);
         this.idCount = 0;
-        this.users = 0;
+        this.userCount = 0;
         closeLock();
         this.sendMessageQueue = new ArrayList<>();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -54,7 +54,7 @@ public class ChatClient {
                 }
 
                 if (dataSnapshot.hasChild(usersCountPath)) {
-                    users = dataSnapshot.child(usersCountPath).getValue(Integer.class) != null
+                    userCount = dataSnapshot.child(usersCountPath).getValue(Integer.class) != null
                             ? dataSnapshot.child(usersCountPath).getValue(Integer.class) : 0;
                 }
 
@@ -126,7 +126,7 @@ public class ChatClient {
     }
 
     public int getUsersCount() {
-        return this.users;
+        return this.userCount;
     }
 
     public String getUser() {
@@ -134,16 +134,13 @@ public class ChatClient {
     }
 
     private void enterChatRoom() {
-        // Update idCount and users count
-        this.idCount++;
-        this.users++;
-        this.articlesRef.child("idCount").setValue(this.idCount);
-        this.articlesRef.child("users").setValue(this.users);
+        // Update idCount and userCount count
+        this.articlesRef.child(idCountPath).setValue(++this.idCount);
+        this.articlesRef.child(usersCountPath).setValue(++this.userCount);
     }
 
     public void leaveChatRoom() {
-        this.users--;
-        this.articlesRef.child("users").setValue(this.users);
+        this.articlesRef.child(usersCountPath).setValue(--this.userCount);
     }
 
     private void closeLock() {
