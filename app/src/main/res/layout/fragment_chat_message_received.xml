@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="70dp">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/chat_message_received_user_image"
@@ -19,16 +19,25 @@
 
     <TextView
         android:id="@+id/chat_message_received_text"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/chat_message_received_user_image"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Lorem ipsum doler sit @string/reading_list_action_menu_add_to_another_list" />
+        app:layout_constraintTop_toBottomOf="@+id/chat_message_received_username"
+        tools:text="Lorem ipsum doler sit" />
+
+    <TextView
+        android:id="@+id/chat_message_received_username"
+        android:layout_width="69dp"
+        android:layout_height="13dp"
+        android:layout_marginStart="10dp"
+        android:textSize="8sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/chat_message_received_user_image"
+        tools:layout_editor_absoluteY="9dp"
+        tools:text="Anon 123" />
 </android.support.constraint.ConstraintLayout>
