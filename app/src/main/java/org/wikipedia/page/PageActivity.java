@@ -51,6 +51,8 @@ import org.wikipedia.history.HistoryEntry;
 import org.wikipedia.language.LangLinksActivity;
 import org.wikipedia.main.MainActivity;
 import org.wikipedia.navtab.NavTab;
+import org.wikipedia.page.chat.ChatClient;
+import org.wikipedia.page.chat.ChatFragment;
 import org.wikipedia.page.linkpreview.LinkPreviewDialog;
 import org.wikipedia.page.tabs.TabActivity;
 import org.wikipedia.readinglist.AddToReadingListDialog;
@@ -198,6 +200,8 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
             // then we must have been launched with an Intent, so... handle it!
             handleIntent(getIntent());
         }
+        ChatFragment chatFragment = ChatFragment.newInstance(new ChatClient(0));
+        chatFragment.show(getSupportFragmentManager(), "test");
     }
 
 
