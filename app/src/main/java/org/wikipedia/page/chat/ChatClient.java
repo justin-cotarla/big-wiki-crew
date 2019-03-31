@@ -40,7 +40,10 @@ public class ChatClient {
         closeLock();
         this.sendMessageQueue = new ArrayList<>();
         this.articlesRef = firebaseDatabase.getReference(articlesPath + "/" + articleId);
+        this.connect();
+    }
 
+    private void connect() {
         // Read all data from the article node. Set the instance variables here.
         this.articlesRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -120,7 +123,7 @@ public class ChatClient {
         return userPrefix + String.valueOf(getIdCount());
     }
 
-    private void enterChatRoom() {
+    protected void enterChatRoom() {
         // Update idCount
         this.idCount++;
         this.articlesRef.child("idCount").setValue(this.idCount);
