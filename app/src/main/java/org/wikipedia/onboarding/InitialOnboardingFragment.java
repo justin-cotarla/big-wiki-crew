@@ -130,6 +130,13 @@ public class InitialOnboardingFragment extends OnboardingFragment {
 
      enum OnboardingPage implements EnumCode {
         PAGE_WELCOME(R.layout.inflate_initial_onboarding_page_zero),
+        PAGE_IMAGE_SEARCH(R.layout.inflate_initial_onboarding_feature_zero),
+        PAGE_TTS(R.layout.inflate_initial_onboarding_feature_one),
+        PAGE_SELECTIVE_TRANSLATION(R.layout.inflate_initial_onboarding_feature_two),
+        PAGE_NO_HISTORY(R.layout.inflate_initial_onboarding_feature_three),
+        PAGE_CATEGORIES(R.layout.inflate_initial_onboarding_feature_four),
+        PAGE_DISCOVER(R.layout.inflate_initial_onboarding_feature_five),
+        PAGE_CHAT(R.layout.inflate_initial_onboarding_feature_six),
         PAGE_EXPLORE(R.layout.inflate_initial_onboarding_page_one),
         PAGE_READING_LISTS(R.layout.inflate_initial_onboarding_page_two),
         PAGE_USAGE_DATA(R.layout.inflate_initial_onboarding_page_three);

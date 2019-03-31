@@ -680,6 +680,20 @@
     <string name="onboarding_multilingual_secondary_text">We’ve found the following on your device:</string>
     <string name="onboarding_multilingual_add_language_text">Add or edit languages</string>
     <string name="onboarding_welcome_title_v2">The Free Encyclopedia\n&#8230;in nearly 300 languages</string>
+    <string name="onboarding_feature_image_search_title">Image search</string>
+    <string name="onboarding_feature_image_search_text">Text for image search</string>
+    <string name="onboarding_feature_tts_title">Text-to-speech</string>
+    <string name="onboarding_feature_tts_text">Text for tts</string>
+    <string name="onboarding_feature_selective_translation_title">Selective translation</string>
+    <string name="onboarding_feature_selective_translation_text">Text for selective translation</string>
+    <string name="onboarding_feature_no_history_title">No history</string>
+    <string name="onboarding_feature_no_history_text">Text for no history</string>
+    <string name="onboarding_feature_categories_title">Categories</string>
+    <string name="onboarding_feature_categories_text">Text for categories</string>
+    <string name="onboarding_feature_discover_title">Discover</string>
+    <string name="onboarding_feature_discover_text">Text for discover</string>
+    <string name="onboarding_feature_chat_title">Chat</string>
+    <string name="onboarding_feature_chat_text">Text for chat</string>
     <!-- /Onboarding -->
 
     <!-- App Shortcuts -->
@@ -730,6 +744,7 @@
     <string name="main_drawer_close">Close</string>
     <string name="main_drawer_help">Help</string>
     <string name="main_drawer_login">Log in / join Wikipedia</string>
+    <string name="main_drawer_new_features">Big Wiki Crew Features</string>
     <string name="title_description_task_title">Add title descriptions</string>
     <string name="title_description_task_description">Contribute to articles without title descriptions</string>
     <string name="image_caption_task_title">Caption images</string>
