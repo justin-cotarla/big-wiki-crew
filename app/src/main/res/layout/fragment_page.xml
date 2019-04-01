@@ -84,14 +84,14 @@
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/button_chat_room"
                         android:layout_alignEnd="@+id/button_chat_room"
-                        android:text="50"
                         android:textStyle="bold"
                         android:gravity="center"
                         android:textAlignment="center"
                         android:textColor="#FFF"
                         android:textSize="12sp"
                         android:background="@drawable/circle_red_22dp"
-                        android:elevation="7dp"/>
+                        android:elevation="7dp"
+                        android:visibility="gone"/>
                 </RelativeLayout>
 
                 <org.wikipedia.page.PageActionTabLayout
