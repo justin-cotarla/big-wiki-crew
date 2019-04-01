@@ -1,4 +1,4 @@
-package org.wikipedia.page.chatroom;
+package org.wikipedia.page.chat;
 
 public class ChatRoomActivity {
 }

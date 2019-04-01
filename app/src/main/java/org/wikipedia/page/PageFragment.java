@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,7 +64,6 @@ import org.wikipedia.media.MediaPlayerImplementation;
 import org.wikipedia.page.action.PageActionTab;
 import org.wikipedia.page.action.PageActionToolbarHideHandler;
 import org.wikipedia.page.bottomcontent.BottomContentView;
-import org.wikipedia.page.chatroom.ChatRoomActivity;
 import org.wikipedia.page.chat.ChatClient;
 import org.wikipedia.page.leadimages.LeadImagesHandler;
 import org.wikipedia.page.leadimages.PageHeaderView;
@@ -90,6 +90,7 @@ import org.wikipedia.views.WikiPageErrorView;
 
 import java.util.Date;
 import java.util.List;
+import java.util.function.Function;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -176,7 +177,24 @@ public class PageFragment extends Fragment implements BackPressedHandler {
 
     private ChatClient chatClient;
     private RelativeLayout chatRoomLayout;
+    private TextView userCountBadge;
 
+    private class OnUserCountUpdate implements ChatClient.Callback {
+        @Override
+        public void run(Integer count) {
+            int countOfOthers = count - 1;
+            userCountBadge.setText(String.valueOf(countOfOthers));
+            if (countOfOthers == 0) {
+                userCountBadge.setVisibility(View.GONE);
+            }
+            else if (countOfOthers < 0) {
+                L.e("errorrrrr");
+            }
+            else {
+                userCountBadge.setVisibility(View.VISIBLE);
+            }
+        }
+    }
 
     @NonNull
     private final SwipeRefreshLayout.OnRefreshListener pageRefreshListener = this::refreshPage;
@@ -327,8 +345,9 @@ public class PageFragment extends Fragment implements BackPressedHandler {
 
         chatRoomLayout = rootView.findViewById(R.id.chat_room_layout);
         chatRoomLayout.setOnClickListener(click -> {
-            // call chat client?
+            // open chat room view
         });
+        userCountBadge = rootView.findViewById(R.id.badge_chat_room);
 
         errorView = rootView.findViewById(R.id.page_error);
 
@@ -517,6 +536,7 @@ public class PageFragment extends Fragment implements BackPressedHandler {
 
         tts.get().stop();
         stopTTSButton.hide();
+        chatClient.leaveChatRoom();
     }
 
     @Override
@@ -524,6 +544,9 @@ public class PageFragment extends Fragment implements BackPressedHandler {
         super.onResume();
         initPageScrollFunnel();
         activeTimer.resume();
+        if (chatClient != null) {
+            chatClient.enterChatRoom();
+        }
     }
 
     @Override
@@ -843,7 +866,8 @@ public class PageFragment extends Fragment implements BackPressedHandler {
 
         //initialize chat client once the page model is loaded, if not on refresh
         if (!pageRefreshed) {
-            chatClient = new ChatClient(this.getPage().getPageProperties().getPageId());
+            chatClient = new ChatClient(this.getPage().getPageProperties().getPageId(), new OnUserCountUpdate());
+//            userCountBadge.setText(String.valueOf(chatClient.getUsersCount()));
         }
     }
 
@@ -1110,9 +1134,6 @@ public class PageFragment extends Fragment implements BackPressedHandler {
             // if we're at the end of the current tab's backstack, then pop the current tab.
             app.getTabList().remove(app.getTabList().size() - 1);
         }
-
-        // Leave the chat room when closing page via back press
-        chatClient.leaveChatRoom();
 
         return back;
     }
