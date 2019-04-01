@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/chat_message_received_user_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="42dp"
+        android:layout_height="39dp"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -19,13 +19,14 @@
     <TextView
         android:id="@+id/chat_message_received_text"
         android:layout_width="wrap_content"
-        android:layout_height="19dp"
+        android:layout_height="0dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="4dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/received_message"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:paddingBottom="3dp"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/chat_message_received_user_image"
@@ -35,14 +36,11 @@
     <TextView
         android:id="@+id/chat_message_received_username"
         android:layout_width="69dp"
-        android:layout_height="13dp"
+        android:layout_height="0dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="2dp"
         android:paddingLeft="1dp"
-        android:paddingTop="2dp"
         android:textSize="10sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/chat_message_received_text"
         app:layout_constraintStart_toEndOf="@+id/chat_message_received_user_image"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Anon 123" />

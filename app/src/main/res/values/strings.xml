@@ -789,4 +789,5 @@
     <string name="categories_culture">Culture</string>
     <string name="category_card_text">card_text</string>
     <string name="search_hint_categories">Search for a category</string>
+    <string name="chat_title">Chat</string>
 </resources>
