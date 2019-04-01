@@ -26,6 +26,7 @@ public class ChatClientTests {
     private String articlesPath = "articles";
     private String messagesPath = "messages";
     private String idCountPath = "idCount";
+    private String usersCountPath = "userCount";
 
     private FirebaseDatabase firebaseDatabaseMock;
     private DatabaseReference articlesReferenceMock;
@@ -42,7 +43,9 @@ public class ChatClientTests {
     @Test
     public void testConnect() {
         DatabaseReference refMockIdCount = mock(DatabaseReference.class);
+        DatabaseReference refMockUserCount = mock(DatabaseReference.class);
         when(articlesReferenceMock.child(idCountPath)).thenReturn(refMockIdCount);
+        when(articlesReferenceMock.child(usersCountPath)).thenReturn(refMockUserCount);
 
         doAnswer((Answer<Void>) invocation -> {
             ValueEventListener valueEventListener = (ValueEventListener) invocation.getArguments()[0];
