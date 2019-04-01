@@ -90,7 +90,6 @@ import org.wikipedia.views.WikiPageErrorView;
 
 import java.util.Date;
 import java.util.List;
-import java.util.function.Function;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -186,12 +185,10 @@ public class PageFragment extends Fragment implements BackPressedHandler {
             userCountBadge.setText(String.valueOf(countOfOthers));
             if (countOfOthers == 0) {
                 userCountBadge.setVisibility(View.GONE);
-            }
-            else if (countOfOthers < 0) {
-                L.e("errorrrrr");
-            }
-            else {
+            } else if (countOfOthers > 0) {
                 userCountBadge.setVisibility(View.VISIBLE);
+            } else {
+                L.e("Bad user count in article.");
             }
         }
     }

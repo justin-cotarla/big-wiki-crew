@@ -58,7 +58,7 @@
         android:layout_height="match_parent"
         android:padding="@dimen/bottom_toolbar_item_padding"
         android:contentDescription="@string/menu_show_toc"
-        android:tag="6"
+        android:tag="5"
         android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_list_white_24dp"/>
