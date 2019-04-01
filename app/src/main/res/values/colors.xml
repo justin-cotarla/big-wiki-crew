@@ -9,7 +9,7 @@
     <color name="base50">#a2a9b1</color> <!-- B AAA: Highlighted border -->
     <color name="base30">#72777d</color> <!-- B&W AA: Disabled elements text, Placeholder text, Active border -->
     <color name="base20">#54595d</color> <!-- W AAA: Emphasized secondary text at level AAA need -->
-    <color name="base18">#43464a</color> <!-- AAA: "Mesosphere gray" -->
+    <color name="base18">#43464A</color> <!-- AAA: "Mesosphere gray" -->
     <color name="base14">#2e3136</color> <!-- AAA: "Thermosphere gray" -->
     <color name="base12">#27292d</color> <!-- AAA: "Exosphere gray" -->
     <color name="base10">#222</color> <!-- W AAA: Copy color, Buttons / widgets text -->
