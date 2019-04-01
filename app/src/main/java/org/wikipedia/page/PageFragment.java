@@ -64,6 +64,7 @@ import org.wikipedia.page.action.PageActionTab;
 import org.wikipedia.page.action.PageActionToolbarHideHandler;
 import org.wikipedia.page.bottomcontent.BottomContentView;
 import org.wikipedia.page.chatroom.ChatRoomActivity;
+import org.wikipedia.page.chat.ChatClient;
 import org.wikipedia.page.leadimages.LeadImagesHandler;
 import org.wikipedia.page.leadimages.PageHeaderView;
 import org.wikipedia.page.shareafact.ShareHandler;
@@ -172,7 +173,10 @@ public class PageFragment extends Fragment implements BackPressedHandler {
 
     private TextToSpeechWrapper tts;
     private FloatingActionButton stopTTSButton;
+
+    private ChatClient chatClient;
     private RelativeLayout chatRoomLayout;
+
 
     @NonNull
     private final SwipeRefreshLayout.OnRefreshListener pageRefreshListener = this::refreshPage;
@@ -278,6 +282,10 @@ public class PageFragment extends Fragment implements BackPressedHandler {
 
     public TextToSpeechWrapper getTTS() {
         return tts;
+    }
+
+    public ChatClient getChatClient() {
+        return chatClient;
     }
 
     @Override
@@ -832,6 +840,11 @@ public class PageFragment extends Fragment implements BackPressedHandler {
         }
 
         checkAndShowBookmarkOnboarding();
+
+        //initialize chat client once the page model is loaded, if not on refresh
+        if (!pageRefreshed) {
+            chatClient = new ChatClient(this.getPage().getPageProperties().getPageId());
+        }
     }
 
     public void onPageLoadError(@NonNull Throwable caught) {
@@ -1082,21 +1095,26 @@ public class PageFragment extends Fragment implements BackPressedHandler {
 
     @Override
     public boolean onBackPressed() {
+        boolean back = false;
         if (tocHandler != null && tocHandler.isVisible()) {
             tocHandler.hide();
-            return true;
+            back = true;
         }
         if (closeFindInPage()) {
-            return true;
+            back = true;
         }
         if (pageFragmentLoadState.goBack()) {
-            return true;
+            back = true;
         }
         if (app.getTabList().size() > 1) {
             // if we're at the end of the current tab's backstack, then pop the current tab.
             app.getTabList().remove(app.getTabList().size() - 1);
         }
-        return false;
+
+        // Leave the chat room when closing page via back press
+        chatClient.leaveChatRoom();
+
+        return back;
     }
 
     public void goForward() {

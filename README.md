@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/justin-cotarla/big-wiki-crew/branch/dev/graph/badge.svg?token=K6ZNziK9sZ)](https://codecov.io/gh/justin-cotarla/big-wiki-crew)
+
 ### Wikipedia Android app
 
 This repository contains the source code for the official Wikipedia Android app.
