@@ -2,7 +2,9 @@ package org.wikipedia.page.chat;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,8 +27,9 @@ public class ChatClient implements Serializable {
     private int userCount;
     private boolean lock;
     private List<Message> sendMessageQueue;
-    private List<Message> messageList;
     private DatabaseReference articlesRef;
+    private DatabaseReference messageRef;
+    private ChildEventListener messageListener;
 
     private final String userPrefix = "anon";
     private final String messagesPath = "messages";
@@ -35,15 +38,16 @@ public class ChatClient implements Serializable {
     private final String usersCountPath = "userCount";
 
     public ChatClient(int articleId) {
-        this.idCount = 0;
-        this.userCount = 0;
+        idCount = 0;
+        userCount = 0;
         closeLock();
-        this.sendMessageQueue = new ArrayList<>();
+        sendMessageQueue = new ArrayList<>();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        this.articlesRef = database.getReference(articlesPath + "/" + articleId);
+        articlesRef = database.getReference(articlesPath + "/" + articleId);
+        messageRef = this.articlesRef.child(messagesPath);
 
         // Read all data from the article node. Set the instance variables here.
-        this.articlesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        articlesRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChild(idCountPath)) {
@@ -67,30 +71,38 @@ public class ChatClient implements Serializable {
         });
     }
 
-    public void readMessages(Context context) {
-        DatabaseReference messageRef = this.articlesRef.child(messagesPath);
-        messageList = new ArrayList<>();
-        messageRef.addValueEventListener(new ValueEventListener() {
+    public void subscribe(MessageCallback callback) {
+        messageListener = new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                        Message newMessage = child.getValue(Message.class);
-                        if (!messageList.contains(newMessage)) {
-                            messageList.add(newMessage);
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                callback.messageReceived(dataSnapshot.getValue(Message.class));
+            }
 
-                            // THIS IS WHERE YOU WOULD UPDATE THE UI
-                            // PASS A REFERENCE THAT YOU CAN CALL A FUNCTION ON HERE
-                            // IN ORDER TO ADD THE NEW MESSAGE TO THE LIST ON THE UI
-                            // "context.addMessageToChatList(newMessage)"
-                        }
-                }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                // Never gonna give you up
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                // Never gonna let you down
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                // Never gonna run around and desert you
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 L.e(databaseError.toException());
             }
-        });
+        };
+        messageRef.addChildEventListener(messageListener);
+    }
+
+    public void unsubscribe() {
+        messageRef.removeEventListener(messageListener);
     }
 
     public void writeMessage(String message) {
@@ -152,5 +164,9 @@ public class ChatClient implements Serializable {
 
     private boolean isLocked() {
         return this.lock;
+    }
+
+    public interface MessageCallback {
+        void messageReceived(Message message);
     }
 }

@@ -200,8 +200,6 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
             // then we must have been launched with an Intent, so... handle it!
             handleIntent(getIntent());
         }
-        ChatFragment chatFragment = ChatFragment.newInstance(new ChatClient(0));
-        chatFragment.show(getSupportFragmentManager(), "test");
     }
 
 
@@ -222,6 +220,10 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
     @OnClick(R.id.page_toolbar_button_show_overflow_menu)
     public void onShowOverflowMenuButtonClicked() {
         showOverflowMenu(toolbar.findViewById(R.id.page_toolbar_button_show_overflow_menu));
+    }
+
+    public ChatClient getChatClient() {
+        return pageFragment.getChatClient();
     }
 
     public void animateTabsButton() {

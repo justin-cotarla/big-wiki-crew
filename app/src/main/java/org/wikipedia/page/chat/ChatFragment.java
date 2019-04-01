@@ -1,52 +1,59 @@
 package org.wikipedia.page.chat;
 
+import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.wikipedia.R;
+import org.wikipedia.page.PageActivity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class ChatFragment extends DialogFragment {
-    private final static String CHAT_CLIENT_KEY_KEY = "chat_client";
-
     private ChatClient chatClient;
     private ArrayList<Message> messageList = new ArrayList();
+    private ChatAdapter chatAdapter;
 
     private Unbinder unbinder;
 
     @BindView(R.id.chat_message_view) RecyclerView chatMessageView;
-
-    public static ChatFragment newInstance(ChatClient chatClient) {
-        ChatFragment chatFragment = new ChatFragment();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(CHAT_CLIENT_KEY_KEY, chatClient);
-        chatFragment.setArguments(bundle);
-
-        return chatFragment;
-    }
+    @BindView(R.id.chat_send_btn) AppCompatImageButton sendButton;
+    @BindView(R.id.chat_text_input) AppCompatEditText textInput;
+    @BindView(R.id.chat_close_btn) AppCompatImageButton closeButton;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setHasOptionsMenu(true);
+        chatClient = ((PageActivity)getActivity()).getChatClient();
     }
 
     @Override
@@ -55,9 +62,26 @@ public class ChatFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        chatMessageView.setLayoutManager(new LinearLayoutManager(getContext()));
-        chatClient = (ChatClient) getArguments().getSerializable(CHAT_CLIENT_KEY_KEY);
-        chatMessageView.setAdapter(new ChatAdapter());
+        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+
+        chatAdapter = new ChatAdapter();
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setStackFromEnd(true);
+        chatMessageView.setLayoutManager(layoutManager);
+        chatMessageView.setAdapter(chatAdapter);
+        chatMessageView.setHasFixedSize(true);
+
+        sendButton.setOnClickListener(listener -> {
+            chatClient.writeMessage(textInput.getText().toString());
+            textInput.setText("");
+        });
+
+        closeButton.setOnClickListener(listener -> {
+            dismiss();
+        });
+
+        chatClient.subscribe(new MessageCallback());
 
         return view;
     }
@@ -65,22 +89,42 @@ public class ChatFragment extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
-        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
-        params.width = ConstraintLayout.LayoutParams.MATCH_PARENT;
-        params.height = ConstraintLayout.LayoutParams.MATCH_PARENT;
-        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+
+        super.onResume();
+        Window window = getDialog().getWindow();
+        Point size = new Point();
+
+        Display display = window.getWindowManager().getDefaultDisplay();
+        display.getSize(size);
+
+        int width = size.x;
+        int height = size.y;
+
+        window.setLayout((int) (width * 0.90), (int) (height * 0.90));
+        window.setGravity(Gravity.CENTER);
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
     }
 
     @Override
     public void onDestroyView() {
         unbinder.unbind();
         unbinder = null;
+        chatClient.unsubscribe();
         super.onDestroyView();
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_feed, menu);
+    }
+
+    private class MessageCallback implements ChatClient.MessageCallback {
+        public void messageReceived(Message message) {
+            messageList.add(message);
+            chatAdapter.notifyDataSetChanged();
+            chatMessageView.smoothScrollToPosition(messageList.size() - 1);
+        }
     }
 
     private class ChatAdapter extends RecyclerView.Adapter {
@@ -103,10 +147,11 @@ public class ChatFragment extends DialogFragment {
             }
         }
 
-        @NonNull
         @Override
         public int getItemViewType(int position) {
-            if (messageList.get(position).getUser() == chatClient.getUser()) {
+            String messageUser = messageList.get(position).getUser();
+            String clientUser = chatClient.getUser();
+            if (messageUser.equals(clientUser)) {
                 return SENT_TYPE;
             }
             return RECEIVED_TYPE;
@@ -123,8 +168,8 @@ public class ChatFragment extends DialogFragment {
 
                 case RECEIVED_TYPE:
                     View receivedView = LayoutInflater.from(parent.getContext())
-                            .inflate(R.layout.fragment_chat_message_sent, parent, false);
-                    return new SentMessageViewHolder(receivedView);
+                            .inflate(R.layout.fragment_chat_message_received, parent, false);
+                    return new ReceivedMessageViewHolder(receivedView);
                 default:
                     // Should not happen
                     return null;
@@ -145,6 +190,8 @@ public class ChatFragment extends DialogFragment {
                     ReceivedMessageViewHolder receivedMessageViewHolder = (ReceivedMessageViewHolder)holder;
                     ((TextView)receivedMessageViewHolder.receivedMessageView.findViewById(R.id.chat_message_received_text))
                             .setText(message.getMessage());
+                    ((TextView)receivedMessageViewHolder.receivedMessageView.findViewById(R.id.chat_message_received_username))
+                            .setText(message.getUser());
                     break;
             }
         }
