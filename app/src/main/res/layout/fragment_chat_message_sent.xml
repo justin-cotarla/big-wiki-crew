@@ -6,9 +6,11 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/chat_message_sent_user_image3"
-        android:layout_width="50dp"
+        android:id="@+id/chat_message_sent_user_image"
+        android:layout_width="45dp"
         android:layout_height="50dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -26,7 +28,7 @@
         android:paddingRight="10dp"
         android:paddingBottom="3dp"
         android:textColor="@android:color/white"
-        app:layout_constraintEnd_toStartOf="@+id/chat_message_sent_user_image3"
+        app:layout_constraintEnd_toStartOf="@+id/chat_message_sent_user_image"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Lorem ipsum doler sit" />
 </android.support.constraint.ConstraintLayout>

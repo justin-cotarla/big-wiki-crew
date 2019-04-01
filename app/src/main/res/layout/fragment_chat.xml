@@ -8,19 +8,18 @@
     android:focusable="true"
     android:focusableInTouchMode="true">
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/chat_title_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/chat_title"
-            android:layout_width="361dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
             android:fontFamily="sans-serif"
             android:paddingLeft="5dp"
             android:text="@string/chat_title"
@@ -33,15 +32,15 @@
 
         <ImageButton
             android:id="@+id/chat_close_btn"
-            android:layout_width="31dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:layout_margin="2dp"
-            android:clickable="true"
-            android:gravity="center"
+            android:layout_weight="1"
+            android:paddingStart="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/chip_close_button_light" />
-
-    </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/chat_message_view"
@@ -78,8 +77,8 @@
 
         <ImageButton
             android:id="@+id/chat_send_btn"
-            android:layout_width="64dp"
-            android:layout_height="48dp"
+            android:layout_width="65dp"
+            android:layout_height="50dp"
             android:layout_gravity="bottom"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
