@@ -24,6 +24,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="5dp"
         android:background="@drawable/sent_message"
+        android:maxWidth="200dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingBottom="3dp"
