@@ -1,6 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.8.3"
+}
 
 import com.android.build.gradle.internal.dsl.ProductFlavor
 import com.android.ddmlib.DdmPreferences
@@ -57,6 +62,7 @@ android {
         testApplicationId 'org.wikipedia.test'
         testInstrumentationRunner "org.wikipedia.WikipediaTestRunner"
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -83,6 +89,7 @@ android {
     }
     buildTypes {
         debug {
+            testCoverageEnabled true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-rules-debug.pro'
             testProguardFile 'test-proguard-rules.pro'
@@ -166,6 +173,9 @@ android {
             includeAndroidResources = true
             returnDefaultValues = true
         }
+        unitTests.all {
+            jacoco.includeNoLocationClasses = true
+        }
     }
     buildToolsVersion '28.0.3'
 }
@@ -186,6 +196,24 @@ android.applicationVariants.all { variant ->
 
 apply from: '../gradle/src/test.gradle'
 apply from: '../gradle/src/checkstyle.gradle'
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDevDebugUnitTest']) {
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def debugTree = fileTree(dir: "$project.buildDir/intermediates/javac/devDebug/compileDevDebugJavaWithJavac/classes", excludes: fileFilter)
+    def mainSrc = "$project.projectDir/src/main/java"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = fileTree(dir: project.buildDir, includes: [
+            'jacoco/testDevDebugUnitTest.exec'
+    ])
+}
 
 dependencies {
 
@@ -243,6 +271,12 @@ dependencies {
     implementation 'com.google.http-client:google-http-client-gson:1.20.0' exclude module: 'httpclient'
     implementation 'com.google.apis:google-api-services-vision:v1-rev2-1.21.0'
     implementation 'com.google.code.findbugs:jsr305:2.0.1'
+    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation 'com.google.firebase:firebase-perf:16.2.4'
+    implementation 'com.google.firebase:firebase-database:16.0.6'
+
+    implementation 'com.android.support:multidex:1.0.3'
+
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
     android.productFlavors.each { flavor ->
         String dep
@@ -256,6 +290,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation mockitoCore
     testImplementation 'org.robolectric:robolectric:3.8'
+    testImplementation "org.robolectric:shadows-multidex:4.0.1"
     testImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
     testImplementation 'commons-io:commons-io:2.6'
     androidTestImplementation mockitoCore
@@ -311,3 +346,5 @@ private String appId(ProductFlavor flavor) {
     String id = android.defaultConfig.applicationId + (suffix ? ".$suffix" : '')
     return id
 }
+
+apply plugin: 'com.google.gms.google-services'
