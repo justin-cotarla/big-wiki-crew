@@ -25,9 +25,9 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.wikipedia.espresso.util.ViewTools.childAtPosition;
 
-//@LargeTest
+@LargeTest
 @RunWith(AndroidJUnit4.class)
-//@SuppressWarnings("checkstyle:magicnumber")
+@SuppressWarnings("checkstyle:magicnumber")
 public class ChatRoomTest {
     @Rule
     public ActivityTestRule<MainActivity> mainActivityTestRule = new ActivityTestRule<>(MainActivity.class);
