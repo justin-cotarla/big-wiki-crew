@@ -13,9 +13,8 @@
         android:id="@+id/chat_title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/chat_divider_top"
+        app:layout_constraintBottom_toTopOf="@+id/chat_message_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -46,19 +45,6 @@
             app:srcCompat="@drawable/chip_close_button_light" />
     </android.support.constraint.ConstraintLayout>
 
-    <View
-        android:id="@+id/chat_divider_top"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/base18"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        app:layout_constraintBottom_toTopOf="@+id/chat_message_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chat_title_layout" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/chat_message_view"
         android:layout_width="0dp"
@@ -66,7 +52,7 @@
         app:layout_constraintBottom_toTopOf="@+id/chat_divider_bot"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chat_divider_top">
+        app:layout_constraintTop_toBottomOf="@+id/chat_title_layout">
 
     </android.support.v7.widget.RecyclerView>
 
@@ -74,7 +60,7 @@
         android:id="@+id/chat_divider_bot"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/base18"
+        android:background="@color/base50"
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
         app:layout_constraintBottom_toTopOf="@+id/chat_text_input_layout"
@@ -103,7 +89,7 @@
             android:layout_marginRight="16dp"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:hint="Enter message"
+            android:hint="@string/input_hint"
             android:maxLines="6" />
 
         <ImageButton
