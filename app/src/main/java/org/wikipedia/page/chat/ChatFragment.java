@@ -90,20 +90,9 @@ public class ChatFragment extends DialogFragment {
     public void onResume() {
         super.onResume();
 
-        super.onResume();
-        Window window = getDialog().getWindow();
-        Point size = new Point();
-
-        Display display = window.getWindowManager().getDefaultDisplay();
-        display.getSize(size);
-
-        int width = size.x;
-        int height = size.y;
-
-        window.setLayout((int) (width * 0.90), (int) (height * 0.90));
-        window.setGravity(Gravity.CENTER);
-        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
+        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        int height = ViewGroup.LayoutParams.MATCH_PARENT;
+        getDialog().getWindow().setLayout(width, height);
     }
 
     @Override
