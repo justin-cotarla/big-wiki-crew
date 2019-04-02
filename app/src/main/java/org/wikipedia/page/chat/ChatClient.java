@@ -1,6 +1,5 @@
 package org.wikipedia.page.chat;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -37,17 +36,21 @@ public class ChatClient implements Serializable {
     private final String idCountPath = "idCount";
     private final String usersCountPath = "userCount";
 
-    private Callback userCountCallback;
+    private UserCountCallback userCountCallback;
 
-    public interface Callback {
+    public interface UserCountCallback {
         void run(Integer count);
     }
 
-    public ChatClient(int articleId, Callback userCountCallback) {
+    public interface MessageCallback {
+        void messageReceived(Message message);
+    }
+
+    public ChatClient(int articleId, UserCountCallback userCountCallback) {
         this(articleId, FirebaseDatabase.getInstance(), userCountCallback);
     }
 
-    public ChatClient(int articleId, FirebaseDatabase firebaseDatabase, Callback userCountCallback) {
+    public ChatClient(int articleId, FirebaseDatabase firebaseDatabase, UserCountCallback userCountCallback) {
         idCount = 0;
         userCount = 0;
         closeLock();
@@ -158,14 +161,14 @@ public class ChatClient implements Serializable {
 
     public void enterChatRoom() {
         // Update idCount and userCount count
-        this.articlesRef.child(idCountPath).setValue(++this.idCount);
-        this.articlesRef.child(usersCountPath).setValue(++this.userCount);
-        this.userCountCallback.run(this.userCount);
+        articlesRef.child(idCountPath).setValue(++this.idCount);
+        articlesRef.child(usersCountPath).setValue(++this.userCount);
+        userCountCallback.run(this.userCount);
     }
 
     public void leaveChatRoom() {
-        this.articlesRef.child(usersCountPath).setValue(--this.userCount);
-        this.userCountCallback.run(this.userCount);
+        articlesRef.child(usersCountPath).setValue(--this.userCount);
+        userCountCallback.run(this.userCount);
     }
 
     public void closeLock() {
@@ -179,9 +182,5 @@ public class ChatClient implements Serializable {
 
     private boolean isLocked() {
         return this.lock;
-    }
-
-    public interface MessageCallback {
-        void messageReceived(Message message);
     }
 }

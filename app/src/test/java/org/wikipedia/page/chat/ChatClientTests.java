@@ -30,14 +30,14 @@ public class ChatClientTests {
 
     private FirebaseDatabase firebaseDatabaseMock;
     private DatabaseReference articlesReferenceMock;
-    private ChatClient.Callback userCountCallbackMock;
+    private ChatClient.UserCountCallback userCountCallbackMock;
 
 
     @Before
     public void setUp() {
         firebaseDatabaseMock = mock(FirebaseDatabase.class);
         articlesReferenceMock = mock(DatabaseReference.class);
-        userCountCallbackMock = mock(ChatClient.Callback.class);
+        userCountCallbackMock = mock(ChatClient.UserCountCallback.class);
         when(firebaseDatabaseMock.getReference(articlesPath + '/' + articleId)).thenReturn(articlesReferenceMock);
     }
 

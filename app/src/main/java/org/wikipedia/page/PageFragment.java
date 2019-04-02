@@ -65,6 +65,7 @@ import org.wikipedia.page.action.PageActionTab;
 import org.wikipedia.page.action.PageActionToolbarHideHandler;
 import org.wikipedia.page.bottomcontent.BottomContentView;
 import org.wikipedia.page.chat.ChatClient;
+import org.wikipedia.page.chat.ChatFragment;
 import org.wikipedia.page.leadimages.LeadImagesHandler;
 import org.wikipedia.page.leadimages.PageHeaderView;
 import org.wikipedia.page.shareafact.ShareHandler;
@@ -178,7 +179,7 @@ public class PageFragment extends Fragment implements BackPressedHandler {
     private RelativeLayout chatRoomLayout;
     private TextView userCountBadge;
 
-    private class OnUserCountUpdate implements ChatClient.Callback {
+    private class OnUserCountUpdate implements ChatClient.UserCountCallback {
         @Override
         public void run(Integer count) {
             int countOfOthers = count - 1;
@@ -342,7 +343,8 @@ public class PageFragment extends Fragment implements BackPressedHandler {
 
         chatRoomLayout = rootView.findViewById(R.id.chat_room_layout);
         chatRoomLayout.setOnClickListener(click -> {
-            // open chat room view
+            ChatFragment chatFragment = new ChatFragment();
+            chatFragment.show(getFragmentManager(), "chat");
         });
         userCountBadge = rootView.findViewById(R.id.badge_chat_room);
 
