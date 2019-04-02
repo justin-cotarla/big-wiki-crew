@@ -1,11 +1,18 @@
 package org.wikipedia.espresso.page;
 
+import android.support.annotation.NonNull;
 import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,17 +24,24 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.replaceText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.core.internal.deps.dagger.internal.Preconditions.checkNotNull;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.AllOf.allOf;
+import static org.wikipedia.espresso.util.ViewTools.WAIT_FOR_2000;
 import static org.wikipedia.espresso.util.ViewTools.childAtPosition;
+import static org.wikipedia.espresso.util.ViewTools.waitFor;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-@SuppressWarnings("checkstyle:magicnumber")
 public class ChatRoomTest {
     @Rule
     public ActivityTestRule<MainActivity> mainActivityTestRule = new ActivityTestRule<>(MainActivity.class);
@@ -42,7 +56,7 @@ public class ChatRoomTest {
         );
         linearLayout.perform(click());
 
-        sleepDelay();
+        waitFor(WAIT_FOR_2000);
 
         // On search page, enter keyword "wikipedia"
         ViewInteraction searchAutoComplete = onView(
@@ -52,7 +66,7 @@ public class ChatRoomTest {
         );
         searchAutoComplete.perform(replaceText("wikipedia"), closeSoftKeyboard());
 
-        sleepDelay();
+        waitFor(WAIT_FOR_2000);
 
         // On search results page, click on first result
         DataInteraction constraintLayout = onData(anything())
@@ -60,7 +74,7 @@ public class ChatRoomTest {
                 .atPosition(0);
         constraintLayout.perform(click());
 
-        sleepDelay();
+        waitFor(WAIT_FOR_2000);
 
         // On article page, click on chat room button
         ViewInteraction chatRoomButton = onView(
@@ -69,16 +83,85 @@ public class ChatRoomTest {
                         isDisplayed())
         );
         chatRoomButton.perform(click());
+
+        waitFor(WAIT_FOR_2000);
+
+        // Check if first message is "hello world"
+        onView(withId(R.id.chat_message_view))
+                .check(matches(atPosition(0, hasDescendant(withText("hello world")))));
+
+        // Type in randomized test string in chat box
+        String testString = "test " + (int) (Math.random() * 100);
+        ViewInteraction appCompatEditText2 = onView(
+                allOf(withId(R.id.chat_text_input),
+                        childAtPosition(
+                                allOf(withId(R.id.chat_text_input_layout),
+                                        childAtPosition(
+                                                withClassName(is("android.support.constraint.ConstraintLayout")),
+                                                3)),
+                                0),
+                        isDisplayed()));
+        appCompatEditText2.perform(replaceText(testString), closeSoftKeyboard());
+
+        // Click send button
+        ViewInteraction appCompatImageButton4 = onView(
+                allOf(withId(R.id.chat_send_btn),
+                        childAtPosition(
+                                allOf(withId(R.id.chat_text_input_layout),
+                                        childAtPosition(
+                                                withClassName(is("android.support.constraint.ConstraintLayout")),
+                                                3)),
+                                1),
+                        isDisplayed()));
+        appCompatImageButton4.perform(click());
+
+        // Check that sent message appears
+        onView(withId(R.id.chat_message_sent_text))
+                .check(matches(withText(testString)));
+
+        // Close chat dialog
+        ViewInteraction appCompatImageButton5 = onView(
+                allOf(withId(R.id.chat_close_btn),
+                        childAtPosition(
+                                allOf(withId(R.id.chat_title_layout),
+                                        childAtPosition(
+                                                withClassName(is("android.support.constraint.ConstraintLayout")),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        appCompatImageButton5.perform(click());
+
+        // Check that current view is PageActivity
+        ViewInteraction imageButton = onView(
+                allOf(withContentDescription("Navigate up"),
+                        childAtPosition(
+                                allOf(withId(R.id.page_toolbar),
+                                        childAtPosition(
+                                                withId(R.id.page_toolbar_container),
+                                                0)),
+                                0),
+                        isDisplayed()));
+        imageButton.check(matches(isDisplayed()));
     }
 
-    private void sleepDelay() {
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public static Matcher<View> atPosition(final int position, @NonNull final Matcher<View> itemMatcher) {
+        checkNotNull(itemMatcher);
+        return new BoundedMatcher<View, RecyclerView>(RecyclerView.class) {
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("has item at position " + position + ": ");
+                itemMatcher.describeTo(description);
+            }
+
+            @Override
+            protected boolean matchesSafely(final RecyclerView view) {
+                RecyclerView.ViewHolder viewHolder = view.findViewHolderForAdapterPosition(position);
+                if (viewHolder == null) {
+                    // has no item on such position
+                    return false;
+                }
+                return itemMatcher.matches(viewHolder.itemView);
+            }
+        };
     }
 }
