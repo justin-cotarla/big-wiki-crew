@@ -203,11 +203,13 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
 
     @OnClick(R.id.page_toolbar_button_search)
     public void onSearchButtonClicked() {
+        pageFragment.getChatClient().leaveChatRoom();
         openSearchActivity(SearchInvokeSource.TOOLBAR, null);
     }
 
     @OnClick(R.id.page_toolbar_button_tabs_container)
     public void onShowTabsButtonClicked() {
+        pageFragment.getChatClient().leaveChatRoom();
         TabActivity.captureFirstTabBitmap(pageFragment.getContainerView());
         startActivityForResult(TabActivity.newIntent(this), Constants.ACTIVITY_REQUEST_BROWSE_TABS);
     }
@@ -595,6 +597,11 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
 
     @Override
     public void onLinkPreviewLoadPage(@NonNull PageTitle title, @NonNull HistoryEntry entry, boolean inNewTab) {
+        // Leave the current chat room if the article is to be opened immediately
+        if (!inNewTab) {
+            pageFragment.getChatClient().leaveChatRoom();
+        }
+
         loadPage(title, entry, inNewTab ? TabPosition.NEW_TAB_BACKGROUND : TabPosition.CURRENT_TAB);
     }
 
@@ -651,6 +658,7 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
         }
         @Override
         public void openNewTabClick() {
+            pageFragment.getChatClient().leaveChatRoom();
             loadMainPageInForegroundTab();
             animateTabsButton();
         }
@@ -713,6 +721,8 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
     }
 
     private void handleLangLinkOrPageResult(final Intent data) {
+        // Leave the chat room as a new article in the selected language will be opened
+        pageFragment.getChatClient().leaveChatRoom();
         toolbarContainerView.post(() -> handleIntent(data));
     }
 

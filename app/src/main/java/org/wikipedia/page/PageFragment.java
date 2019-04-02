@@ -29,6 +29,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,6 +64,7 @@ import org.wikipedia.media.MediaPlayerImplementation;
 import org.wikipedia.page.action.PageActionTab;
 import org.wikipedia.page.action.PageActionToolbarHideHandler;
 import org.wikipedia.page.bottomcontent.BottomContentView;
+import org.wikipedia.page.chat.ChatClient;
 import org.wikipedia.page.leadimages.LeadImagesHandler;
 import org.wikipedia.page.leadimages.PageHeaderView;
 import org.wikipedia.page.shareafact.ShareHandler;
@@ -171,6 +174,25 @@ public class PageFragment extends Fragment implements BackPressedHandler {
     private TextToSpeechWrapper tts;
     private FloatingActionButton stopTTSButton;
 
+    private ChatClient chatClient;
+    private RelativeLayout chatRoomLayout;
+    private TextView userCountBadge;
+
+    private class OnUserCountUpdate implements ChatClient.Callback {
+        @Override
+        public void run(Integer count) {
+            int countOfOthers = count - 1;
+            userCountBadge.setText(String.valueOf(countOfOthers));
+            if (countOfOthers == 0) {
+                userCountBadge.setVisibility(View.GONE);
+            } else if (countOfOthers > 0) {
+                userCountBadge.setVisibility(View.VISIBLE);
+            } else {
+                L.e("Bad user count in article.");
+            }
+        }
+    }
+
     @NonNull
     private final SwipeRefreshLayout.OnRefreshListener pageRefreshListener = this::refreshPage;
 
@@ -277,6 +299,10 @@ public class PageFragment extends Fragment implements BackPressedHandler {
         return tts;
     }
 
+    public ChatClient getChatClient() {
+        return chatClient;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -314,12 +340,21 @@ public class PageFragment extends Fragment implements BackPressedHandler {
             stopTTSButton.hide();
         });
 
+        chatRoomLayout = rootView.findViewById(R.id.chat_room_layout);
+        chatRoomLayout.setOnClickListener(click -> {
+            // open chat room view
+        });
+        userCountBadge = rootView.findViewById(R.id.badge_chat_room);
+
         errorView = rootView.findViewById(R.id.page_error);
 
         bottomContentView = rootView.findViewById(R.id.page_bottom_view);
 
         PageActionToolbarHideHandler stopTTSButtonHideHandler = new PageActionToolbarHideHandler(stopTTSButton, null);
         stopTTSButtonHideHandler.setScrollView(webView);
+
+        PageActionToolbarHideHandler chatRoomButtonHideHandler = new PageActionToolbarHideHandler(chatRoomLayout, null);
+        chatRoomButtonHideHandler.setScrollView(webView);
 
         PageActionToolbarHideHandler pageActionToolbarHideHandler
                 = new PageActionToolbarHideHandler(tabLayout, null);
@@ -498,6 +533,7 @@ public class PageFragment extends Fragment implements BackPressedHandler {
 
         tts.get().stop();
         stopTTSButton.hide();
+        chatClient.leaveChatRoom();
     }
 
     @Override
@@ -505,6 +541,9 @@ public class PageFragment extends Fragment implements BackPressedHandler {
         super.onResume();
         initPageScrollFunnel();
         activeTimer.resume();
+        if (chatClient != null) {
+            chatClient.enterChatRoom();
+        }
     }
 
     @Override
@@ -821,6 +860,11 @@ public class PageFragment extends Fragment implements BackPressedHandler {
         }
 
         checkAndShowBookmarkOnboarding();
+
+        //initialize chat client once the page model is loaded, if not on refresh
+        if (!pageRefreshed) {
+            chatClient = new ChatClient(this.getPage().getPageProperties().getPageId(), new OnUserCountUpdate());
+        }
     }
 
     public void onPageLoadError(@NonNull Throwable caught) {
@@ -1071,21 +1115,23 @@ public class PageFragment extends Fragment implements BackPressedHandler {
 
     @Override
     public boolean onBackPressed() {
+        boolean back = false;
         if (tocHandler != null && tocHandler.isVisible()) {
             tocHandler.hide();
-            return true;
+            back = true;
         }
         if (closeFindInPage()) {
-            return true;
+            back = true;
         }
         if (pageFragmentLoadState.goBack()) {
-            return true;
+            back = true;
         }
         if (app.getTabList().size() > 1) {
             // if we're at the end of the current tab's backstack, then pop the current tab.
             app.getTabList().remove(app.getTabList().size() - 1);
         }
-        return false;
+
+        return back;
     }
 
     public void goForward() {
