@@ -1,5 +1,6 @@
 package org.wikipedia.page.chat;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -30,14 +31,14 @@ public class ChatClientTests {
 
     private FirebaseDatabase firebaseDatabaseMock;
     private DatabaseReference articlesReferenceMock;
-    private ChatClient.Callback userCountCallbackMock;
+    private ChatClient.UserCountCallback userCountCallbackMock;
 
 
     @Before
     public void setUp() {
         firebaseDatabaseMock = mock(FirebaseDatabase.class);
         articlesReferenceMock = mock(DatabaseReference.class);
-        userCountCallbackMock = mock(ChatClient.Callback.class);
+        userCountCallbackMock = mock(ChatClient.UserCountCallback.class);
         when(firebaseDatabaseMock.getReference(articlesPath + '/' + articleId)).thenReturn(articlesReferenceMock);
     }
 
@@ -134,5 +135,42 @@ public class ChatClientTests {
 
         chatClient.openLock();
         verify(pushMock, times(3)).setValue(any(Message.class));
+    }
+
+    @Test
+    public void testSubscribe() {
+        DatabaseReference messageReferenceMock = mock(DatabaseReference.class);
+        when(articlesReferenceMock.child(messagesPath)).thenReturn(messageReferenceMock);
+
+        Message message = new Message("1", "2", null);
+
+        doAnswer((Answer<Void>) invocation -> {
+            ChildEventListener childEventListener = (ChildEventListener) invocation.getArguments()[0];
+            DataSnapshot mockedDataSnapshot = mock(DataSnapshot.class);
+            when(mockedDataSnapshot.getValue(Message.class)).thenReturn(message);
+            childEventListener.onChildAdded(mockedDataSnapshot, null);
+            return null;
+        }).when(messageReferenceMock).addChildEventListener(any(ChildEventListener.class));
+
+        chatClient = new ChatClient(articleId, firebaseDatabaseMock, userCountCallbackMock);
+        ChatClient.MessageCallback messageCallbackMock = mock(ChatClient.MessageCallback.class);
+
+        chatClient.subscribe(messageCallbackMock);
+
+        verify(messageCallbackMock).messageReceived(message);
+    }
+
+    @Test
+    public void testUnsubscribe() {
+        DatabaseReference messageReferenceMock = mock(DatabaseReference.class);
+        when(articlesReferenceMock.child(messagesPath)).thenReturn(messageReferenceMock);
+
+        chatClient = new ChatClient(articleId, firebaseDatabaseMock, userCountCallbackMock);
+        ChatClient.MessageCallback messageCallbackMock = mock(ChatClient.MessageCallback.class);
+
+        chatClient.subscribe(messageCallbackMock);
+        chatClient.unsubscribe();
+
+        verify(messageReferenceMock).removeEventListener(any(ChildEventListener.class));
     }
 }
