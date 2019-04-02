@@ -37,15 +37,28 @@ public class ChatClient implements Serializable {
     private final String idCountPath = "idCount";
     private final String usersCountPath = "userCount";
 
-    public ChatClient(int articleId) {
+    private Callback userCountCallback;
+
+    public interface Callback {
+        void run(Integer count);
+    }
+
+    public ChatClient(int articleId, Callback userCountCallback) {
+        this(articleId, FirebaseDatabase.getInstance(), userCountCallback);
+    }
+
+    public ChatClient(int articleId, FirebaseDatabase firebaseDatabase, Callback userCountCallback) {
         idCount = 0;
         userCount = 0;
         closeLock();
         sendMessageQueue = new ArrayList<>();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        articlesRef = database.getReference(articlesPath + "/" + articleId);
-        messageRef = this.articlesRef.child(messagesPath);
+        articlesRef = firebaseDatabase.getReference(articlesPath + "/" + articleId);
+        messageRef = articlesRef.child(messagesPath);
+        this.userCountCallback = userCountCallback;
+        connect();
+    }
 
+    private void connect() {
         // Read all data from the article node. Set the instance variables here.
         articlesRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -123,7 +136,7 @@ public class ChatClient implements Serializable {
         }
     }
 
-    private void consumeMessageQueue() {
+    public void consumeMessageQueue() {
         for (Message message : this.sendMessageQueue) {
             message.setUser(getUser());
             writeMessage(message);
@@ -143,21 +156,23 @@ public class ChatClient implements Serializable {
         return userPrefix + String.valueOf(getIdCount());
     }
 
-    private void enterChatRoom() {
+    public void enterChatRoom() {
         // Update idCount and userCount count
         this.articlesRef.child(idCountPath).setValue(++this.idCount);
         this.articlesRef.child(usersCountPath).setValue(++this.userCount);
+        this.userCountCallback.run(this.userCount);
     }
 
     public void leaveChatRoom() {
         this.articlesRef.child(usersCountPath).setValue(--this.userCount);
+        this.userCountCallback.run(this.userCount);
     }
 
-    private void closeLock() {
+    public void closeLock() {
         this.lock = true;
     }
 
-    private void openLock() {
+    public void openLock() {
         this.lock = false;
         consumeMessageQueue();
     }

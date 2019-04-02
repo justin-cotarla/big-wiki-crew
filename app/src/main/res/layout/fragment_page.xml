@@ -56,12 +56,43 @@
                     android:id="@+id/button_tts_stop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/page_actions_tab_layout"
+                    android:layout_above="@+id/chat_room_layout"
                     android:layout_alignParentEnd="true"
-                    android:layout_margin="16dp"
+                    android:layout_marginRight="16dp"
                     android:visibility="gone"
                     app:backgroundTint="@color/red50"
                     app:srcCompat="@drawable/ic_stop_white_24dp" />
+
+                <RelativeLayout
+                    android:id="@+id/chat_room_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/page_actions_tab_layout"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="16dp">
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/button_chat_room"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="0dp"
+                        app:elevation="0dp"
+                        app:backgroundTint="#1E88E5"
+                        app:srcCompat="@drawable/ic_chat_room_white_24dp" />
+                    <TextView
+                        android:id="@+id/badge_chat_room"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/button_chat_room"
+                        android:layout_alignEnd="@+id/button_chat_room"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:textAlignment="center"
+                        android:textColor="#FFF"
+                        android:textSize="12sp"
+                        android:background="@drawable/circle_red_22dp"
+                        android:elevation="7dp"
+                        android:visibility="gone"/>
+                </RelativeLayout>
 
                 <org.wikipedia.page.PageActionTabLayout
                     android:id="@+id/page_actions_tab_layout"
