@@ -30,13 +30,11 @@ public class ChatClientTests {
 
     private FirebaseDatabase firebaseDatabaseMock;
     private DatabaseReference articlesReferenceMock;
-    private DatabaseReference childReferenceMock;
 
     @Before
     public void setUp() {
         firebaseDatabaseMock = mock(FirebaseDatabase.class);
         articlesReferenceMock = mock(DatabaseReference.class);
-        childReferenceMock = mock(DatabaseReference.class);
         when(firebaseDatabaseMock.getReference(articlesPath + '/' + articleId)).thenReturn(articlesReferenceMock);
     }
 
@@ -57,7 +55,30 @@ public class ChatClientTests {
         chatClient = new ChatClient(articleId, firebaseDatabaseMock);
 
         assertThat(chatClient.getIdCount(), is(1));
+        assertThat(chatClient.getUsersCount(), is(1));
         verify(refMockIdCount).setValue(1);
+        verify(refMockUserCount).setValue(1);
+    }
+
+    @Test
+    public void testLeaveChatRoom() {
+        DatabaseReference refMockIdCount = mock(DatabaseReference.class);
+        DatabaseReference refMockUserCount = mock(DatabaseReference.class);
+        when(articlesReferenceMock.child(idCountPath)).thenReturn(refMockIdCount);
+        when(articlesReferenceMock.child(usersCountPath)).thenReturn(refMockUserCount);
+
+        doAnswer((Answer<Void>) invocation -> {
+            ValueEventListener valueEventListener = (ValueEventListener) invocation.getArguments()[0];
+            DataSnapshot mockedDataSnapshot = mock(DataSnapshot.class);
+            valueEventListener.onDataChange(mockedDataSnapshot);
+            return null;
+        }).when(articlesReferenceMock).addListenerForSingleValueEvent(any(ValueEventListener.class));
+
+        chatClient = new ChatClient(articleId, firebaseDatabaseMock);
+        chatClient.leaveChatRoom();
+
+        assertThat(chatClient.getUsersCount(), is(0));
+        verify(refMockUserCount).setValue(0);
     }
 
     @Test
