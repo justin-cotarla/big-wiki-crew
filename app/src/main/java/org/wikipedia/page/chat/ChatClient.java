@@ -40,14 +40,20 @@ public class ChatClient {
     }
 
     public ChatClient(int articleId, Callback userCountCallback) {
+        this(articleId, FirebaseDatabase.getInstance(), userCountCallback);
+    }
+
+    public ChatClient(int articleId, FirebaseDatabase firebaseDatabase, Callback userCountCallback) {
         this.idCount = 0;
         this.userCount = 0;
         closeLock();
         this.sendMessageQueue = new ArrayList<>();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        this.articlesRef = database.getReference(articlesPath + "/" + articleId);
+        this.articlesRef = firebaseDatabase.getReference(articlesPath + "/" + articleId);
         this.userCountCallback = userCountCallback;
+        this.connect();
+    }
 
+    private void connect() {
         // Read all data from the article node. Set the instance variables here.
         this.articlesRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -117,7 +123,7 @@ public class ChatClient {
         }
     }
 
-    private void consumeMessageQueue() {
+    public void consumeMessageQueue() {
         for (Message message : this.sendMessageQueue) {
             message.setUser(getUser());
             writeMessage(message);
@@ -149,11 +155,11 @@ public class ChatClient {
         this.userCountCallback.run(this.userCount);
     }
 
-    private void closeLock() {
+    public void closeLock() {
         this.lock = true;
     }
 
-    private void openLock() {
+    public void openLock() {
         this.lock = false;
         consumeMessageQueue();
     }
