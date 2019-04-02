@@ -1,38 +1,25 @@
 package org.wikipedia.page.chat;
 
-import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.wikipedia.R;
 import org.wikipedia.page.PageActivity;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -121,16 +108,16 @@ public class ChatFragment extends DialogFragment {
         private static final int RECEIVED_TYPE = 1;
 
         class SentMessageViewHolder extends RecyclerView.ViewHolder {
-            public View sentMessageView;
-            public SentMessageViewHolder(View sentMessageView) {
+            private View sentMessageView;
+            SentMessageViewHolder(View sentMessageView) {
                 super(sentMessageView);
                 this.sentMessageView = sentMessageView;
             }
         }
 
         class ReceivedMessageViewHolder extends RecyclerView.ViewHolder {
-            public View receivedMessageView;
-            public ReceivedMessageViewHolder(View receivedMessageView) {
+            private View receivedMessageView;
+            ReceivedMessageViewHolder(View receivedMessageView) {
                 super(receivedMessageView);
                 this.receivedMessageView = receivedMessageView;
             }
@@ -181,6 +168,9 @@ public class ChatFragment extends DialogFragment {
                             .setText(message.getMessage());
                     ((TextView)receivedMessageViewHolder.receivedMessageView.findViewById(R.id.chat_message_received_username))
                             .setText(message.getUser());
+                    break;
+                default:
+                    // Should not happen
                     break;
             }
         }
