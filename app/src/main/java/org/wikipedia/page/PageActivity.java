@@ -209,6 +209,7 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
 
     @OnClick(R.id.page_toolbar_button_tabs_container)
     public void onShowTabsButtonClicked() {
+        pageFragment.getChatClient().leaveChatRoom();
         TabActivity.captureFirstTabBitmap(pageFragment.getContainerView());
         startActivityForResult(TabActivity.newIntent(this), Constants.ACTIVITY_REQUEST_BROWSE_TABS);
     }
