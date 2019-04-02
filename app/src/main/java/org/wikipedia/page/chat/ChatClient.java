@@ -33,16 +33,23 @@ public class ChatClient {
     private final String idCountPath = "idCount";
     private final String usersCountPath = "userCount";
 
-    public ChatClient(int articleId) {
-        this(articleId, FirebaseDatabase.getInstance());
+    private Callback userCountCallback;
+
+    public interface Callback {
+        void run(Integer count);
     }
 
-    public ChatClient(int articleId, FirebaseDatabase firebaseDatabase) {
+    public ChatClient(int articleId, Callback userCountCallback) {
+        this(articleId, FirebaseDatabase.getInstance(), userCountCallback);
+    }
+
+    public ChatClient(int articleId, FirebaseDatabase firebaseDatabase, Callback userCountCallback) {
         this.idCount = 0;
         this.userCount = 0;
         closeLock();
         this.sendMessageQueue = new ArrayList<>();
         this.articlesRef = firebaseDatabase.getReference(articlesPath + "/" + articleId);
+        this.userCountCallback = userCountCallback;
         this.connect();
     }
 
@@ -136,14 +143,16 @@ public class ChatClient {
         return userPrefix + String.valueOf(getIdCount());
     }
 
-    protected void enterChatRoom() {
+    public void enterChatRoom() {
         // Update idCount and userCount count
         this.articlesRef.child(idCountPath).setValue(++this.idCount);
         this.articlesRef.child(usersCountPath).setValue(++this.userCount);
+        this.userCountCallback.run(this.userCount);
     }
 
     public void leaveChatRoom() {
         this.articlesRef.child(usersCountPath).setValue(--this.userCount);
+        this.userCountCallback.run(this.userCount);
     }
 
     public void closeLock() {

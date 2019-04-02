@@ -203,14 +203,13 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
 
     @OnClick(R.id.page_toolbar_button_search)
     public void onSearchButtonClicked() {
+        pageFragment.getChatClient().leaveChatRoom();
         openSearchActivity(SearchInvokeSource.TOOLBAR, null);
     }
 
     @OnClick(R.id.page_toolbar_button_tabs_container)
     public void onShowTabsButtonClicked() {
-        // Leave the chat room when the tab switcher is opened
         pageFragment.getChatClient().leaveChatRoom();
-
         TabActivity.captureFirstTabBitmap(pageFragment.getContainerView());
         startActivityForResult(TabActivity.newIntent(this), Constants.ACTIVITY_REQUEST_BROWSE_TABS);
     }
@@ -665,7 +664,6 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
         }
         @Override
         public void readingListsClick() {
-            pageFragment.getChatClient().leaveChatRoom();
             if (Prefs.getOverflowReadingListsOptionClickCount() < 2) {
                 Prefs.setOverflowReadingListsOptionClickCount(Prefs.getOverflowReadingListsOptionClickCount() + 1);
             }
@@ -673,7 +671,6 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
         }
         @Override
         public void recentlyViewedClick() {
-            pageFragment.getChatClient().leaveChatRoom();
             goToMainTab(NavTab.HISTORY.code());
         }
     }

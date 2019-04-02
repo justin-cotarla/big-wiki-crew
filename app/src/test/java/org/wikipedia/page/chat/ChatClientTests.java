@@ -30,11 +30,14 @@ public class ChatClientTests {
 
     private FirebaseDatabase firebaseDatabaseMock;
     private DatabaseReference articlesReferenceMock;
+    private ChatClient.Callback userCountCallbackMock;
+
 
     @Before
     public void setUp() {
         firebaseDatabaseMock = mock(FirebaseDatabase.class);
         articlesReferenceMock = mock(DatabaseReference.class);
+        userCountCallbackMock = mock(ChatClient.Callback.class);
         when(firebaseDatabaseMock.getReference(articlesPath + '/' + articleId)).thenReturn(articlesReferenceMock);
     }
 
@@ -52,7 +55,7 @@ public class ChatClientTests {
             return null;
         }).when(articlesReferenceMock).addListenerForSingleValueEvent(any(ValueEventListener.class));
 
-        chatClient = new ChatClient(articleId, firebaseDatabaseMock);
+        chatClient = new ChatClient(articleId, firebaseDatabaseMock, userCountCallbackMock);
 
         assertThat(chatClient.getIdCount(), is(1));
         assertThat(chatClient.getUsersCount(), is(1));
@@ -74,7 +77,7 @@ public class ChatClientTests {
             return null;
         }).when(articlesReferenceMock).addListenerForSingleValueEvent(any(ValueEventListener.class));
 
-        chatClient = new ChatClient(articleId, firebaseDatabaseMock);
+        chatClient = new ChatClient(articleId, firebaseDatabaseMock, userCountCallbackMock);
         chatClient.leaveChatRoom();
 
         assertThat(chatClient.getUsersCount(), is(0));
@@ -83,7 +86,7 @@ public class ChatClientTests {
 
     @Test
     public void testWriteMessages() {
-        chatClient = new ChatClient(articleId, firebaseDatabaseMock);
+        chatClient = new ChatClient(articleId, firebaseDatabaseMock, userCountCallbackMock);
 
         DatabaseReference refMock = mock(DatabaseReference.class);
         DatabaseReference pushMock = mock(DatabaseReference.class);
@@ -99,7 +102,7 @@ public class ChatClientTests {
 
     @Test
     public void testWriteMessagesLocked() {
-        chatClient = new ChatClient(articleId, firebaseDatabaseMock);
+        chatClient = new ChatClient(articleId, firebaseDatabaseMock, userCountCallbackMock);
 
         DatabaseReference refMock = mock(DatabaseReference.class);
         DatabaseReference pushMock = mock(DatabaseReference.class);
@@ -116,7 +119,7 @@ public class ChatClientTests {
 
     @Test
     public void testWriteMessagesQueued() {
-        chatClient = new ChatClient(articleId, firebaseDatabaseMock);
+        chatClient = new ChatClient(articleId, firebaseDatabaseMock, userCountCallbackMock);
 
         DatabaseReference refMock = mock(DatabaseReference.class);
         DatabaseReference pushMock = mock(DatabaseReference.class);
