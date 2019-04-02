@@ -34,7 +34,7 @@ public class ChatFragment extends DialogFragment {
 
     @BindView(R.id.chat_message_view) RecyclerView chatMessageView;
     @BindView(R.id.chat_send_btn) AppCompatImageButton sendButton;
-    @BindView(R.id.chat_text_input) AppCompatEditText textInput;
+    @BindView(R.id.chat_text_input) AppCompatEditText editText;
     @BindView(R.id.chat_close_btn) AppCompatImageButton closeButton;
 
     @Override
@@ -60,8 +60,8 @@ public class ChatFragment extends DialogFragment {
         chatMessageView.setHasFixedSize(true);
 
         sendButton.setOnClickListener(listener -> {
-            chatClient.writeMessage(textInput.getText().toString());
-            textInput.setText("");
+            chatClient.writeMessage(editText.getText().toString());
+            editText.setText("");
         });
 
         closeButton.setOnClickListener(listener -> {

@@ -12,7 +12,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.wikipedia.util.log.L;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,7 +20,7 @@ import java.util.List;
 /**
  * Each article will have its own instance of ChatClient.
  */
-public class ChatClient implements Serializable {
+public class ChatClient {
     private int idCount;
     private int userCount;
     private boolean lock;

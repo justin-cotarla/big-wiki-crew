@@ -31,7 +31,6 @@ public class ChatClientTests {
 
     private FirebaseDatabase firebaseDatabaseMock;
     private DatabaseReference articlesReferenceMock;
-    private DatabaseReference messageReferenceMock;
     private ChatClient.UserCountCallback userCountCallbackMock;
 
 
@@ -39,10 +38,8 @@ public class ChatClientTests {
     public void setUp() {
         firebaseDatabaseMock = mock(FirebaseDatabase.class);
         articlesReferenceMock = mock(DatabaseReference.class);
-        messageReferenceMock = mock(DatabaseReference.class);
         userCountCallbackMock = mock(ChatClient.UserCountCallback.class);
         when(firebaseDatabaseMock.getReference(articlesPath + '/' + articleId)).thenReturn(articlesReferenceMock);
-        when(articlesReferenceMock.child(messagesPath)).thenReturn(messageReferenceMock);
     }
 
     @Test
@@ -142,6 +139,9 @@ public class ChatClientTests {
 
     @Test
     public void testSubscribe() {
+        DatabaseReference messageReferenceMock = mock(DatabaseReference.class);
+        when(articlesReferenceMock.child(messagesPath)).thenReturn(messageReferenceMock);
+
         Message message = new Message("1", "2", null);
 
         doAnswer((Answer<Void>) invocation -> {
@@ -162,6 +162,9 @@ public class ChatClientTests {
 
     @Test
     public void testUnsubscribe() {
+        DatabaseReference messageReferenceMock = mock(DatabaseReference.class);
+        when(articlesReferenceMock.child(messagesPath)).thenReturn(messageReferenceMock);
+
         chatClient = new ChatClient(articleId, firebaseDatabaseMock, userCountCallbackMock);
         ChatClient.MessageCallback messageCallbackMock = mock(ChatClient.MessageCallback.class);
 
