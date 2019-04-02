@@ -864,7 +864,6 @@ public class PageFragment extends Fragment implements BackPressedHandler {
         //initialize chat client once the page model is loaded, if not on refresh
         if (!pageRefreshed) {
             chatClient = new ChatClient(this.getPage().getPageProperties().getPageId(), new OnUserCountUpdate());
-//            userCountBadge.setText(String.valueOf(chatClient.getUsersCount()));
         }
     }
 
