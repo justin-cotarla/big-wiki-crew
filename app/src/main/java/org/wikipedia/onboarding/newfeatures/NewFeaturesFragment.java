@@ -1,7 +1,5 @@
-package org.wikipedia.onboarding;
+package org.wikipedia.onboarding.newfeatures;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,24 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.wikipedia.Constants;
 import org.wikipedia.R;
-import org.wikipedia.analytics.LoginFunnel;
-import org.wikipedia.language.LanguageSettingsInvokeSource;
-import org.wikipedia.login.LoginActivity;
 import org.wikipedia.model.EnumCode;
 import org.wikipedia.model.EnumCodeMap;
-import org.wikipedia.settings.Prefs;
-import org.wikipedia.settings.languages.WikipediaLanguagesActivity;
-import org.wikipedia.util.FeedbackUtil;
+import org.wikipedia.onboarding.OnboardingFragment;
+import org.wikipedia.onboarding.OnboardingPageView;
 
-import static org.wikipedia.util.UriUtil.handleExternalLink;
 
-public class InitialOnboardingFragment extends OnboardingFragment {
+public class NewFeaturesFragment extends OnboardingFragment {
     private PageViewCallback pageViewCallback = new PageViewCallback();
 
-    @NonNull public static InitialOnboardingFragment newInstance() {
-        return new InitialOnboardingFragment();
+    @NonNull public static NewFeaturesFragment newInstance() {
+        return new NewFeaturesFragment();
     }
 
     @Override protected PagerAdapter getAdapter() {
@@ -38,45 +30,20 @@ public class InitialOnboardingFragment extends OnboardingFragment {
         return R.string.onboarding_get_started;
     }
 
-    @Override public void onActivityResult(int requestCode, int resultCode, final Intent data) {
-        if (requestCode == Constants.ACTIVITY_REQUEST_LOGIN
-                && resultCode == LoginActivity.RESULT_LOGIN_SUCCESS) {
-            FeedbackUtil.showMessage(this, R.string.login_success_toast);
-            advancePage();
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
     private class PageViewCallback implements OnboardingPageView.Callback {
         OnboardingPageView onboardingPageView;
 
         @Override public void onSwitchChange(@NonNull OnboardingPageView view, boolean checked) {
-            if (OnboardingPage.of((int) view.getTag()).equals(OnboardingPage.PAGE_USAGE_DATA)) {
-                Prefs.setEventLoggingEnabled(checked);
-            }
+
         }
 
         @Override public void onLinkClick(@NonNull OnboardingPageView view, @NonNull String url) {
-            if (url.equals("#login")) {
-                startActivityForResult(LoginActivity
-                        .newIntent(requireContext(), LoginFunnel.SOURCE_ONBOARDING),
-                        Constants.ACTIVITY_REQUEST_LOGIN);
-            } else if (url.equals("#privacy")) {
-                FeedbackUtil.showPrivacyPolicy(getContext());
-            } else if (url.equals("#about")) {
-                FeedbackUtil.showAboutWikipedia(getContext());
-            } else if (url.equals("#offline")) {
-                FeedbackUtil.showOfflineReadingAndData(getContext());
-            } else {
-                handleExternalLink(getActivity(), Uri.parse(url));
-            }
+
         }
 
         @Override
         public void onListActionButtonClicked(@NonNull OnboardingPageView view) {
-            onboardingPageView = view;
-            requireContext().startActivity(WikipediaLanguagesActivity.newIntent(getContext(), LanguageSettingsInvokeSource.ONBOARDING.text()));
+
         }
 
         @Nullable OnboardingPageView getOnboardingPageView() {
@@ -98,9 +65,6 @@ public class InitialOnboardingFragment extends OnboardingFragment {
             OnboardingPageView view = inflate(page, container);
             view.setTag(position);
             view.setCallback(pageViewCallback);
-            if (page.equals(OnboardingPage.PAGE_USAGE_DATA)) {
-                view.setSwitchChecked(Prefs.isEventLoggingEnabled());
-            }
             return view;
         }
 
@@ -128,18 +92,14 @@ public class InitialOnboardingFragment extends OnboardingFragment {
         }
     }
 
-     enum OnboardingPage implements EnumCode {
-        PAGE_WELCOME(R.layout.inflate_initial_onboarding_page_zero),
+    enum OnboardingPage implements EnumCode {
         PAGE_IMAGE_SEARCH(R.layout.inflate_initial_onboarding_feature_zero),
         PAGE_TTS(R.layout.inflate_initial_onboarding_feature_one),
         PAGE_SELECTIVE_TRANSLATION(R.layout.inflate_initial_onboarding_feature_two),
         PAGE_NO_HISTORY(R.layout.inflate_initial_onboarding_feature_three),
         PAGE_CATEGORIES(R.layout.inflate_initial_onboarding_feature_four),
         PAGE_DISCOVER(R.layout.inflate_initial_onboarding_feature_five),
-        PAGE_CHAT(R.layout.inflate_initial_onboarding_feature_six),
-        PAGE_EXPLORE(R.layout.inflate_initial_onboarding_page_one),
-        PAGE_READING_LISTS(R.layout.inflate_initial_onboarding_page_two),
-        PAGE_USAGE_DATA(R.layout.inflate_initial_onboarding_page_three);
+        PAGE_CHAT(R.layout.inflate_initial_onboarding_feature_six);
 
         private static EnumCodeMap<OnboardingPage> MAP
                 = new EnumCodeMap<>(OnboardingPage.class);

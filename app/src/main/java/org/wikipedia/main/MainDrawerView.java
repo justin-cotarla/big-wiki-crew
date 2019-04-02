@@ -31,6 +31,7 @@ public class MainDrawerView extends ScrollView {
         void configureFeedClick();
         void editingTasksClick();
         void aboutClick();
+        void featureClick();
     }
 
     @BindView(R.id.main_drawer_account_name) TextView accountNameView;
@@ -117,6 +118,12 @@ public class MainDrawerView extends ScrollView {
     @OnClick(R.id.main_drawer_about_container) void onAboutClick() {
         if (callback != null) {
             callback.aboutClick();
+        }
+    }
+
+    @OnClick(R.id.main_drawer_features_container) void onFeatureClick() {
+        if (callback != null) {
+            callback.featureClick();
         }
     }
 

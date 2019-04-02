@@ -680,6 +680,20 @@
     <string name="onboarding_multilingual_secondary_text">We’ve found the following on your device:</string>
     <string name="onboarding_multilingual_add_language_text">Add or edit languages</string>
     <string name="onboarding_welcome_title_v2">The Free Encyclopedia\n&#8230;in nearly 300 languages</string>
+    <string name="onboarding_feature_image_search_title">Image search</string>
+    <string name="onboarding_feature_image_search_text"><![CDATA[Image search is a user-friendly feature that would allow users to perform a quick search of a Wikipedia article with a photo. <br/><br/> Located in the search bar.]]></string>
+    <string name="onboarding_feature_tts_title">Text-to-speech</string>
+    <string name="onboarding_feature_tts_text"><![CDATA[Selective text-to-speech (TTS) is an alternative option for users to read through a Wikipedia article. <br/> Users highlight a selection of text to be heard. <br/><br/> TTS settings are in the application settings.]]></string>
+    <string name="onboarding_feature_selective_translation_title">Selective translation</string>
+    <string name="onboarding_feature_selective_translation_text"><![CDATA[Selective translation on Wikipedia articles allows users to translate text in the language currently used, to text in an another language.<br/><br/>Simply highlight an article text and translate it.]]></string>
+    <string name="onboarding_feature_no_history_title">No history</string>
+    <string name="onboarding_feature_no_history_text"><![CDATA[No history feature allows users to browse articles on Wikipedia without keeping track of their history. <br/><br/> Can be turned on through a simple toggle in the application settings.]]></string>
+    <string name="onboarding_feature_categories_title">Categories</string>
+    <string name="onboarding_feature_categories_text"><![CDATA[Allow users to explore articles by categories and as well to search through categories. <br/><br/> Tap the category card in the home feed.]]></string>
+    <string name="onboarding_feature_discover_title">Discover</string>
+    <string name="onboarding_feature_discover_text"><![CDATA[Flip through random or trending articles. Swipe up to view the article and double tap to bookmark.<br/><br/> Tap the discover card in the home feed.]]></string>
+    <string name="onboarding_feature_chat_title">Chat</string>
+    <string name="onboarding_feature_chat_text"><![CDATA[Anonymously chat with other readers currently viewing the same article. <br/><br/> A new way to engage and interact with other users.]]></string>
     <!-- /Onboarding -->
 
     <!-- App Shortcuts -->
@@ -730,6 +744,7 @@
     <string name="main_drawer_close">Close</string>
     <string name="main_drawer_help">Help</string>
     <string name="main_drawer_login">Log in / join Wikipedia</string>
+    <string name="main_drawer_new_features">Big Wiki Crew Features</string>
     <string name="title_description_task_title">Add title descriptions</string>
     <string name="title_description_task_description">Contribute to articles without title descriptions</string>
     <string name="image_caption_task_title">Caption images</string>
