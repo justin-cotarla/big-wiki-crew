@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    app:centeredImage="@drawable/ic_illustration_empty_feed"
+    app:centeredImage="@drawable/feature_discovery"
     app:imageSize="160dp"
     app:primaryText="@string/onboarding_feature_discover_title"
     app:secondaryText="@string/onboarding_feature_discover_text" />
