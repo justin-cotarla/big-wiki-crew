@@ -1,8 +1,9 @@
 package org.wikipedia.page.chat;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,8 +25,9 @@ public class ChatClient {
     private int userCount;
     private boolean lock;
     private List<Message> sendMessageQueue;
-    private List<Message> messageList;
     private DatabaseReference articlesRef;
+    private DatabaseReference messageRef;
+    private ChildEventListener messageListener;
 
     private final String userPrefix = "anon";
     private final String messagesPath = "messages";
@@ -33,29 +35,34 @@ public class ChatClient {
     private final String idCountPath = "idCount";
     private final String usersCountPath = "userCount";
 
-    private Callback userCountCallback;
+    private UserCountCallback userCountCallback;
 
-    public interface Callback {
+    public interface UserCountCallback {
         void run(Integer count);
     }
 
-    public ChatClient(int articleId, Callback userCountCallback) {
+    public interface MessageCallback {
+        void messageReceived(Message message);
+    }
+
+    public ChatClient(int articleId, UserCountCallback userCountCallback) {
         this(articleId, FirebaseDatabase.getInstance(), userCountCallback);
     }
 
-    public ChatClient(int articleId, FirebaseDatabase firebaseDatabase, Callback userCountCallback) {
-        this.idCount = 0;
-        this.userCount = 0;
+    public ChatClient(int articleId, FirebaseDatabase firebaseDatabase, UserCountCallback userCountCallback) {
+        idCount = 0;
+        userCount = 0;
         closeLock();
-        this.sendMessageQueue = new ArrayList<>();
-        this.articlesRef = firebaseDatabase.getReference(articlesPath + "/" + articleId);
+        sendMessageQueue = new ArrayList<>();
+        articlesRef = firebaseDatabase.getReference(articlesPath + "/" + articleId);
+        messageRef = articlesRef.child(messagesPath);
         this.userCountCallback = userCountCallback;
-        this.connect();
+        connect();
     }
 
     private void connect() {
         // Read all data from the article node. Set the instance variables here.
-        this.articlesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        articlesRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChild(idCountPath)) {
@@ -79,30 +86,38 @@ public class ChatClient {
         });
     }
 
-    public void readMessages(Context context) {
-        DatabaseReference messageRef = this.articlesRef.child(messagesPath);
-        messageList = new ArrayList<>();
-        messageRef.addValueEventListener(new ValueEventListener() {
+    public void subscribe(MessageCallback callback) {
+        messageListener = new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                        Message newMessage = child.getValue(Message.class);
-                        if (!messageList.contains(newMessage)) {
-                            messageList.add(newMessage);
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                callback.messageReceived(dataSnapshot.getValue(Message.class));
+            }
 
-                            // THIS IS WHERE YOU WOULD UPDATE THE UI
-                            // PASS A REFERENCE THAT YOU CAN CALL A FUNCTION ON HERE
-                            // IN ORDER TO ADD THE NEW MESSAGE TO THE LIST ON THE UI
-                            // "context.addMessageToChatList(newMessage)"
-                        }
-                }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                // Never gonna give you up
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                // Never gonna let you down
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                // Never gonna run around and desert you
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 L.e(databaseError.toException());
             }
-        });
+        };
+        messageRef.addChildEventListener(messageListener);
+    }
+
+    public void unsubscribe() {
+        messageRef.removeEventListener(messageListener);
     }
 
     public void writeMessage(String message) {
@@ -145,14 +160,14 @@ public class ChatClient {
 
     public void enterChatRoom() {
         // Update idCount and userCount count
-        this.articlesRef.child(idCountPath).setValue(++this.idCount);
-        this.articlesRef.child(usersCountPath).setValue(++this.userCount);
-        this.userCountCallback.run(this.userCount);
+        articlesRef.child(idCountPath).setValue(++this.idCount);
+        articlesRef.child(usersCountPath).setValue(++this.userCount);
+        userCountCallback.run(this.userCount);
     }
 
     public void leaveChatRoom() {
-        this.articlesRef.child(usersCountPath).setValue(--this.userCount);
-        this.userCountCallback.run(this.userCount);
+        articlesRef.child(usersCountPath).setValue(--this.userCount);
+        userCountCallback.run(this.userCount);
     }
 
     public void closeLock() {

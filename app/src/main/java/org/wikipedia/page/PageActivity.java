@@ -51,6 +51,7 @@ import org.wikipedia.history.HistoryEntry;
 import org.wikipedia.language.LangLinksActivity;
 import org.wikipedia.main.MainActivity;
 import org.wikipedia.navtab.NavTab;
+import org.wikipedia.page.chat.ChatClient;
 import org.wikipedia.page.linkpreview.LinkPreviewDialog;
 import org.wikipedia.page.tabs.TabActivity;
 import org.wikipedia.readinglist.AddToReadingListDialog;
@@ -203,13 +204,13 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
 
     @OnClick(R.id.page_toolbar_button_search)
     public void onSearchButtonClicked() {
-        pageFragment.getChatClient().leaveChatRoom();
+        getChatClient().leaveChatRoom();
         openSearchActivity(SearchInvokeSource.TOOLBAR, null);
     }
 
     @OnClick(R.id.page_toolbar_button_tabs_container)
     public void onShowTabsButtonClicked() {
-        pageFragment.getChatClient().leaveChatRoom();
+        getChatClient().leaveChatRoom();
         TabActivity.captureFirstTabBitmap(pageFragment.getContainerView());
         startActivityForResult(TabActivity.newIntent(this), Constants.ACTIVITY_REQUEST_BROWSE_TABS);
     }
@@ -217,6 +218,10 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
     @OnClick(R.id.page_toolbar_button_show_overflow_menu)
     public void onShowOverflowMenuButtonClicked() {
         showOverflowMenu(toolbar.findViewById(R.id.page_toolbar_button_show_overflow_menu));
+    }
+
+    public ChatClient getChatClient() {
+        return pageFragment.getChatClient();
     }
 
     public void animateTabsButton() {
@@ -599,7 +604,7 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
     public void onLinkPreviewLoadPage(@NonNull PageTitle title, @NonNull HistoryEntry entry, boolean inNewTab) {
         // Leave the current chat room if the article is to be opened immediately
         if (!inNewTab) {
-            pageFragment.getChatClient().leaveChatRoom();
+            getChatClient().leaveChatRoom();
         }
 
         loadPage(title, entry, inNewTab ? TabPosition.NEW_TAB_BACKGROUND : TabPosition.CURRENT_TAB);
@@ -658,7 +663,7 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
         }
         @Override
         public void openNewTabClick() {
-            pageFragment.getChatClient().leaveChatRoom();
+            getChatClient().leaveChatRoom();
             loadMainPageInForegroundTab();
             animateTabsButton();
         }
@@ -722,7 +727,7 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
 
     private void handleLangLinkOrPageResult(final Intent data) {
         // Leave the chat room as a new article in the selected language will be opened
-        pageFragment.getChatClient().leaveChatRoom();
+        getChatClient().leaveChatRoom();
         toolbarContainerView.post(() -> handleIntent(data));
     }
 

@@ -76,6 +76,9 @@
         <meta-data android:name="@string/preference_key_app_channel" android:value="@string/channel" />
         <meta-data android:name="net.hockeyapp.android.appIdentifier"
             android:value="@string/hockeyapp_app_id" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <activity
             android:name=".main.MainActivity"
