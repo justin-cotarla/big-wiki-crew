@@ -145,13 +145,8 @@ public class ReadingListsFragment extends Fragment implements SortReadingListsDi
         if (ReadingListSyncAdapter.isDisabledByRemoteConfig()) {
             swipeRefreshLayout.setEnabled(false);
         }
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
+        return view;
     }
 
     @Override
@@ -167,11 +162,6 @@ public class ReadingListsFragment extends Fragment implements SortReadingListsDi
     public void onResume() {
         super.onResume();
         updateLists();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_reading_lists, menu);
     }
 
     @Override

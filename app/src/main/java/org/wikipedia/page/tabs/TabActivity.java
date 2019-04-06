@@ -243,9 +243,9 @@ public class TabActivity extends BaseActivity {
                 setResult(RESULT_NEW_TAB);
                 finish();
                 return true;
-            case R.id.menu_reading_lists:
+            case R.id.menu_saved:
                 startActivity(MainActivity.newIntent(TabActivity.this)
-                        .putExtra(Constants.INTENT_EXTRA_GO_TO_MAIN_TAB, NavTab.READING_LISTS.code()));
+                        .putExtra(Constants.INTENT_EXTRA_GO_TO_MAIN_TAB, NavTab.SAVED.code()));
                 finish();
                 return true;
             case R.id.menu_recently_viewed:
