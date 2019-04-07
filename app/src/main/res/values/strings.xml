@@ -37,6 +37,7 @@
     <string name="menu_page_find_in_page">Find in page</string>
     <string name="menu_page_font_and_theme">Font and theme</string>
     <string name="menu_page_add_to_list">Add to reading list</string>
+    <string name="menu_page_view_notes">View notes</string>
     <string name="menu_page_share">Share link</string>
     <string name="menu_page_open_a_new_tab">Open a new tab</string>
     <string name="menu_page_reading_lists">Reading lists</string>
@@ -806,4 +807,9 @@
     <string name="search_hint_categories">Search for a category</string>
     <string name="chat_title">Chat</string>
     <string name="input_hint">Enter message</string>
+    <!-- /Categories -->
+
+    <!-- Notes -->
+    <string name="notes">Notes</string>
+    <!-- /Notes -->
 </resources>

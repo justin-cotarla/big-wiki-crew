@@ -125,6 +125,7 @@ public class PageFragment extends Fragment implements BackPressedHandler {
         void onPageLoadMainPageInForegroundTab();
         void onPageUpdateProgressBar(boolean visible, boolean indeterminate, int value);
         void onPageShowThemeChooser();
+        void onPageShowNotes();
         void onPageStartSupportActionMode(@NonNull ActionMode.Callback callback);
         void onPageShowToolbar();
         void onPageHideSoftKeyboard();
@@ -243,6 +244,11 @@ public class PageFragment extends Fragment implements BackPressedHandler {
         @Override
         public void onFontAndThemeTabSelected() {
             showThemeChooser();
+        }
+
+        @Override
+        public void onViewNotesTabSelected() {
+            showNotes();
         }
 
         @Override
@@ -1220,6 +1226,13 @@ public class PageFragment extends Fragment implements BackPressedHandler {
         Callback callback = callback();
         if (callback != null) {
             callback.onPageShowThemeChooser();
+        }
+    }
+
+    private void showNotes() {
+        Callback callback = callback();
+        if (callback != null) {
+            callback.onPageShowNotes();
         }
     }
 
