@@ -811,5 +811,6 @@
 
     <!-- Notes -->
     <string name="notes">Notes</string>
+    <string name="notes_list_empty">No notes saved for this article.</string>
     <!-- /Notes -->
 </resources>

@@ -41,6 +41,18 @@
                 android:layout_toEndOf="@id/dialog_notes_icon"/>
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/dialog_notes_empty_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="?attr/secondary_text_color"
+            android:text="@string/notes_list_empty"
+            android:visibility="gone"/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/dialog_notes_list"
             android:layout_width="wrap_content"

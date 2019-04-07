@@ -23,8 +23,10 @@ import org.wikipedia.page.ExtendedBottomSheetDialogFragment;
 import java.util.Arrays;
 import java.util.List;
 
-public class NotesViewerDialog extends ExtendedBottomSheetDialogFragment {
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
+public class NotesViewerDialog extends ExtendedBottomSheetDialogFragment {
     private List<String> notes = Arrays.asList(
             "hi, this is a shorter text as an example",
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -44,10 +46,17 @@ public class NotesViewerDialog extends ExtendedBottomSheetDialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.dialog_notes_viewer, container);
-
+        TextView emptyTextView = rootView.findViewById(R.id.dialog_notes_empty_text);
         RecyclerView recyclerView = rootView.findViewById(R.id.dialog_notes_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.HORIZONTAL, false));
-        recyclerView.setAdapter(new RecyclerAdapter(this.getContext(), notes)); // todo: fetch notes from NoteService according to article
+
+        if (notes.isEmpty()) {
+            emptyTextView.setVisibility(VISIBLE);
+            recyclerView.setVisibility(GONE);
+
+        } else {
+            recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.HORIZONTAL, false));
+            recyclerView.setAdapter(new RecyclerAdapter(this.getContext(), notes)); // todo: fetch notes from NoteService according to article
+        }
 
         return rootView;
     }
