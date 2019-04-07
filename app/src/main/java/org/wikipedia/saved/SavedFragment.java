@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.wikipedia.R;
-import org.wikipedia.util.log.L;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,9 +40,10 @@ public class SavedFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_reading_lists, menu);
-        L.i("on create options menu");
-        super.onCreateOptionsMenu(menu, inflater);
+        if (viewPager.getCurrentItem() == 0) {
+            inflater.inflate(R.menu.menu_reading_lists, menu);
+            super.onCreateOptionsMenu(menu, inflater);
+        }
     }
 
     @Nullable
