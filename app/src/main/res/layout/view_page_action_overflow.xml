@@ -66,9 +66,9 @@
                 android:text="@string/menu_page_open_a_new_tab"/>
 
             <TextView
-                android:id="@+id/page_action_overflow_reading_lists"
+                android:id="@+id/page_action_overflow_saved"
                 style="@style/OverflowMenuItem"
-                android:text="@string/menu_page_reading_lists"/>
+                android:text="@string/menu_page_saved"/>
 
             <TextView
                 android:id="@+id/page_action_overflow_recently_viewed"

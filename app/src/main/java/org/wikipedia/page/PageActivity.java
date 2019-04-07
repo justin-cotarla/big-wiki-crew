@@ -668,11 +668,11 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
             animateTabsButton();
         }
         @Override
-        public void readingListsClick() {
+        public void savedClick() {
             if (Prefs.getOverflowReadingListsOptionClickCount() < 2) {
                 Prefs.setOverflowReadingListsOptionClickCount(Prefs.getOverflowReadingListsOptionClickCount() + 1);
             }
-            goToMainTab(NavTab.READING_LISTS.code());
+            goToMainTab(NavTab.SAVED.code());
         }
         @Override
         public void recentlyViewedClick() {

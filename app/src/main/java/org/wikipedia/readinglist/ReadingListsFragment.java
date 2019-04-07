@@ -20,7 +20,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -145,13 +144,8 @@ public class ReadingListsFragment extends Fragment implements SortReadingListsDi
         if (ReadingListSyncAdapter.isDisabledByRemoteConfig()) {
             swipeRefreshLayout.setEnabled(false);
         }
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
+        return view;
     }
 
     @Override
@@ -167,11 +161,6 @@ public class ReadingListsFragment extends Fragment implements SortReadingListsDi
     public void onResume() {
         super.onResume();
         updateLists();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_reading_lists, menu);
     }
 
     @Override
