@@ -24,9 +24,9 @@ public class Note {
         this.title = title;
     }
 
-    public Note(@NonNull String title, @NonNull String content, @NonNull PageTitle pageTitle) {
-        this.title = title;
+    public Note(@NonNull String content, @NonNull PageTitle pageTitle) {
         this.content = content;
+        this.title = pageTitle.getDisplayText();
         this.wiki = pageTitle.getWikiSite();
         this.thumbUrl = pageTitle.getThumbUrl();
         this.description = pageTitle.getDescription();
