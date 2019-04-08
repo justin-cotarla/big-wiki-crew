@@ -101,11 +101,11 @@ public class NotesViewerDialog extends ExtendedBottomSheetDialogFragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-            viewHolder.note.setText(notes.get(i));
-            viewHolder.note.setOnLongClickListener(note -> {
-                // todo: copy note to clipboard + toast ?
+            String text = notes.get(i);
+            viewHolder.note.setText(text);
+            viewHolder.note.setOnLongClickListener(clicked -> {
                 ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("article_note", viewHolder.note.getText());
+                ClipData clip = ClipData.newPlainText("article_note", text);
                 clipboard.setPrimaryClip(clip);
                 Toast.makeText(context, "Copied",Toast.LENGTH_SHORT).show();
                 return true;
@@ -122,8 +122,10 @@ public class NotesViewerDialog extends ExtendedBottomSheetDialogFragment {
 
             public ViewHolder(View view) {
                 super(view);
-                note = view.findViewById(R.id.dialog_notes_card_text);
+                note = view.findViewById(R.id.dialog_notes_text);
                 note.setMovementMethod(new ScrollingMovementMethod());
+
+
             }
         }
     }
