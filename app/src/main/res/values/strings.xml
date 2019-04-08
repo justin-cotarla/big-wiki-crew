@@ -809,12 +809,12 @@
     <string name="input_hint">Enter message</string>
     <!-- /Categories -->
 
+    <string name="nav_item_saved">Saved</string>
+
     <!-- Notes -->
     <string name="notes">Notes</string>
     <string name="notes_list_empty">No notes saved for this article.</string>
-    <!-- /Notes -->
-
-    <string name="nav_item_saved">Saved</string>
     <string name="search_hint_notes">Search my notes</string>
+    <!-- /Notes -->
 
 </resources>
