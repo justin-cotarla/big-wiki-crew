@@ -11,7 +11,7 @@ import org.wikipedia.history.HistoryFragment;
 import org.wikipedia.model.EnumCode;
 import org.wikipedia.model.EnumCodeMap;
 import org.wikipedia.nearby.NearbyLazyLoadFragment;
-import org.wikipedia.readinglist.ReadingListsFragment;
+import org.wikipedia.saved.SavedFragment;
 
 public enum NavTab implements EnumCode {
     EXPLORE(R.string.nav_item_feed, R.drawable.ic_globe) {
@@ -19,9 +19,9 @@ public enum NavTab implements EnumCode {
             return FeedFragment.newInstance();
         }
     },
-    READING_LISTS(R.string.nav_item_reading_lists, R.drawable.ic_bookmark_white_24dp) {
+    SAVED(R.string.nav_item_saved, R.drawable.ic_bookmark_white_24dp) {
         @NonNull @Override public Fragment newInstance() {
-            return ReadingListsFragment.newInstance();
+            return SavedFragment.newInstance();
         }
     },
     HISTORY(R.string.nav_item_history, R.drawable.ic_restore_black_24dp) {

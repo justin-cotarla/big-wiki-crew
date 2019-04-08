@@ -40,7 +40,7 @@
     <string name="menu_page_view_notes">View notes</string>
     <string name="menu_page_share">Share link</string>
     <string name="menu_page_open_a_new_tab">Open a new tab</string>
-    <string name="menu_page_reading_lists">Reading lists</string>
+    <string name="menu_page_saved">Saved</string>
     <string name="menu_page_recently_viewed">Recently viewed</string>
 
     <!-- Long press menu -->
@@ -787,7 +787,7 @@
     <string name="tts_speech_rate_double">2x</string>
     <string name="tts_speech_rate_triple">3x</string>
     <!-- /Text-to-speech -->
-    
+
     <!-- Categories -->
     <string name="top_categories">Top Categories</string>
     <string name="recommended_categories">Recommended for You</string>
@@ -813,4 +813,8 @@
     <string name="notes">Notes</string>
     <string name="notes_list_empty">No notes saved for this article.</string>
     <!-- /Notes -->
+
+    <string name="nav_item_saved">Saved</string>
+    <string name="search_hint_notes">Search my notes</string>
+
 </resources>

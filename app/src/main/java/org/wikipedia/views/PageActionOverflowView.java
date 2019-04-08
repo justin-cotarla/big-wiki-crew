@@ -30,7 +30,7 @@ public class PageActionOverflowView extends FrameLayout {
         void forwardClick();
         void backwardClick();
         void openNewTabClick();
-        void readingListsClick();
+        void savedClick();
         void recentlyViewedClick();
     }
 
@@ -63,7 +63,7 @@ public class PageActionOverflowView extends FrameLayout {
     }
 
     @OnClick({R.id.page_action_overflow_forward, R.id.page_action_overflow_back,
-            R.id.page_action_overflow_open_a_new_tab, R.id.page_action_overflow_reading_lists,
+            R.id.page_action_overflow_open_a_new_tab, R.id.page_action_overflow_saved,
             R.id.page_action_overflow_recently_viewed})
     void onItemClick(View view) {
         if (popupWindowHost != null) {
@@ -83,8 +83,8 @@ public class PageActionOverflowView extends FrameLayout {
             case R.id.page_action_overflow_open_a_new_tab:
                 callback.openNewTabClick();
                 break;
-            case R.id.page_action_overflow_reading_lists:
-                callback.readingListsClick();
+            case R.id.page_action_overflow_saved:
+                callback.savedClick();
                 break;
             case R.id.page_action_overflow_recently_viewed:
                 callback.recentlyViewedClick();
