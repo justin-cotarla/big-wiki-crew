@@ -24,6 +24,14 @@ public class Note {
         this.title = title;
     }
 
+    public Note(@NonNull String title, @NonNull String content, @NonNull PageTitle pageTitle) {
+        this.title = title;
+        this.content = content;
+        this.wiki = pageTitle.getWikiSite();
+        this.thumbUrl = pageTitle.getThumbUrl();
+        this.description = pageTitle.getDescription();
+    }
+
     public long id() {
         return id;
     }
