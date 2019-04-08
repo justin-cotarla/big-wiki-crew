@@ -7,7 +7,9 @@ import org.wikipedia.dataclient.WikiSite;
 import org.wikipedia.page.PageTitle;
 
 public class Note {
+
     private long id;
+
     @NonNull private final String content;
 
     // For creating a page title
@@ -16,18 +18,23 @@ public class Note {
     @Nullable private String description;
     @Nullable private String thumbUrl;
 
-    public Note(@NonNull String content,
-                @NonNull WikiSite wiki,
-                @NonNull String title) {
+    public Note(@NonNull String content, @NonNull WikiSite wiki, @NonNull String title) {
         this.content = content;
         this.wiki = wiki;
         this.title = title;
     }
 
-    public long id() { return id; }
-    public void id(long id) { this.id = id; }
+    public long id() {
+        return id;
+    }
 
-    public String content() { return content; }
+    public void id(long id) {
+        this.id = id;
+    }
+
+    public String content() {
+        return content;
+    }
 
     @NonNull public WikiSite wiki() {
         return wiki;
@@ -40,6 +47,7 @@ public class Note {
     @Nullable public String description() {
         return description;
     }
+
     public void description(@Nullable String description) {
         this.description = description;
     }
@@ -47,6 +55,7 @@ public class Note {
     @Nullable public String thumbUrl() {
         return thumbUrl;
     }
+
     public void thumbUrl(@Nullable String thumbUrl) {
         this.thumbUrl = thumbUrl;
     }
