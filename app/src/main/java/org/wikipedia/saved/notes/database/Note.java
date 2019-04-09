@@ -1,4 +1,4 @@
-package org.wikipedia.saved.notes;
+package org.wikipedia.saved.notes.database;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
