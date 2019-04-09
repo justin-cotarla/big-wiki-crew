@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
@@ -39,6 +38,7 @@ public class NoteListItemView extends ConstraintLayout {
     public enum Description { DETAIL, SUMMARY }
 
     @BindView(R.id.item_note_title) TextView titleView;
+    @BindView(R.id.item_note_article_description) TextView articleDescriptionView;
     @BindView(R.id.item_note_content) TextView contentView;
     @BindView(R.id.item_note_overflow_menu)View overflowButton;
 
@@ -62,7 +62,7 @@ public class NoteListItemView extends ConstraintLayout {
         init();
     }
 
-    public void setReadingList(@NonNull Note note, @NonNull org.wikipedia.saved.notes.NoteListItemView.Description description) {
+    public void setNote(@NonNull Note note, @NonNull org.wikipedia.saved.notes.NoteListItemView.Description description) {
         this.note = note;
 
         boolean isDetailView = description == org.wikipedia.saved.notes.NoteListItemView.Description.DETAIL;
@@ -71,14 +71,11 @@ public class NoteListItemView extends ConstraintLayout {
                 : getResources().getInteger(R.integer.reading_list_description_summary_view_max_lines));
 
         updateDetails();
+        updateThumbnail();
     }
 
     public void setCallback(@Nullable org.wikipedia.saved.notes.NoteListItemView.Callback callback) {
         this.callback = callback;
-    }
-
-    public void setOverflowButtonVisible(boolean visible) {
-        overflowButton.setVisibility(visible ? VISIBLE : GONE);
     }
 
     public void setThumbnailVisible(boolean visible) {
@@ -95,7 +92,7 @@ public class NoteListItemView extends ConstraintLayout {
         }
     }
 
-    @OnClick(R.id.item_overflow_menu) void showOverflowMenu(View anchorView) {
+    @OnClick(R.id.item_note_overflow_menu) void showOverflowMenu(View anchorView) {
         PopupMenu menu = new PopupMenu(getContext(), anchorView, Gravity.END);
         menu.getMenuInflater().inflate(R.menu.menu_notes_list_item, menu.getMenu());
         menu.setOnMenuItemClickListener(new org.wikipedia.saved.notes.NoteListItemView.OverflowMenuClickListener(note));
@@ -103,16 +100,18 @@ public class NoteListItemView extends ConstraintLayout {
     }
 
     private void init() {
-        inflate(getContext(), R.layout.item_reading_list, this);
+        inflate(getContext(), R.layout.item_notes, this);
         ButterKnife.bind(this);
 
         setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         final int topBottomPadding = 16;
         setPadding(0, DimenUtil.roundedDpToPx(topBottomPadding), 0, DimenUtil.roundedDpToPx(topBottomPadding));
         setBackgroundColor(ResourceUtil.getThemedColor(getContext(), R.attr.paper_color));
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             setForeground(ContextCompat.getDrawable(getContext(), ResourceUtil.getThemedAttributeId(getContext(), R.attr.selectableItemBackground)));
         }
+
         setClickable(true);
         clearThumbnail();
     }
@@ -122,7 +121,14 @@ public class NoteListItemView extends ConstraintLayout {
             return;
         }
 
+        if (TextUtils.isEmpty(note.description())) {
+            articleDescriptionView.setVisibility(GONE);
+        } else {
+            articleDescriptionView.setText(note.description());
+        }
+
         titleView.setText(note.title());
+        contentView.setText(note.content());
     }
 
     private void clearThumbnail() {
@@ -150,10 +156,6 @@ public class NoteListItemView extends ConstraintLayout {
         } else {
             ViewUtil.loadImageUrlInto(view, url);
         }
-    }
-
-    @NonNull private String getString(@StringRes int id, @Nullable Object... formatArgs) {
-        return getResources().getString(id, formatArgs);
     }
 
     private class OverflowMenuClickListener implements PopupMenu.OnMenuItemClickListener {
