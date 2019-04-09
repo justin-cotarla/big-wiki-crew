@@ -9,6 +9,8 @@ cache:
    -$HOME/.gradle/wrapper/
    -$HOME/.android/build-cache
 
+notifications:
+  slack: soen-workspace:CcMm4l3ubgB81J9lzNaq8w5F
 
 env:
  global:
