@@ -36,6 +36,12 @@ public enum PageActionTab implements EnumCode {
             cb.onFontAndThemeTabSelected();
         }
     },
+    VIEW_NOTES() {
+      @Override
+      public void select(@NonNull Callback cb) {
+          cb.onViewNotesTabSelected();
+      }
+    },
     VIEW_TOC() {
         @Override
         public void select(@NonNull Callback cb) {
@@ -64,6 +70,7 @@ public enum PageActionTab implements EnumCode {
         void onChooseLangTabSelected();
         void onFindInPageTabSelected();
         void onFontAndThemeTabSelected();
+        void onViewNotesTabSelected();
         void onViewToCTabSelected();
         void updateBookmark(boolean pageSaved);
     }
