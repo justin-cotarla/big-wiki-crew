@@ -53,3 +53,7 @@ stages:
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+
+after_failure:
+  - pip install -r ./scripts/requirements.txt
+  - python ./scripts/ci_parser.py --id $TRAVIS_JOB_ID --stage $TRAVIS_BUILD_STAGE_NAME --token $AUTH_TOKEN --url $TRAVIS_JOB_WEB_URL
