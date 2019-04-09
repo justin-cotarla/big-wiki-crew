@@ -51,7 +51,7 @@ import org.wikipedia.history.HistoryEntry;
 import org.wikipedia.language.LangLinksActivity;
 import org.wikipedia.main.MainActivity;
 import org.wikipedia.navtab.NavTab;
-import org.wikipedia.notes.NotesViewerDialog;
+import org.wikipedia.saved.notes.NotesViewerDialog;
 import org.wikipedia.page.chat.ChatClient;
 import org.wikipedia.page.linkpreview.LinkPreviewDialog;
 import org.wikipedia.page.tabs.TabActivity;

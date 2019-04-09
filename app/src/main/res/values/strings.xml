@@ -815,6 +815,8 @@
     <string name="notes">Notes</string>
     <string name="notes_list_empty">No notes saved for this article.</string>
     <string name="search_hint_notes">Search my notes</string>
+    <string name="menu_note_select_copy">Copy</string>
+    <string name="menu_note_select_delete">Delete</string>
     <!-- /Notes -->
 
 </resources>
