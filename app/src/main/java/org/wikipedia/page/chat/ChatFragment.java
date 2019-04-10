@@ -1,5 +1,6 @@
 package org.wikipedia.page.chat;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,12 +15,16 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.wikipedia.R;
 import org.wikipedia.page.PageActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +34,12 @@ public class ChatFragment extends DialogFragment {
     private ChatClient chatClient;
     private ArrayList<Message> messageList = new ArrayList();
     private ChatAdapter chatAdapter;
+
+    private int iconLimitLow = 1;
+    private int iconLimitHigh = 45;
+    private String iconPrefix = "animal_";
+    private String mainUser = "current_user";
+    private Map<String, Integer> iconMap;
 
     private Unbinder unbinder;
 
@@ -52,6 +63,7 @@ public class ChatFragment extends DialogFragment {
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         chatAdapter = new ChatAdapter();
+        iconMap = new HashMap<>();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setStackFromEnd(true);
@@ -160,6 +172,8 @@ public class ChatFragment extends DialogFragment {
                     SentMessageViewHolder sentMessageViewHolder = (SentMessageViewHolder)holder;
                     ((TextView)sentMessageViewHolder.sentMessageView.findViewById(R.id.chat_message_sent_text))
                             .setText(message.getMessage());
+                    (sentMessageViewHolder.sentMessageView.findViewById(R.id.chat_message_sent_user_image))
+                            .setBackgroundResource(getIconFromName(mainUser));
                     break;
 
                 case RECEIVED_TYPE:
@@ -168,6 +182,8 @@ public class ChatFragment extends DialogFragment {
                             .setText(message.getMessage());
                     ((TextView)receivedMessageViewHolder.receivedMessageView.findViewById(R.id.chat_message_received_username))
                             .setText(message.getUser());
+                    (receivedMessageViewHolder.receivedMessageView.findViewById(R.id.chat_message_received_user_image))
+                            .setBackgroundResource(getIconFromName(message.getUser()));
                     break;
                 default:
                     // Should not happen
@@ -178,6 +194,20 @@ public class ChatFragment extends DialogFragment {
         @Override
         public int getItemCount() {
             return messageList.size();
+        }
+
+        private int getIconFromName(String userName) {
+            if (!iconMap.containsKey(userName)) {
+                Context context = getActivity().getApplicationContext();
+
+                Random randomGenerator = new Random();
+                int iconId = randomGenerator.nextInt(iconLimitHigh-iconLimitLow) + iconLimitLow;
+                int resourceId = context.getResources().getIdentifier(iconPrefix + iconId, "drawable", context.getPackageName());
+
+                iconMap.put(userName, resourceId);
+            }
+
+            return iconMap.get(userName);
         }
     }
 }
