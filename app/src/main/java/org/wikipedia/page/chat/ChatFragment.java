@@ -1,6 +1,5 @@
 package org.wikipedia.page.chat;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,16 +14,12 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.wikipedia.R;
 import org.wikipedia.page.PageActivity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,7 +34,7 @@ public class ChatFragment extends DialogFragment {
 
     private Unbinder unbinder;
 
-    public static String mainUser = "current_user";
+    final public static String MAIN_USER = "current_user";
 
     @BindView(R.id.chat_message_view) RecyclerView chatMessageView;
     @BindView(R.id.chat_send_btn) AppCompatImageButton sendButton;
@@ -171,7 +166,7 @@ public class ChatFragment extends DialogFragment {
                     ((TextView)sentMessageViewHolder.sentMessageView.findViewById(R.id.chat_message_sent_text))
                             .setText(message.getMessage());
                     (sentMessageViewHolder.sentMessageView.findViewById(R.id.chat_message_sent_user_image))
-                            .setBackgroundResource(iconGenerator.getIconFromName(mainUser));
+                            .setBackgroundResource(iconGenerator.getIconFromName(MAIN_USER));
                     break;
 
                 case RECEIVED_TYPE:

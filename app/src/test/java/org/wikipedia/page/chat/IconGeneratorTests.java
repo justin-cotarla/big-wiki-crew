@@ -5,12 +5,8 @@ import android.content.res.Resources;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class IconGeneratorTests {
@@ -32,18 +28,18 @@ public class IconGeneratorTests {
         when(contextMock.getResources()).thenReturn(resourcesMock);
         when(contextMock.getPackageName()).thenReturn(packageName);
 
-        for (int i = IconGenerator.iconLimitLow; i <= IconGenerator.iconLimitHigh ; i++) {
+        for (int i = IconGenerator.ICON_LIMIT_LOW; i <= IconGenerator.ICON_LIMIT_HIGH; i++) {
             when(resourcesMock.getIdentifier(IconGenerator.iconPrefix + i, drawablePath, packageName)).thenReturn(i);
         }
     }
 
     @Test
     public void testMainUserIcon() {
-        String mainUser = ChatFragment.mainUser;
+        String mainUser = ChatFragment.MAIN_USER;
 
         int userIcon = iconGenerator.getIconFromName(mainUser);
-        assert(userIcon >= IconGenerator.iconLimitLow);
-        assert(userIcon <= IconGenerator.iconLimitHigh);
+        assert(userIcon >= IconGenerator.ICON_LIMIT_LOW);
+        assert(userIcon <= IconGenerator.ICON_LIMIT_HIGH);
     }
 
     @Test
@@ -52,7 +48,7 @@ public class IconGeneratorTests {
         int userIconMessage2 = iconGenerator.getIconFromName(user1);
 
         assert(userIconMessage1 == userIconMessage2);
-        assert(userIconMessage2 >= IconGenerator.iconLimitLow);
-        assert(userIconMessage2 <= IconGenerator.iconLimitHigh);
+        assert(userIconMessage2 >= IconGenerator.ICON_LIMIT_LOW);
+        assert(userIconMessage2 <= IconGenerator.ICON_LIMIT_HIGH);
     }
 }
