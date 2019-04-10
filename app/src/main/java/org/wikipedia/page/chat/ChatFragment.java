@@ -35,11 +35,8 @@ public class ChatFragment extends DialogFragment {
     private ArrayList<Message> messageList = new ArrayList();
     private ChatAdapter chatAdapter;
 
-    private int iconLimitLow = 1;
-    private int iconLimitHigh = 45;
-    private String iconPrefix = "animal_";
     private String mainUser = "current_user";
-    private Map<String, Integer> iconMap;
+    private IconGenerator iconGenerator;
 
     private Unbinder unbinder;
 
@@ -63,7 +60,7 @@ public class ChatFragment extends DialogFragment {
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         chatAdapter = new ChatAdapter();
-        iconMap = new HashMap<>();
+        iconGenerator = new IconGenerator(getActivity().getApplicationContext());
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setStackFromEnd(true);
@@ -115,7 +112,7 @@ public class ChatFragment extends DialogFragment {
         }
     }
 
-    private class ChatAdapter extends RecyclerView.Adapter {
+    protected class ChatAdapter extends RecyclerView.Adapter {
         private static final int SENT_TYPE = 0;
         private static final int RECEIVED_TYPE = 1;
 
@@ -173,7 +170,7 @@ public class ChatFragment extends DialogFragment {
                     ((TextView)sentMessageViewHolder.sentMessageView.findViewById(R.id.chat_message_sent_text))
                             .setText(message.getMessage());
                     (sentMessageViewHolder.sentMessageView.findViewById(R.id.chat_message_sent_user_image))
-                            .setBackgroundResource(getIconFromName(mainUser));
+                            .setBackgroundResource(iconGenerator.getIconFromName(mainUser));
                     break;
 
                 case RECEIVED_TYPE:
@@ -183,7 +180,7 @@ public class ChatFragment extends DialogFragment {
                     ((TextView)receivedMessageViewHolder.receivedMessageView.findViewById(R.id.chat_message_received_username))
                             .setText(message.getUser());
                     (receivedMessageViewHolder.receivedMessageView.findViewById(R.id.chat_message_received_user_image))
-                            .setBackgroundResource(getIconFromName(message.getUser()));
+                            .setBackgroundResource(iconGenerator.getIconFromName(message.getUser()));
                     break;
                 default:
                     // Should not happen
@@ -194,20 +191,6 @@ public class ChatFragment extends DialogFragment {
         @Override
         public int getItemCount() {
             return messageList.size();
-        }
-
-        private int getIconFromName(String userName) {
-            if (!iconMap.containsKey(userName)) {
-                Context context = getActivity().getApplicationContext();
-
-                Random randomGenerator = new Random();
-                int iconId = randomGenerator.nextInt(iconLimitHigh-iconLimitLow) + iconLimitLow;
-                int resourceId = context.getResources().getIdentifier(iconPrefix + iconId, "drawable", context.getPackageName());
-
-                iconMap.put(userName, resourceId);
-            }
-
-            return iconMap.get(userName);
         }
     }
 }
