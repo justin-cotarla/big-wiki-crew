@@ -56,7 +56,7 @@ public class ChatFragment extends DialogFragment {
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         chatAdapter = new ChatAdapter();
-        iconGenerator = new IconGenerator(getActivity().getApplicationContext());
+        iconGenerator = new IconGenerator(requireContext());
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setStackFromEnd(true);
