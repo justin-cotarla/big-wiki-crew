@@ -367,7 +367,7 @@ public final class ReadingListsTest {
                 () -> waitFor(WAIT_FOR_2000));
 
         onView(withId(R.id.fragment_main_nav_tab_layout))
-                .perform(selectTab(NavTab.READING_LISTS.code()))
+                .perform(selectTab(NavTab.SAVED.code()))
                 .check(matches(isDisplayed()));
 
         waitFor(WAIT_FOR_2000);
