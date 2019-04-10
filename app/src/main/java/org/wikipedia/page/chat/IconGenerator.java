@@ -10,9 +10,9 @@ public class IconGenerator {
     private Map<String, Integer> iconMap;
     private Context context;
 
-    private int iconLimitLow = 1;
-    private int iconLimitHigh = 45;
-    private String iconPrefix = "animal_";
+    protected static String iconPrefix = "animal_";
+    protected static int iconLimitLow = 1;
+    protected static int iconLimitHigh = 45;
 
     public IconGenerator(Context context) {
         iconMap = new HashMap<>();

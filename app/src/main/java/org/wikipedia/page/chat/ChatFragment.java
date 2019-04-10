@@ -35,10 +35,11 @@ public class ChatFragment extends DialogFragment {
     private ArrayList<Message> messageList = new ArrayList();
     private ChatAdapter chatAdapter;
 
-    private String mainUser = "current_user";
     private IconGenerator iconGenerator;
 
     private Unbinder unbinder;
+
+    public static String mainUser = "current_user";
 
     @BindView(R.id.chat_message_view) RecyclerView chatMessageView;
     @BindView(R.id.chat_send_btn) AppCompatImageButton sendButton;
