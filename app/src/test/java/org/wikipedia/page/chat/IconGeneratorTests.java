@@ -29,7 +29,7 @@ public class IconGeneratorTests {
         when(contextMock.getPackageName()).thenReturn(packageName);
 
         for (int i = IconGenerator.ICON_LIMIT_LOW; i <= IconGenerator.ICON_LIMIT_HIGH; i++) {
-            when(resourcesMock.getIdentifier(IconGenerator.iconPrefix + i, drawablePath, packageName)).thenReturn(i);
+            when(resourcesMock.getIdentifier(IconGenerator.ICON_PREFIX + i, drawablePath, packageName)).thenReturn(i);
         }
     }
 

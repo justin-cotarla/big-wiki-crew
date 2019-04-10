@@ -34,7 +34,7 @@ public class ChatFragment extends DialogFragment {
 
     private Unbinder unbinder;
 
-    final public static String MAIN_USER = "current_user";
+    public static final String MAIN_USER = "current_user";
 
     @BindView(R.id.chat_message_view) RecyclerView chatMessageView;
     @BindView(R.id.chat_send_btn) AppCompatImageButton sendButton;
