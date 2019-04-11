@@ -12,8 +12,12 @@ import static org.mockito.Mockito.when;
 public class IconGeneratorTests {
     private IconGenerator iconGenerator;
     private String drawablePath = "drawable";
-    private String packageName = "barista-berge";
-    private String user1 = "Justin Cortana";
+    private String packageName = "Justin Cortana";
+    private String userPrefix = "anon";
+    private String badUserName = "no-numbers-here";
+    private int userNum1 = 0;
+    private int userNumOverflow = 45;
+    private int userNumHigh = 44;
 
     private Context contextMock;
     private Resources resourcesMock;
@@ -34,21 +38,38 @@ public class IconGeneratorTests {
     }
 
     @Test
-    public void testMainUserIcon() {
-        String mainUser = ChatFragment.MAIN_USER;
+    public void testCorrectIconGenerated() {
+        int userIcon = iconGenerator.getIconFromName(getUserName(userNum1));
+        assert(userIcon == IconGenerator.ICON_LIMIT_LOW);
+    }
 
-        int userIcon = iconGenerator.getIconFromName(mainUser);
-        assert(userIcon >= IconGenerator.ICON_LIMIT_LOW);
-        assert(userIcon <= IconGenerator.ICON_LIMIT_HIGH);
+    @Test
+    public void testOverflowIconGenerated() {
+        int userIcon = iconGenerator.getIconFromName(getUserName(userNumOverflow));
+        assert(userIcon == IconGenerator.ICON_LIMIT_LOW);
+    }
+
+    @Test
+    public void testUperBoundIconGenerated() {
+        int userIcon = iconGenerator.getIconFromName(getUserName(userNumHigh));
+        assert(userIcon == IconGenerator.ICON_LIMIT_HIGH);
     }
 
     @Test
     public void testUserIconSeveralMessages() {
-        int userIconMessage1 = iconGenerator.getIconFromName(user1);
-        int userIconMessage2 = iconGenerator.getIconFromName(user1);
+        int userIconMessage1 = iconGenerator.getIconFromName(getUserName(userNum1));
+        int userIconMessage2 = iconGenerator.getIconFromName(getUserName(userNum1));
 
         assert(userIconMessage1 == userIconMessage2);
-        assert(userIconMessage2 >= IconGenerator.ICON_LIMIT_LOW);
-        assert(userIconMessage2 <= IconGenerator.ICON_LIMIT_HIGH);
+    }
+
+    @Test
+    public void testIconGeneratorBadUserName() {
+        int userIcon = iconGenerator.getIconFromName(badUserName);
+        assert(userIcon == IconGenerator.ICON_LIMIT_LOW);
+    }
+
+    private String getUserName(int userNum) {
+        return userPrefix + userNum;
     }
 }

@@ -34,8 +34,6 @@ public class ChatFragment extends DialogFragment {
 
     private Unbinder unbinder;
 
-    public static final String MAIN_USER = "current_user";
-
     @BindView(R.id.chat_message_view) RecyclerView chatMessageView;
     @BindView(R.id.chat_send_btn) AppCompatImageButton sendButton;
     @BindView(R.id.chat_text_input) AppCompatEditText editText;
@@ -166,7 +164,7 @@ public class ChatFragment extends DialogFragment {
                     ((TextView)sentMessageViewHolder.sentMessageView.findViewById(R.id.chat_message_sent_text))
                             .setText(message.getMessage());
                     (sentMessageViewHolder.sentMessageView.findViewById(R.id.chat_message_sent_user_image))
-                            .setBackgroundResource(iconGenerator.getIconFromName(MAIN_USER));
+                            .setBackgroundResource(iconGenerator.getIconFromName(message.getUser()));
                     break;
 
                 case RECEIVED_TYPE:
