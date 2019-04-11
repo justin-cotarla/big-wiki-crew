@@ -28,6 +28,7 @@ public class ChatClient {
     private DatabaseReference articlesRef;
     private DatabaseReference messageRef;
     private ChildEventListener messageListener;
+    private ChildEventListener userCountListener;
 
     private final String userPrefix = "anon";
     private final String messagesPath = "messages";
@@ -77,6 +78,7 @@ public class ChatClient {
 
                 enterChatRoom();
                 openLock();
+                attachUserCount();
             }
 
             @Override
@@ -114,6 +116,23 @@ public class ChatClient {
             }
         };
         messageRef.addChildEventListener(messageListener);
+    }
+
+    protected void attachUserCount() {
+        // Read data from the user count node. Set the instance variables here.
+        articlesRef.child(usersCountPath).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                userCount = dataSnapshot.getValue(Integer.class) != null
+                        ? dataSnapshot.getValue(Integer.class) : 0;
+                userCountCallback.run(userCount);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                L.e(databaseError.toException());
+            }
+        });
     }
 
     public void unsubscribe() {
