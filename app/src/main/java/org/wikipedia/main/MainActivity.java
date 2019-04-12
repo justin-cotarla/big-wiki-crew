@@ -50,7 +50,6 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static org.wikipedia.Constants.ACTIVITY_REQUEST_INITIAL_ONBOARDING;
 
-
 public class MainActivity extends SingleFragmentActivity<MainFragment>
         implements MainFragment.Callback {
 
