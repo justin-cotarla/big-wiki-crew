@@ -67,7 +67,7 @@ def slack_webhook(job_id, stage_name, error):
     headers = {'content-type': 'application/json'}
     data = {
         "username": "TRAVIS CI PARSER SUMMARY",
-        "text": "*Build id*: {} \n *Stage name:* {} \n *Job url*: {} \n\n *Summary* \n ``` {} \n\n {} ```".format(job_id, stage_name, BASE_URL, error["capture"], error["additional"])
+        "text": "*Build id*: {} \n*Stage name:* {} \n*Job url*: {} \n\n*Summary* \n ``` {} \n\n {} ```".format(job_id, stage_name, BASE_URL, error["capture"], error["additional"])
     }
     requests.post(SLACK_URL, headers=headers, data=json.dumps(data))
 
