@@ -4,6 +4,7 @@ import requests
 import sys
 import argparse
 import json
+import re
 
 
 def get_args():
@@ -38,23 +39,35 @@ def get_ci_logs(id, token):
 
 
 def parse_logs(response):
-    """ Parses the travis log. """
+    """ Parses the travis log. 
 
-    # TODO parse the text for summaries
-    if "BUILD FAILED" in response:
-        return "build failed"
+    :params response: text from the ci log
+    :return: dict that contains error information
+    """
 
-    return "No errors :)"
+    start = "FAILURE: Build failed with an exception."
+    end = "BUILD FAILED"
+
+    # capture the substring between two strings
+    capture_error = response[response.find(start)+len(start):response.rfind(end)]
+
+    # get 15 lines above build fail
+    additional_log = re.findall('((?:.*\n){15}).*FAILURE: Build failed with an exception.', response)
+
+    return {
+        "capture": capture_error,
+        "additional": additional_log
+    }
 
 
-def slack_webhook(build_id, stage_name, url, message):
+def slack_webhook(build_id, stage_name, url, error):
     """ Send summary to slack. """
 
     SLACK_URL = "https://hooks.slack.com/services/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"
     headers = {'content-type': 'application/json'}
     data = {
         "username": "TRAVIS CI PARSER SUMMARY",
-        "text": "BUILD ID: {} \n STAGE NAME: {} \n INFO: {} \n JOB URL: {}".format(build_id, stage_name, message, url)
+        "text": "*Build id*: {} \n *Stage name:* {} \n *Job url*: {} \n\n *Summary* \n ``` {} \n\n {}```".format(build_id, stage_name, url, error["capture"], error["additional"])
     }
     requests.post(SLACK_URL, headers=headers, data=json.dumps(data))
 
@@ -62,5 +75,5 @@ def slack_webhook(build_id, stage_name, url, message):
 if __name__ == "__main__":
     args = get_args()
     response = get_ci_logs(args.id, args.token)
-    message = parse_logs(response)
-    slack_webhook(args.id, args.stage, args.url, message)
+    error = parse_logs(response)
+    slack_webhook(args.id, args.stage, args.url, error)
