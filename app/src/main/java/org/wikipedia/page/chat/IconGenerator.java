@@ -1,11 +1,9 @@
 package org.wikipedia.page.chat;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 public class IconGenerator {
     private Map<String, Integer> iconMap;

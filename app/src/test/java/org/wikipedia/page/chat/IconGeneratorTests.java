@@ -16,8 +16,8 @@ public class IconGeneratorTests {
     private String userPrefix = "anon";
     private String badUserName = "no-numbers-here";
     private int userNum1 = 0;
-    private int userNumOverflow = 45;
-    private int userNumHigh = 44;
+    private int userNumOverflow = IconGenerator.ICON_LIMIT_HIGH;
+    private int userNumHigh = IconGenerator.ICON_LIMIT_HIGH - IconGenerator.ICON_LIMIT_LOW;
 
     private Context contextMock;
     private Resources resourcesMock;
