@@ -118,7 +118,7 @@ public class ChatClient {
         messageRef.addChildEventListener(messageListener);
     }
 
-    private void attachUserCount() {
+    protected void attachUserCount() {
         // Read data from the user count node. Set the instance variables here.
         articlesRef.child(usersCountPath).addValueEventListener(new ValueEventListener() {
             @Override
