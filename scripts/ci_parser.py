@@ -13,7 +13,6 @@ def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--id", help="The job id of travis build.")
     parser.add_argument("--stage", help="Travis build stage name.")
-    parser.add_argument("--url", help="Travis job url link.")
     parser.add_argument("--token", help="Travis build auth token.")
     args = parser.parse_args()
     return args
@@ -49,7 +48,7 @@ def parse_logs(response):
     end = "BUILD FAILED"
 
     # capture the substring between two strings
-    capture_error = response[response.find(start)+len(start):response.rfind(end)]
+    capture_error = response[response.find(start)+len(start):response.find(end)]
 
     # get 15 lines above build fail
     additional_log = re.findall('((?:.*\n){15}).*FAILURE: Build failed with an exception.', response)
@@ -60,14 +59,15 @@ def parse_logs(response):
     }
 
 
-def slack_webhook(build_id, stage_name, url, error):
+def slack_webhook(job_id, stage_name, error):
     """ Send summary to slack. """
 
     SLACK_URL = "https://hooks.slack.com/services/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"
+    BASE_URL = "https://travis-ci.com/justin-cotarla/big-wiki-crew/jobs/{}".format(job_id)
     headers = {'content-type': 'application/json'}
     data = {
         "username": "TRAVIS CI PARSER SUMMARY",
-        "text": "*Build id*: {} \n *Stage name:* {} \n *Job url*: {} \n\n *Summary* \n ``` {} \n\n {}```".format(build_id, stage_name, url, error["capture"], error["additional"])
+        "text": "*Build id*: {} \n *Stage name:* {} \n *Job url*: {} \n\n *Summary* \n ``` {} \n\n {} ```".format(job_id, stage_name, BASE_URL, error["capture"], error["additional"])
     }
     requests.post(SLACK_URL, headers=headers, data=json.dumps(data))
 
@@ -76,4 +76,4 @@ if __name__ == "__main__":
     args = get_args()
     response = get_ci_logs(args.id, args.token)
     error = parse_logs(response)
-    slack_webhook(args.id, args.stage, args.url, error)
+    slack_webhook(args.id, args.stage, error)
