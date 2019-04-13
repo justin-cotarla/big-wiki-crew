@@ -5,8 +5,12 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import org.wikipedia.database.DatabaseTable;
+import org.wikipedia.database.column.Column;
 import org.wikipedia.database.contract.NoteContract;
 import org.wikipedia.dataclient.WikiSite;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NoteTable extends DatabaseTable<Note> {
     private static final int DB_VER_INTRODUCED = 18;
@@ -49,5 +53,24 @@ public class NoteTable extends DatabaseTable<Note> {
     @Override
     protected int getDBVersionIntroducedAt() {
         return DB_VER_INTRODUCED;
+    }
+
+    @NonNull
+    @Override
+    public Column<?>[] getColumnsAdded(int version) {
+        switch (version) {
+            case DB_VER_INTRODUCED:
+                List<Column<?>> cols = new ArrayList<>();
+                cols.add(NoteContract.Col.ID);
+                cols.add(NoteContract.Col.CONTENT);
+                cols.add(NoteContract.Col.SITE);
+                cols.add(NoteContract.Col.TITLE);
+                cols.add(NoteContract.Col.THUMBNAIL_URL);
+                cols.add(NoteContract.Col.DESCRIPTION);
+                cols.add(NoteContract.Col.LANG);
+                return cols.toArray(new Column<?>[cols.size()]);
+            default:
+                return super.getColumnsAdded(version);
+        }
     }
 }
