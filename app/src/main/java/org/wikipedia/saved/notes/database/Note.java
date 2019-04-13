@@ -7,6 +7,7 @@ import org.wikipedia.dataclient.WikiSite;
 import org.wikipedia.page.PageTitle;
 
 public class Note {
+    public static final NoteTable DATABASE_TABLE = new NoteTable();
 
     private long id;
 
