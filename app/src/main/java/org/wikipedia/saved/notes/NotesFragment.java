@@ -128,14 +128,18 @@ public class NotesFragment extends Fragment {
         noteItemContainer.setVisibility(View.VISIBLE);
     }
 
+    private void redirectToArticle() {
+        PageTitle article = selectedNote.getPageTitle();
+        HistoryEntry historyEntry = new HistoryEntry(article, HistoryEntry.SOURCE_SAVED_NOTES);
+        startActivity(PageActivity.newIntentForCurrentTab(requireContext(), historyEntry, historyEntry.getTitle()));
+    }
+
     @OnClick(R.id.notes_item_back) void onBackClick() {
         showNoteListView();
     }
 
     @OnClick(R.id.notes_item_redirect) void onRedirectClick() {
-        PageTitle article = selectedNote.getPageTitle();
-        HistoryEntry historyEntry = new HistoryEntry(article, HistoryEntry.SOURCE_SAVED_NOTES);
-        startActivity(PageActivity.newIntentForCurrentTab(requireContext(), historyEntry, historyEntry.getTitle()));
+        redirectToArticle();
     }
 
     private class NoteListItemCallback implements NoteListItemView.Callback {
@@ -154,6 +158,11 @@ public class NotesFragment extends Fragment {
             alert.setPositiveButton(android.R.string.yes, (dialog, id) -> deleteNote(note));
             alert.setNegativeButton(android.R.string.no, null);
             alert.create().show();
+        }
+
+        @Override
+        public void onRedirect(@NonNull Note note) {
+            redirectToArticle();
         }
 
     }

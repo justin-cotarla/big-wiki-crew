@@ -816,6 +816,7 @@
     <string name="notes_list_empty">No notes saved for this article.</string>
     <string name="search_hint_notes">Search my notes</string>
     <string name="menu_notes_list_delete">Delete</string>
+    <string name="menu_notes_list_redirect">View Article</string>
     <string name="notes_list_delete_confirm">Are you sure you want to delete this note?</string>
     <string name="menu_note_select_copy">Copy</string>
     <string name="menu_note_select_delete">Delete</string>
