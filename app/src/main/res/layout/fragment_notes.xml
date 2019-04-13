@@ -12,7 +12,6 @@
         android:orientation="vertical"
         android:visibility="visible"
         app:layout_constraintTop_toTopOf="parent">
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/notes_list_list"
             android:layout_width="match_parent"
@@ -27,14 +26,12 @@
         android:fillViewport="true"
         android:orientation="vertical"
         android:visibility="gone">
-
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/notes_item_image"
             style="@style/SimpleDraweeViewPlaceholder.Article"
             android:layout_width="fill_parent"
             android:layout_height="147dp"
             android:adjustViewBounds="true" />
-
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
@@ -43,19 +40,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Back" />
+                android:text="@string/notes_item_back" />
             <Button
                 android:id="@+id/notes_item_redirect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="View Article" />
+                android:text="@string/notes_view_article" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="50dp">
+            android:layout_marginBottom="50dp">
             <ScrollView
                 android:id="@+id/notes_item_scrollview"
                 android:layout_width="fill_parent"
@@ -63,11 +60,10 @@
                 android:clipToPadding="false"
                 android:fillViewport="true"
                 android:scrollbars="vertical">
-
                 <TextView
                     android:id="@+id/notes_item_text"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="80dp"
                     android:layout_marginEnd="25dp"
                     android:layout_marginLeft="25dp"
@@ -77,13 +73,11 @@
                     android:background="@color/white70"
                     android:padding="10dp"
                     android:scrollbars="vertical"
-                    android:text="note description"
+                    android:text="@string/notes_item_description"
                     android:textSize="16sp" />
             </ScrollView>
         </LinearLayout>
 
-
     </LinearLayout>
-
 
 </android.support.constraint.ConstraintLayout>
