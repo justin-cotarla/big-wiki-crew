@@ -47,6 +47,7 @@ public class NotesFragment extends Fragment {
     @BindView(R.id.notes_item_image) SimpleDraweeView noteItemImage;
     @BindView(R.id.notes_item_text) TextView noteItemText;
     @BindView(R.id.notes_item_redirect) Button noteItemRedirectBtn;
+    @BindView(R.id.notes_item_title) TextView noteItemTitle;
 
     private List<Note> notes;
     private Note selectedNote;
@@ -145,10 +146,11 @@ public class NotesFragment extends Fragment {
     private class NoteListItemCallback implements NoteListItemView.Callback {
         @Override
         public void onClick(@NonNull Note note) {
-            showNoteItemView();
             ViewUtil.loadImageUrlInto(noteItemImage, note.thumbUrl());
             noteItemText.setText(note.content());
+            noteItemTitle.setText(note.getPageTitle().getDisplayText());
             selectedNote = note;
+            showNoteItemView();
         }
 
         @Override
