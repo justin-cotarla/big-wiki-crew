@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:fillViewport="true"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:background="@color/white70">
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/notes_item_image"
             style="@style/SimpleDraweeViewPlaceholder.Article"
