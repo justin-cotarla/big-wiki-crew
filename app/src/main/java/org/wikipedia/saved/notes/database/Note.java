@@ -52,7 +52,9 @@ public class Note {
         return content;
     }
 
-    public Date createdAt() { return createdAt; }
+    public Date createdAt() {
+        return createdAt;
+    }
 
     @NonNull public WikiSite wiki() {
         return wiki;
@@ -86,15 +88,23 @@ public class Note {
      * Use this comparator to sort notes based on the article they belong to
      * To sort a list of notes, pass in this comparator to Collections.sort()
      */
-    public static Comparator<Note> articleTitleComparator = (o1, o2) -> {
+    private static Comparator<Note> ARTICLETITLECOMPARATOR = (o1, o2) -> {
         String title1 = o1.title().toUpperCase();
         String title2 = o2.title().toUpperCase();
         return title1.compareTo(title2);
     };
 
+    public static Comparator<Note> getArticleTitleComparator() {
+        return ARTICLETITLECOMPARATOR;
+    }
+
     /**
      * Use this comparator to sort notes based on their creation dates
      * To sort a list of notes, pass in this comparator to Collections.sort()
      */
-    public static Comparator<Note> createdAtComparator = (o1, o2) -> o1.createdAt().compareTo(o2.createdAt());
+    private static Comparator<Note> CREATEDATCOMPARATOR = (o1, o2) -> o1.createdAt().compareTo(o2.createdAt());
+
+    public static Comparator<Note> getCreatedArComparator() {
+        return CREATEDATCOMPARATOR;
+    }
 }

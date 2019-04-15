@@ -32,10 +32,10 @@ public class NoteDbHelperTest {
 
     @Test
     public void testGetSingleNoteById() {
-        Note note = noteDbHelper.getNoteById(1);
-        assertEquals("This is a saved note", note.content());
-        assertEquals("Article Title", note.title());
-        assertEquals("test.wikimedia.org", note.wiki().authority());
+        Note testNote = noteDbHelper.getNoteById(1);
+        assertEquals("This is a saved note", testNote.content());
+        assertEquals("Article Title", testNote.title());
+        assertEquals("test.wikimedia.org", testNote.wiki().authority());
     }
 
     @Test
@@ -48,8 +48,8 @@ public class NoteDbHelperTest {
     @Test
     public void testGetNotesByArticle() {
         PageTitle title = new PageTitle("Main page", new WikiSite("test.wikimedia.org"), "//foo/thumb.jpg");
-        Note note = new Note("Test contents", title, new Date());
-        noteDbHelper.saveNote(note);
+        Note testNote = new Note("Test contents", title, new Date());
+        noteDbHelper.saveNote(testNote);
 
         List<Note> notes = noteDbHelper.getNotesByArticle(title);
         assertEquals(1, notes.size());
@@ -65,8 +65,8 @@ public class NoteDbHelperTest {
 
     @Test
     public void testCreateNote() {
-        Note note = new Note("Another saved note", new WikiSite("test.wikimedia.org"), "Another Title", new Date());
-        noteDbHelper.saveNote(note);
+        Note testNote = new Note("Another saved note", new WikiSite("test.wikimedia.org"), "Another Title", new Date());
+        noteDbHelper.saveNote(testNote);
 
         assertEquals(2, noteDbHelper.getAllNotes().size());
     }

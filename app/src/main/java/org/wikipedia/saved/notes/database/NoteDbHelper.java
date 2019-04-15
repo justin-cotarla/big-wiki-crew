@@ -12,10 +12,10 @@ import org.wikipedia.util.log.L;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NoteDbHelper {
+public final class NoteDbHelper {
     private static NoteDbHelper INSTANCE;
 
-    private NoteDbHelper() {}
+    private NoteDbHelper() { }
 
     public static NoteDbHelper getInstance() {
         if (INSTANCE == null) {
@@ -29,7 +29,7 @@ public class NoteDbHelper {
         try (Cursor cursor = db.query(NoteContract.TABLE,
                 null,
                 NoteContract.Col.ID.getName() + " = ?",
-                new String[]{ Long.toString(id) },
+                new String[] {Long.toString(id)},
                 null,
                 null,
                 null)) {
@@ -60,7 +60,7 @@ public class NoteDbHelper {
                 NoteContract.Col.SITE.getName() + " = ? AND "
                 + NoteContract.Col.LANG.getName() + " = ? AND "
                 + NoteContract.Col.TITLE.getName() + " = ?",
-                new String[]{ title.getWikiSite().authority(), title.getWikiSite().languageCode(), title.getDisplayText() },
+                new String[] {title.getWikiSite().authority(), title.getWikiSite().languageCode(), title.getDisplayText()},
                 null, null, null)) {
             while (cursor.moveToNext()) {
                 notes.add(Note.DATABASE_TABLE.fromCursor(cursor));
@@ -88,7 +88,7 @@ public class NoteDbHelper {
             int result = db.update(
                     NoteContract.TABLE,
                     Note.DATABASE_TABLE.toContentValues(note),
-                    NoteContract.Col.ID.getName() + " = ?", new String[]{ Long.toString(note.id()) });
+                    NoteContract.Col.ID.getName() + " = ?", new String[] {Long.toString(note.id())});
             if (result != 1) {
                 L.w("Failed to update db entry for note with ID " + note.id());
             }
@@ -104,7 +104,7 @@ public class NoteDbHelper {
         try {
             int result = db.delete(NoteContract.TABLE,
                     NoteContract.Col.ID.getName() + " = ?",
-                    new String[] { Long.toString(note.id()) });
+                    new String[] {Long.toString(note.id())});
             if (result != 1) {
                 L.w("Failed to delete db entry for note with ID " + note.id());
             }
