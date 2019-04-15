@@ -26,7 +26,8 @@ public class NoteTable extends DatabaseTable<Note> {
         Note note = new Note(
                 NoteContract.Col.CONTENT.val(cursor),
                 lang == null ? new WikiSite(site) : new WikiSite(site, lang),
-                NoteContract.Col.TITLE.val(cursor));
+                NoteContract.Col.TITLE.val(cursor),
+                NoteContract.Col.CREATION.val(cursor));
         note.id(NoteContract.Col.ID.val(cursor));
         note.description(NoteContract.Col.DESCRIPTION.val(cursor));
         note.thumbUrl(NoteContract.Col.THUMBNAIL_URL.val(cursor));
@@ -42,6 +43,7 @@ public class NoteTable extends DatabaseTable<Note> {
         contentValues.put(NoteContract.Col.THUMBNAIL_URL.getName(), row.thumbUrl());
         contentValues.put(NoteContract.Col.DESCRIPTION.getName(), row.description());
         contentValues.put(NoteContract.Col.LANG.getName(), row.wiki().languageCode());
+        contentValues.put(NoteContract.Col.CREATION.getName(), row.creation().getTime());
         return contentValues;
     }
 
@@ -68,6 +70,7 @@ public class NoteTable extends DatabaseTable<Note> {
                 cols.add(NoteContract.Col.THUMBNAIL_URL);
                 cols.add(NoteContract.Col.DESCRIPTION);
                 cols.add(NoteContract.Col.LANG);
+                cols.add(NoteContract.Col.CREATION);
                 return cols.toArray(new Column<?>[cols.size()]);
             default:
                 return super.getColumnsAdded(version);

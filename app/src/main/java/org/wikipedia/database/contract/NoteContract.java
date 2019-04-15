@@ -3,6 +3,7 @@ package org.wikipedia.database.contract;
 import android.net.Uri;
 
 import org.wikipedia.database.DbUtil;
+import org.wikipedia.database.column.DateColumn;
 import org.wikipedia.database.column.IdColumn;
 import org.wikipedia.database.column.StrColumn;
 
@@ -19,8 +20,9 @@ public interface NoteContract {
         StrColumn THUMBNAIL_URL = new StrColumn(TABLE, "thumbnailUrl", "text");
         StrColumn DESCRIPTION = new StrColumn(TABLE, "description", "text");
         StrColumn LANG = new StrColumn(TABLE, "lang", "text");
+        DateColumn CREATION = new DateColumn(TABLE, "creation", "integer");
 
         String[] SELECTION = DbUtil.qualifiedNames(TITLE);
-        String[] ALL = DbUtil.qualifiedNames(ID, CONTENT, SITE, TITLE, THUMBNAIL_URL, DESCRIPTION, LANG);
+        String[] ALL = DbUtil.qualifiedNames(ID, CONTENT, SITE, TITLE, THUMBNAIL_URL, DESCRIPTION, LANG, CREATION);
     }
 }

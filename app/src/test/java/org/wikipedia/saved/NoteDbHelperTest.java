@@ -10,6 +10,7 @@ import org.wikipedia.dataclient.WikiSite;
 import org.wikipedia.saved.notes.database.Note;
 import org.wikipedia.saved.notes.database.NoteDbHelper;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -23,7 +24,7 @@ public class NoteDbHelperTest {
     @Before
     public void setup() {
         noteDbHelper = NoteDbHelper.getInstance();
-        this.note = new Note("This is a saved note", new WikiSite("test.wikimedia.org"), "Article Title");
+        this.note = new Note("This is a saved note", new WikiSite("test.wikimedia.org"), "Article Title", new Date());
         noteDbHelper.saveNote(this.note);
     }
 
@@ -44,7 +45,7 @@ public class NoteDbHelperTest {
 
     @Test
     public void testCreateNote() {
-        Note note = new Note("Another saved note", new WikiSite("test.wikimedia.org"), "Another Title");
+        Note note = new Note("Another saved note", new WikiSite("test.wikimedia.org"), "Another Title", new Date());
         noteDbHelper.saveNote(note);
 
         assertEquals(2, noteDbHelper.getAllNotes().size());
