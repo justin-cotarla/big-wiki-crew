@@ -61,6 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/base50"
+        android:layout_marginTop="10dp"
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
         app:layout_constraintBottom_toTopOf="@+id/chat_text_input_layout"

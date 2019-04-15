@@ -37,6 +37,7 @@
     <string name="menu_page_find_in_page">Find in page</string>
     <string name="menu_page_font_and_theme">Font and theme</string>
     <string name="menu_page_add_to_list">Add to reading list</string>
+    <string name="menu_page_view_notes">View notes</string>
     <string name="menu_page_share">Share link</string>
     <string name="menu_page_open_a_new_tab">Open a new tab</string>
     <string name="menu_page_saved">Saved</string>
@@ -806,6 +807,18 @@
     <string name="search_hint_categories">Search for a category</string>
     <string name="chat_title">Chat</string>
     <string name="input_hint">Enter message</string>
+    <!-- /Categories -->
+
     <string name="nav_item_saved">Saved</string>
+
+    <!-- Notes -->
+    <string name="notes">Notes</string>
+    <string name="notes_list_empty">No notes saved for this article.</string>
     <string name="search_hint_notes">Search my notes</string>
+    <string name="menu_notes_list_delete">Delete</string>
+    <string name="notes_list_delete_confirm">Are you sure you want to delete this note?</string>
+    <string name="menu_note_select_copy">Copy</string>
+    <string name="menu_note_select_delete">Delete</string>
+    <!-- /Notes -->
+  
 </resources>

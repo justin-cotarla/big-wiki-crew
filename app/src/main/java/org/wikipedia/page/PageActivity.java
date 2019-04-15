@@ -56,6 +56,7 @@ import org.wikipedia.page.linkpreview.LinkPreviewDialog;
 import org.wikipedia.page.tabs.TabActivity;
 import org.wikipedia.readinglist.AddToReadingListDialog;
 import org.wikipedia.readinglist.database.ReadingListPage;
+import org.wikipedia.saved.notes.NotesViewerDialog;
 import org.wikipedia.search.SearchActivity;
 import org.wikipedia.search.SearchInvokeSource;
 import org.wikipedia.settings.Prefs;
@@ -92,7 +93,7 @@ import static org.wikipedia.util.UriUtil.visitInExternalBrowser;
 
 public class PageActivity extends BaseActivity implements PageFragment.Callback,
         LinkPreviewDialog.Callback, ThemeChooserDialog.Callback,
-        WiktionaryDialog.Callback {
+        WiktionaryDialog.Callback, NotesViewerDialog.Callback {
 
     public static final String ACTION_LOAD_IN_NEW_TAB = "org.wikipedia.load_in_new_tab";
     public static final String ACTION_LOAD_IN_CURRENT_TAB = "org.wikipedia.load_in_current_tab";
@@ -539,6 +540,11 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
     @Override
     public void onPageShowThemeChooser() {
         bottomSheetPresenter.show(getSupportFragmentManager(), new ThemeChooserDialog());
+    }
+
+    @Override
+    public void onPageShowNotes() {
+        bottomSheetPresenter.show(getSupportFragmentManager(), new NotesViewerDialog());
     }
 
     @Override
