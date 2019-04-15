@@ -16,7 +16,7 @@ public class Note {
 
     @NonNull private final String content;
     // Date time when note was created
-    @NonNull private final Date creation;
+    @NonNull private final Date createdAt;
 
     // For creating a page title
     @NonNull private final WikiSite wiki;
@@ -24,20 +24,20 @@ public class Note {
     @Nullable private String description;
     @Nullable private String thumbUrl;
 
-    public Note(@NonNull String content, @NonNull WikiSite wiki, @NonNull String title, @NonNull Date creation) {
+    public Note(@NonNull String content, @NonNull WikiSite wiki, @NonNull String title, @NonNull Date createdAt) {
         this.content = content;
         this.wiki = wiki;
         this.title = title;
-        this.creation = creation;
+        this.createdAt = createdAt;
     }
 
-    public Note(@NonNull String content, @NonNull PageTitle pageTitle, @NonNull Date creation) {
+    public Note(@NonNull String content, @NonNull PageTitle pageTitle, @NonNull Date createdAt) {
         this.content = content;
         this.title = pageTitle.getDisplayText();
         this.wiki = pageTitle.getWikiSite();
         this.thumbUrl = pageTitle.getThumbUrl();
         this.description = pageTitle.getDescription();
-        this.creation = creation;
+        this.createdAt = createdAt;
     }
 
     public long id() {
@@ -52,7 +52,7 @@ public class Note {
         return content;
     }
 
-    public Date creation() { return creation; }
+    public Date createdAt() { return createdAt; }
 
     @NonNull public WikiSite wiki() {
         return wiki;
@@ -86,7 +86,7 @@ public class Note {
      * Use this comparator to sort notes based on the article they belong to
      * To sort a list of notes, pass in this comparator to Collections.sort()
      */
-    public static Comparator<Note> titleComparator = (o1, o2) -> {
+    public static Comparator<Note> articleTitleComparator = (o1, o2) -> {
         String title1 = o1.title().toUpperCase();
         String title2 = o2.title().toUpperCase();
         return title1.compareTo(title2);
@@ -96,5 +96,5 @@ public class Note {
      * Use this comparator to sort notes based on their creation dates
      * To sort a list of notes, pass in this comparator to Collections.sort()
      */
-    public static Comparator<Note> creationComparator = (o1, o2) -> o1.creation().compareTo(o2.creation());
+    public static Comparator<Note> createdAtComparator = (o1, o2) -> o1.createdAt().compareTo(o2.createdAt());
 }

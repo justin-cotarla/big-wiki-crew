@@ -29,15 +29,15 @@ public class NoteTest {
 
         Note olderNote = new Note("Test content", title, new Date());
         Note newerNote = new Note("Test content", newerTitle, new Date());
-        int result = Note.titleComparator.compare(olderNote, newerNote);
+        int result = Note.articleTitleComparator.compare(olderNote, newerNote);
         assertTrue(result < 0);
     }
 
     @Test
     public void testNoteCreationComparator() {
         Note olderNote = new Note("A: a test title", title, new Date());
-        Note newerNote = new Note("B: another test title", title, new Date(olderNote.creation().getTime() + 1000));
-        int result = Note.creationComparator.compare(olderNote, newerNote);
+        Note newerNote = new Note("B: another test title", title, new Date(olderNote.createdAt().getTime() + 1000));
+        int result = Note.createdAtComparator.compare(olderNote, newerNote);
         assertTrue(result < 0);
     }
 }

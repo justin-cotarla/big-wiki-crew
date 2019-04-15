@@ -20,9 +20,9 @@ public interface NoteContract {
         StrColumn THUMBNAIL_URL = new StrColumn(TABLE, "thumbnailUrl", "text");
         StrColumn DESCRIPTION = new StrColumn(TABLE, "description", "text");
         StrColumn LANG = new StrColumn(TABLE, "lang", "text");
-        DateColumn CREATION = new DateColumn(TABLE, "creation", "integer");
+        DateColumn CREATED_AT = new DateColumn(TABLE, "createdAt", "integer");
 
         String[] SELECTION = DbUtil.qualifiedNames(TITLE);
-        String[] ALL = DbUtil.qualifiedNames(ID, CONTENT, SITE, TITLE, THUMBNAIL_URL, DESCRIPTION, LANG, CREATION);
+        String[] ALL = DbUtil.qualifiedNames(ID, CONTENT, SITE, TITLE, THUMBNAIL_URL, DESCRIPTION, LANG, CREATED_AT);
     }
 }
