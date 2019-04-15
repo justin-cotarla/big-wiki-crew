@@ -7,6 +7,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.wikipedia.WikipediaApp;
 import org.wikipedia.dataclient.WikiSite;
+import org.wikipedia.page.PageTitle;
 import org.wikipedia.saved.notes.database.Note;
 import org.wikipedia.saved.notes.database.NoteDbHelper;
 
@@ -14,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(application = WikipediaApp.class)
@@ -41,6 +43,24 @@ public class NoteDbHelperTest {
         List<Note> notes = noteDbHelper.getAllNotes();
         assertEquals(1, notes.size());
         assertEquals("Article Title", notes.get(0).title());
+    }
+
+    @Test
+    public void testGetNotesByArticle() {
+        PageTitle title = new PageTitle("Main page", new WikiSite("test.wikimedia.org"), "//foo/thumb.jpg");
+        Note note = new Note("Test contents", title, new Date());
+        noteDbHelper.saveNote(note);
+
+        List<Note> notes = noteDbHelper.getNotesByArticle(title);
+        assertEquals(1, notes.size());
+        assertEquals("Test contents", notes.get(0).content());
+    }
+
+    @Test
+    public void testGetNotesByArticleEmpty() {
+        PageTitle title = new PageTitle("Not Main page", new WikiSite("test.wikimedia.org"), "//foo/thumb.jpg");
+        List<Note> notes = noteDbHelper.getNotesByArticle(title);
+        assertTrue(notes.isEmpty());
     }
 
     @Test

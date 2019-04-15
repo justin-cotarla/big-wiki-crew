@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import org.wikipedia.WikipediaApp;
 import org.wikipedia.database.contract.NoteContract;
+import org.wikipedia.page.PageTitle;
 import org.wikipedia.util.log.L;
 
 import java.util.ArrayList;
@@ -44,8 +45,25 @@ public class NoteDbHelper {
         SQLiteDatabase db = getReadableDatabase();
         try (Cursor cursor = db.query(NoteContract.TABLE, null, null, null, null, null, null)) {
             while (cursor.moveToNext()) {
-                Note note = Note.DATABASE_TABLE.fromCursor(cursor);
-                notes.add(note);
+                notes.add(Note.DATABASE_TABLE.fromCursor(cursor));
+            }
+        }
+        return notes;
+    }
+
+    public List<Note> getNotesByArticle(@NonNull PageTitle title) {
+        List<Note> notes = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        try (Cursor cursor = db.query(
+                NoteContract.TABLE,
+                null,
+                NoteContract.Col.SITE.getName() + " = ? AND "
+                + NoteContract.Col.LANG.getName() + " = ? AND "
+                + NoteContract.Col.TITLE.getName() + " = ?",
+                new String[]{ title.getWikiSite().authority(), title.getWikiSite().languageCode(), title.getDisplayText() },
+                null, null, null)) {
+            while (cursor.moveToNext()) {
+                notes.add(Note.DATABASE_TABLE.fromCursor(cursor));
             }
         }
         return notes;
