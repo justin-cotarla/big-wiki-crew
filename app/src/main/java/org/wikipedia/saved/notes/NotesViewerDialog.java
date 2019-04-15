@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.ScrollingMovementMethod;
@@ -32,6 +33,12 @@ public class NotesViewerDialog extends ExtendedBottomSheetDialogFragment {
     private List<String> notes = new ArrayList<>();
 
     private RecyclerAdapter recyclerAdapter;
+
+    @NonNull
+    public static NotesViewerDialog newInstance() {
+        return new NotesViewerDialog();
+    }
+
 
     public interface Callback {
         void onCancel();

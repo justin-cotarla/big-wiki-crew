@@ -25,6 +25,7 @@ import org.wikipedia.dataclient.mwapi.MwQueryPage;
 import org.wikipedia.gallery.ImageLicense;
 import org.wikipedia.language.translation.TranslateDialog;
 import org.wikipedia.language.translation.TranslationClient;
+import org.wikipedia.saved.notes.NotesViewerDialog;
 import org.wikipedia.page.Namespace;
 import org.wikipedia.page.NoDimBottomSheetDialog;
 import org.wikipedia.page.Page;
@@ -59,6 +60,7 @@ public class ShareHandler {
     private static final String PAYLOAD_PURPOSE_HEAR = "hear";
     private static final String PAYLOAD_PURPOSE_TRANSLATE = "translate";
     private static final String PAYLOAD_PURPOSE_EDIT_HERE = "edit_here";
+    private static final String PAYLOAD_PURPOSE_NOTES = "notes";
     private static final String PAYLOAD_TEXT_KEY = "text";
 
     @NonNull private final PageFragment fragment;
@@ -97,6 +99,9 @@ public class ShareHandler {
                     break;
                 case PAYLOAD_PURPOSE_EDIT_HERE:
                     onEditHerePayload(messagePayload.optInt("sectionID", 0), text, messagePayload.optBoolean("editDescription", false));
+                    break;
+                case PAYLOAD_PURPOSE_NOTES:
+                    onNotesPayload(text);
                     break;
                 default:
                     L.d("Unknown purpose=" + purpose);
@@ -194,6 +199,11 @@ public class ShareHandler {
         }
     }
 
+    private void onNotesPayload(String text) {
+        // TODO: Save note
+        fragment.showBottomSheet(NotesViewerDialog.newInstance());
+    }
+
     private void showCopySnackbar() {
         FeedbackUtil.showMessage(fragment.getActivity(), R.string.text_copied);
     }
@@ -276,6 +286,9 @@ public class ShareHandler {
         if (!fragment.getPage().isArticle()) {
             editItem.setVisible(false);
         }
+
+        MenuItem notesItem = menu.findItem(R.id.menu_text_select_notes);
+        notesItem.setOnMenuItemClickListener(new RequestTextSelectOnMenuItemClickListener(PAYLOAD_PURPOSE_NOTES));
 
         onHighlightText();
     }
