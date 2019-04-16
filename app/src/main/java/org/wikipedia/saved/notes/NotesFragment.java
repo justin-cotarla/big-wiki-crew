@@ -131,11 +131,9 @@ public class NotesFragment extends Fragment implements SortNotesListDialog.Callb
     }
 
     private void getNotes() {
-        if (notes != null) {
-            notes = NoteDbHelper.getInstance().getAllNotes();
-            NotesListSorter.sort(notes, Prefs.getNotesListSortMode(SORT_BY_DATE_ADDED_NEWEST));
-            adapter.notifyDataSetChanged();
-        }
+        notes = NoteDbHelper.getInstance().getAllNotes();
+        NotesListSorter.sort(notes, Prefs.getNotesListSortMode(SORT_BY_DATE_ADDED_NEWEST));
+        adapter.notifyDataSetChanged();
     }
 
     private void deleteNote(@NonNull Note note) {
