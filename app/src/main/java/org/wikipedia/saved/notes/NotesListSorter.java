@@ -14,7 +14,7 @@ public class NotesListSorter {
     public static final int SORT_BY_DATE_ADDED_ASC = 2;
     public static final int SORT_BY_DATE_ADDED_DESC = 3;
 
-    protected NotesListSorter () {
+    protected NotesListSorter() {
 
     }
 
