@@ -34,4 +34,10 @@
           android:visible="false"
           app:showAsAction="ifRoom"/>
 
+    <item
+        android:id="@+id/menu_text_select_notes"
+        android:title="@string/menu_text_select_notes"
+        android:icon="@drawable/ic_add_notes_black"
+        app:showAsAction="ifRoom" />
+
 </menu>

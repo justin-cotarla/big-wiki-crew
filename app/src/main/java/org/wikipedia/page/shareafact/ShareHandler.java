@@ -31,6 +31,8 @@ import org.wikipedia.page.Page;
 import org.wikipedia.page.PageFragment;
 import org.wikipedia.page.PageProperties;
 import org.wikipedia.page.PageTitle;
+import org.wikipedia.saved.notes.database.Note;
+import org.wikipedia.saved.notes.database.NoteDbHelper;
 import org.wikipedia.settings.Prefs;
 import org.wikipedia.tts.TextToSpeechWrapper;
 import org.wikipedia.util.FeedbackUtil;
@@ -41,6 +43,7 @@ import org.wikipedia.util.log.L;
 import org.wikipedia.wiktionary.WiktionaryDialog;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Locale;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -59,6 +62,7 @@ public class ShareHandler {
     private static final String PAYLOAD_PURPOSE_HEAR = "hear";
     private static final String PAYLOAD_PURPOSE_TRANSLATE = "translate";
     private static final String PAYLOAD_PURPOSE_EDIT_HERE = "edit_here";
+    private static final String PAYLOAD_PURPOSE_NOTES = "notes";
     private static final String PAYLOAD_TEXT_KEY = "text";
 
     @NonNull private final PageFragment fragment;
@@ -97,6 +101,9 @@ public class ShareHandler {
                     break;
                 case PAYLOAD_PURPOSE_EDIT_HERE:
                     onEditHerePayload(messagePayload.optInt("sectionID", 0), text, messagePayload.optBoolean("editDescription", false));
+                    break;
+                case PAYLOAD_PURPOSE_NOTES:
+                    onNotesPayload(text);
                     break;
                 default:
                     L.d("Unknown purpose=" + purpose);
@@ -194,6 +201,11 @@ public class ShareHandler {
         }
     }
 
+    private void onNotesPayload(String text) {
+        NoteDbHelper.getInstance().saveNote(new Note(text, fragment.getPage().getTitle(), new Date()));
+        FeedbackUtil.showMessage(fragment.getActivity(), R.string.note_saved);
+    }
+
     private void showCopySnackbar() {
         FeedbackUtil.showMessage(fragment.getActivity(), R.string.text_copied);
     }
@@ -276,6 +288,9 @@ public class ShareHandler {
         if (!fragment.getPage().isArticle()) {
             editItem.setVisible(false);
         }
+
+        MenuItem notesItem = menu.findItem(R.id.menu_text_select_notes);
+        notesItem.setOnMenuItemClickListener(new RequestTextSelectOnMenuItemClickListener(PAYLOAD_PURPOSE_NOTES));
 
         onHighlightText();
     }
