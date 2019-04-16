@@ -140,7 +140,8 @@ public class NotesFragment extends Fragment implements SortNotesListDialog.Callb
                         WikipediaApp.getInstance().getWikiSite(),
                         "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Soundtrack_Beat_Battle_Judging_Panel_March2011_%28cropped%29.jpg/320px-Soundtrack_Beat_Battle_Judging_Panel_March2011_%28cropped%29.jpg",
                         "Eritrean American rapper"), now));
-                notes.add(new Note("Test note 2", WikipediaApp.getInstance().getWikiSite(), "Test Article 2", new Date(now.getTime() + 1000)));
+                final int extra = 1000;
+                notes.add(new Note("Test note 2", WikipediaApp.getInstance().getWikiSite(), "Test Article 2", new Date(now.getTime() + extra)));
             }
 
             NotesListSorter.sort(notes, Prefs.getNotesListSortMode(SORT_BY_ARTICLE_NAME_ASC));

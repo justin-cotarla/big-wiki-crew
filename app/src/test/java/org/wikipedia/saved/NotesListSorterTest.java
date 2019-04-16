@@ -6,8 +6,8 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.wikipedia.dataclient.WikiSite;
 import org.wikipedia.page.PageTitle;
-import org.wikipedia.saved.notes.database.Note;
 import org.wikipedia.saved.notes.NotesListSorter;
+import org.wikipedia.saved.notes.database.Note;
 
 import java.util.ArrayList;
 import java.util.Date;
