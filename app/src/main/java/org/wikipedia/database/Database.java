@@ -10,6 +10,7 @@ import org.wikipedia.history.HistoryEntry;
 import org.wikipedia.pageimages.PageImage;
 import org.wikipedia.readinglist.database.ReadingList;
 import org.wikipedia.readinglist.database.ReadingListPage;
+import org.wikipedia.saved.notes.database.Note;
 import org.wikipedia.search.RecentSearch;
 import org.wikipedia.util.log.L;
 
@@ -24,7 +25,8 @@ public class Database extends SQLiteOpenHelper {
             EditSummary.DATABASE_TABLE,
 
             ReadingList.DATABASE_TABLE,
-            ReadingListPage.DATABASE_TABLE
+            ReadingListPage.DATABASE_TABLE,
+            Note.DATABASE_TABLE
     };
 
     public Database(Context context) {

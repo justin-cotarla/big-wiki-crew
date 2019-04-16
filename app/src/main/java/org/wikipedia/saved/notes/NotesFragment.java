@@ -16,13 +16,18 @@ import android.view.ViewGroup;
 
 import org.wikipedia.R;
 import org.wikipedia.WikipediaApp;
+import org.wikipedia.history.HistoryEntry;
 import org.wikipedia.main.MainActivity;
+import org.wikipedia.page.PageActivity;
 import org.wikipedia.page.PageTitle;
+import org.wikipedia.saved.notes.database.Note;
+import org.wikipedia.saved.notes.noteitem.NoteItemActivity;
 import org.wikipedia.util.DimenUtil;
 import org.wikipedia.views.DrawableItemDecoration;
 import org.wikipedia.views.MarginItemDecoration;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -74,7 +79,6 @@ public class NotesFragment extends Fragment {
         });
 
         contentContainer.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
-
         return view;
     }
 
@@ -98,8 +102,8 @@ public class NotesFragment extends Fragment {
         notes.add(new Note("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", new PageTitle("Nipsey Hussle",
                 WikipediaApp.getInstance().getWikiSite(),
                 "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Soundtrack_Beat_Battle_Judging_Panel_March2011_%28cropped%29.jpg/320px-Soundtrack_Beat_Battle_Judging_Panel_March2011_%28cropped%29.jpg",
-                "Eritrean American rapper")));
-        notes.add(new Note("Test note 2", WikipediaApp.getInstance().getWikiSite(), "Test Article 2"));
+                "Eritrean American rapper"), new Date()));
+        notes.add(new Note("Test note 2", WikipediaApp.getInstance().getWikiSite(), "Test Article 2", new Date()));
     }
 
     private void deleteNote(@NonNull Note note) {
@@ -109,7 +113,7 @@ public class NotesFragment extends Fragment {
     private class NoteListItemCallback implements NoteListItemView.Callback {
         @Override
         public void onClick(@NonNull Note note) {
-
+            startActivity(NoteItemActivity.newIntent(requireContext(), note.content(), note.getPageTitle()));
         }
 
         @Override
@@ -119,6 +123,13 @@ public class NotesFragment extends Fragment {
             alert.setPositiveButton(android.R.string.yes, (dialog, id) -> deleteNote(note));
             alert.setNegativeButton(android.R.string.no, null);
             alert.create().show();
+        }
+
+        @Override
+        public void onRedirect(@NonNull Note note) {
+            PageTitle article = note.getPageTitle();
+            HistoryEntry historyEntry = new HistoryEntry(article, HistoryEntry.SOURCE_SAVED_NOTES);
+            startActivity(PageActivity.newIntentForCurrentTab(requireContext(), historyEntry, historyEntry.getTitle()));
         }
 
     }
@@ -168,6 +179,4 @@ public class NotesFragment extends Fragment {
             super.onViewDetachedFromWindow(holder);
         }
     }
-
-
 }

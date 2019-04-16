@@ -5,3 +5,4 @@ Pillow>=4.2.1
 sh>=1.12.14
 unicodecsv>=0.14.1
 flake8>=3.4.1
+requests==2.21.0
