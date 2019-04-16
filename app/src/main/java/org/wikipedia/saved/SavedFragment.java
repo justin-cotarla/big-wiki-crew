@@ -42,8 +42,11 @@ public class SavedFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         if (viewPager.getCurrentItem() == 0) {
             inflater.inflate(R.menu.menu_reading_lists, menu);
-            super.onCreateOptionsMenu(menu, inflater);
+        } else if (viewPager.getCurrentItem() == 1) {
+            inflater.inflate(R.menu.menu_notes_list, menu);
         }
+
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Nullable
