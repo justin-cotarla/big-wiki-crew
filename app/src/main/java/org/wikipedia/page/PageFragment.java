@@ -125,7 +125,7 @@ public class PageFragment extends Fragment implements BackPressedHandler {
         void onPageLoadMainPageInForegroundTab();
         void onPageUpdateProgressBar(boolean visible, boolean indeterminate, int value);
         void onPageShowThemeChooser();
-        void onPageShowNotes();
+        void onPageShowNotes(@NonNull PageTitle pageTitle);
         void onPageStartSupportActionMode(@NonNull ActionMode.Callback callback);
         void onPageShowToolbar();
         void onPageHideSoftKeyboard();
@@ -1232,7 +1232,7 @@ public class PageFragment extends Fragment implements BackPressedHandler {
     private void showNotes() {
         Callback callback = callback();
         if (callback != null) {
-            callback.onPageShowNotes();
+            callback.onPageShowNotes(getTitle());
         }
     }
 
