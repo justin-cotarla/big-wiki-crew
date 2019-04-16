@@ -35,6 +35,8 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
+@SuppressWarnings("checkstyle:magicnumber")
+
 public class SaveNoteTest {
 
     @Rule
@@ -119,7 +121,7 @@ public class SaveNoteTest {
         imageButton.perform(click());
 
         ViewInteraction imageButton2 = onView(
-                AllOf.allOf(withContentDescription("Save note"),isDisplayed())).inRoot(isPlatformPopup());
+                AllOf.allOf(withContentDescription("Save note"), isDisplayed())).inRoot(isPlatformPopup());
         imageButton2.check(matches(isDisplayed()));
         imageButton2.perform(click());
     }
