@@ -828,6 +828,8 @@
     <string name="preference_key_notes_list_sort_mode">notesListSortMode</string>
     <string name="note_deleted">Note deleted</string>
     <string name="note_deleted_undo">Undo</string>
+    <string name="empty_notes_title">No notes available</string>
+    <string name="empty_notes_message">Start saving notes to see them here</string>
     <!-- /Notes -->
   
 </resources>
