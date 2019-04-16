@@ -176,6 +176,10 @@ public class NotesViewerDialog extends ExtendedBottomSheetDialogFragment {
             notes.remove(position);
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, notes.size());
+            if (notes.isEmpty()) {
+                recyclerView.setVisibility(GONE);
+                emptyTextView.setVisibility(VISIBLE);
+            }
         }
     }
 }
