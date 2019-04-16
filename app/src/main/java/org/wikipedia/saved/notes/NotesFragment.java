@@ -16,9 +16,12 @@ import android.view.ViewGroup;
 
 import org.wikipedia.R;
 import org.wikipedia.WikipediaApp;
+import org.wikipedia.history.HistoryEntry;
 import org.wikipedia.main.MainActivity;
+import org.wikipedia.page.PageActivity;
 import org.wikipedia.page.PageTitle;
 import org.wikipedia.saved.notes.database.Note;
+import org.wikipedia.saved.notes.noteitem.NoteItemActivity;
 import org.wikipedia.util.DimenUtil;
 import org.wikipedia.views.DrawableItemDecoration;
 import org.wikipedia.views.MarginItemDecoration;
@@ -76,7 +79,6 @@ public class NotesFragment extends Fragment {
         });
 
         contentContainer.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
-
         return view;
     }
 
@@ -111,7 +113,7 @@ public class NotesFragment extends Fragment {
     private class NoteListItemCallback implements NoteListItemView.Callback {
         @Override
         public void onClick(@NonNull Note note) {
-
+            startActivity(NoteItemActivity.newIntent(requireContext(), note.content(), note.getPageTitle()));
         }
 
         @Override
@@ -121,6 +123,13 @@ public class NotesFragment extends Fragment {
             alert.setPositiveButton(android.R.string.yes, (dialog, id) -> deleteNote(note));
             alert.setNegativeButton(android.R.string.no, null);
             alert.create().show();
+        }
+
+        @Override
+        public void onRedirect(@NonNull Note note) {
+            PageTitle article = note.getPageTitle();
+            HistoryEntry historyEntry = new HistoryEntry(article, HistoryEntry.SOURCE_SAVED_NOTES);
+            startActivity(PageActivity.newIntentForCurrentTab(requireContext(), historyEntry, historyEntry.getTitle()));
         }
 
     }
@@ -170,6 +179,4 @@ public class NotesFragment extends Fragment {
             super.onViewDetachedFromWindow(holder);
         }
     }
-
-
 }

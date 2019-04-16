@@ -34,6 +34,7 @@ public class NoteListItemView extends ConstraintLayout {
     public interface Callback {
         void onClick(@NonNull Note note);
         void onDelete(@NonNull Note note);
+        void onRedirect(@NonNull Note note);
     }
 
     public enum Description { DETAIL, SUMMARY }
@@ -171,6 +172,12 @@ public class NoteListItemView extends ConstraintLayout {
                 case R.id.menu_notes_list_delete:
                     if (callback != null && note != null) {
                         callback.onDelete(note);
+                        return true;
+                    }
+                    break;
+                case R.id.menu_notes_list_redirect:
+                    if (callback != null && note != null) {
+                        callback.onRedirect(note);
                         return true;
                     }
                     break;
