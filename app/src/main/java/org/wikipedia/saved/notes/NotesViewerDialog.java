@@ -33,12 +33,6 @@ public class NotesViewerDialog extends ExtendedBottomSheetDialogFragment {
 
     private RecyclerAdapter recyclerAdapter;
 
-    @NonNull
-    public static NotesViewerDialog newInstance() {
-        return new NotesViewerDialog();
-    }
-
-
     public interface Callback {
         void onCancel();
     }

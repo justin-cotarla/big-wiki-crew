@@ -55,7 +55,7 @@
     <string name="menu_text_select_hear">Hear</string>
     <string name="menu_text_select_translate">Translate</string>
     <string name="menu_text_select_edit_here">Edit here</string>
-    <string name="menu_text_select_notes">Notes</string>
+    <string name="menu_text_select_notes">Save note</string>
 
     <!-- Nearby -->
     <string name="nav_item_nearby">Nearby</string>
