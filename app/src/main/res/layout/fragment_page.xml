@@ -89,7 +89,7 @@
                         android:textAlignment="center"
                         android:textColor="#FFF"
                         android:textSize="12sp"
-                        android:background="@drawable/circle_red_22dp"
+                        android:background="@drawable/circle_green_22dp"
                         android:elevation="7dp"
                         android:visibility="gone"/>
                 </RelativeLayout>

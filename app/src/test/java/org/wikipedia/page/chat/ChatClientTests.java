@@ -173,4 +173,25 @@ public class ChatClientTests {
 
         verify(messageReferenceMock).removeEventListener(any(ChildEventListener.class));
     }
+
+    @Test
+    public void testAttachUserCount() {
+        DatabaseReference  userCountReferenceMock = mock(DatabaseReference.class);
+        when(articlesReferenceMock.child(usersCountPath)).thenReturn(userCountReferenceMock);
+
+        int userCount = 3;
+
+        doAnswer((Answer<Void>) invocation -> {
+            ValueEventListener valueEventListener = (ValueEventListener) invocation.getArguments()[0];
+            DataSnapshot mockedDataSnapshot = mock(DataSnapshot.class);
+            when(mockedDataSnapshot.getValue(Integer.class)).thenReturn(userCount);
+            valueEventListener.onDataChange(mockedDataSnapshot);
+            return null;
+        }).when(userCountReferenceMock).addValueEventListener(any(ValueEventListener.class));
+
+        chatClient = new ChatClient(articleId, firebaseDatabaseMock, userCountCallbackMock);
+        chatClient.attachUserCount();
+
+        verify(userCountCallbackMock).run(userCount);
+    }
 }

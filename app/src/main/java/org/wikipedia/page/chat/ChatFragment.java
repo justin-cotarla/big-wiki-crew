@@ -30,6 +30,8 @@ public class ChatFragment extends DialogFragment {
     private ArrayList<Message> messageList = new ArrayList();
     private ChatAdapter chatAdapter;
 
+    private IconGenerator iconGenerator;
+
     private Unbinder unbinder;
 
     @BindView(R.id.chat_message_view) RecyclerView chatMessageView;
@@ -52,6 +54,7 @@ public class ChatFragment extends DialogFragment {
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         chatAdapter = new ChatAdapter();
+        iconGenerator = new IconGenerator(requireContext());
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setStackFromEnd(true);
@@ -103,7 +106,7 @@ public class ChatFragment extends DialogFragment {
         }
     }
 
-    private class ChatAdapter extends RecyclerView.Adapter {
+    protected class ChatAdapter extends RecyclerView.Adapter {
         private static final int SENT_TYPE = 0;
         private static final int RECEIVED_TYPE = 1;
 
@@ -160,6 +163,8 @@ public class ChatFragment extends DialogFragment {
                     SentMessageViewHolder sentMessageViewHolder = (SentMessageViewHolder)holder;
                     ((TextView)sentMessageViewHolder.sentMessageView.findViewById(R.id.chat_message_sent_text))
                             .setText(message.getMessage());
+                    (sentMessageViewHolder.sentMessageView.findViewById(R.id.chat_message_sent_user_image))
+                            .setBackgroundResource(iconGenerator.getIconFromName(message.getUser()));
                     break;
 
                 case RECEIVED_TYPE:
@@ -168,6 +173,8 @@ public class ChatFragment extends DialogFragment {
                             .setText(message.getMessage());
                     ((TextView)receivedMessageViewHolder.receivedMessageView.findViewById(R.id.chat_message_received_username))
                             .setText(message.getUser());
+                    (receivedMessageViewHolder.receivedMessageView.findViewById(R.id.chat_message_received_user_image))
+                            .setBackgroundResource(iconGenerator.getIconFromName(message.getUser()));
                     break;
                 default:
                     // Should not happen

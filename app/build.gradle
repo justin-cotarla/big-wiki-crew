@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'jacoco'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.firebase-perf'
 
 jacoco {
     toolVersion = "0.8.3"
@@ -267,9 +269,9 @@ dependencies {
     implementation 'net.hockeyapp.android:HockeySDK:5.1.0'
     implementation 'org.apache.commons:commons-lang3:3.8.1'
     implementation 'org.jsoup:jsoup:1.11.3'
-    implementation 'com.google.api-client:google-api-client-android:1.22.0' exclude module: 'httpclient'
-    implementation 'com.google.http-client:google-http-client-gson:1.20.0' exclude module: 'httpclient'
-    implementation 'com.google.apis:google-api-services-vision:v1-rev2-1.21.0'
+    implementation 'com.google.api-client:google-api-client-android:1.22.0' exclude module: 'httpclient' exclude group: 'com.google.guava'
+    implementation 'com.google.http-client:google-http-client-gson:1.20.0' exclude module: 'httpclient' exclude group: 'com.google.guava'
+    implementation 'com.google.apis:google-api-services-vision:v1-rev2-1.21.0' exclude group: 'com.google.guava'
     implementation 'com.google.code.findbugs:jsr305:2.0.1'
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation 'com.google.firebase:firebase-perf:16.2.4'
@@ -346,5 +348,3 @@ private String appId(ProductFlavor flavor) {
     String id = android.defaultConfig.applicationId + (suffix ? ".$suffix" : '')
     return id
 }
-
-apply plugin: 'com.google.gms.google-services'

@@ -93,7 +93,7 @@ public class NotesViewerDialog extends ExtendedBottomSheetDialogFragment {
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_notes, viewGroup, false);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_notes_on_page, viewGroup, false);
             return new ViewHolder(view);
         }
 
