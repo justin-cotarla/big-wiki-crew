@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NoteTable extends DatabaseTable<Note> {
-    private static final int DB_VER_INTRODUCED = 18;
+    private static final int DB_VER_INTRODUCED = 19;
 
     public NoteTable() {
         super(NoteContract.TABLE, NoteContract.URI);
