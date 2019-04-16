@@ -543,8 +543,8 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
     }
 
     @Override
-    public void onPageShowNotes() {
-        bottomSheetPresenter.show(getSupportFragmentManager(), new NotesViewerDialog());
+    public void onPageShowNotes(@NonNull PageTitle pageTitle) {
+        bottomSheetPresenter.show(getSupportFragmentManager(), NotesViewerDialog.newInstance(pageTitle));
     }
 
     @Override

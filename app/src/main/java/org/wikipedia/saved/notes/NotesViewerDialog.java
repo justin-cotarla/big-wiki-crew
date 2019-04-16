@@ -20,28 +20,48 @@ import android.widget.Toast;
 import org.wikipedia.R;
 import org.wikipedia.activity.FragmentUtil;
 import org.wikipedia.page.ExtendedBottomSheetDialogFragment;
+import org.wikipedia.page.PageTitle;
+import org.wikipedia.saved.notes.database.Note;
+import org.wikipedia.saved.notes.database.NoteDbHelper;
 import org.wikipedia.util.ClipboardUtil;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 public class NotesViewerDialog extends ExtendedBottomSheetDialogFragment {
-    private List<String> notes = new ArrayList<>();
+    private static final String TITLE = "title";
+
+    @NonNull private PageTitle pageTitle;
+    @NonNull private List<Note> notes;
 
     private RecyclerAdapter recyclerAdapter;
+
+    @BindView(R.id.dialog_notes_empty_text) TextView emptyTextView;
+    @BindView(R.id.dialog_notes_list) RecyclerView recyclerView;
+    private Unbinder unbinder;
 
     public interface Callback {
         void onCancel();
     }
 
+    public static NotesViewerDialog newInstance(@NonNull PageTitle title) {
+        NotesViewerDialog dialog = new NotesViewerDialog();
+        Bundle args = new Bundle();
+        args.putParcelable(TITLE, title);
+        dialog.setArguments(args);
+        return dialog;
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.dialog_notes_viewer, container);
-        TextView emptyTextView = rootView.findViewById(R.id.dialog_notes_empty_text);
-        RecyclerView recyclerView = rootView.findViewById(R.id.dialog_notes_list);
+        unbinder = ButterKnife.bind(this, rootView);
 
         if (notes.isEmpty()) {
             emptyTextView.setVisibility(VISIBLE);
@@ -59,11 +79,14 @@ public class NotesViewerDialog extends ExtendedBottomSheetDialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: Fetch notes from notes API wrt article. These are temporary hardcoded examples.
-        notes.add("As an example, this is a shorter text to observe the differences in text length.");
-        notes.add("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-        notes.add("Sed ullamcorper morbi tincidunt ornare. Tellus orci ac auctor augue mauris. Mauris sit amet massa vitae. Risus feugiat in ante metus dictum at tempor. Amet dictum sit amet justo donec enim. Lectus quam id leo in vitae turpis massa. Nunc consequat interdum varius sit amet mattis vulputate enim. Adipiscing commodo elit at imperdiet dui accumsan sit amet nulla. Diam in arcu cursus euismod quis viverra nibh cras pulvinar. Scelerisque purus semper eget duis at tellus at.");
-        notes.add("Egestas erat imperdiet sed euismod nisi. Sodales ut etiam sit amet nisl purus in. Tellus orci ac auctor augue. Dui id ornare arcu odio ut sem. Orci dapibus ultrices in iaculis. Et tortor at risus viverra adipiscing at. Eget felis eget nunc lobortis mattis aliquam faucibus purus in.");
+        pageTitle = getArguments().getParcelable(TITLE);
+        notes = NoteDbHelper.getInstance().getNotesByArticle(pageTitle);
+    }
+
+    @Override
+    public void onDestroy() {
+        unbinder.unbind();
+        super.onDestroy();
     }
 
     @Override
@@ -83,9 +106,9 @@ public class NotesViewerDialog extends ExtendedBottomSheetDialogFragment {
     private class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
         private Context context;
-        private List<String> notes;
+        private List<Note> notes;
 
-        RecyclerAdapter(Context context, List<String> notes) {
+        RecyclerAdapter(Context context, List<Note> notes) {
             this.context = context;
             this.notes = notes;
         }
@@ -99,8 +122,7 @@ public class NotesViewerDialog extends ExtendedBottomSheetDialogFragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-            String text = notes.get(i);
-            viewHolder.note.setText(text);
+            viewHolder.note.setText(notes.get(i).content());
         }
 
         @Override
@@ -145,12 +167,12 @@ public class NotesViewerDialog extends ExtendedBottomSheetDialogFragment {
         }
 
         void copyNote(final int position) {
-            ClipboardUtil.setPlainText(context, "article_note", notes.get(position));
+            ClipboardUtil.setPlainText(context, "article_note", notes.get(position).content());
             Toast.makeText(context, "Copied", Toast.LENGTH_SHORT).show();
         }
 
-        // TODO: To complete with notes API
         void deleteNote(final int position) {
+            NoteDbHelper.getInstance().deleteNote(notes.get(position));
             notes.remove(position);
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, notes.size());
