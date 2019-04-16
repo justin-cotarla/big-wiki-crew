@@ -1,6 +1,7 @@
 package org.wikipedia.saved.notes;
 
 import android.animation.LayoutTransition;
+import android.annotation.SuppressLint;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +12,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,13 +22,22 @@ import org.wikipedia.R;
 import org.wikipedia.WikipediaApp;
 import org.wikipedia.history.HistoryEntry;
 import org.wikipedia.main.MainActivity;
+import org.wikipedia.page.ExclusiveBottomSheetPresenter;
 import org.wikipedia.page.PageActivity;
 import org.wikipedia.page.PageTitle;
 import org.wikipedia.saved.notes.database.Note;
+import org.wikipedia.saved.notes.database.NotesListSorter;
 import org.wikipedia.saved.notes.noteitem.NoteItemActivity;
+import org.wikipedia.settings.Prefs;
 import org.wikipedia.util.DimenUtil;
 import org.wikipedia.views.DrawableItemDecoration;
 import org.wikipedia.views.MarginItemDecoration;
+import org.wikipedia.views.NotesListOverflowView;
+
+import static org.wikipedia.saved.notes.database.NotesListSorter.SORT_BY_ARTICLE_NAME_ASC;
+import static org.wikipedia.saved.notes.database.NotesListSorter.SORT_BY_ARTICLE_NAME_DESC;
+import static org.wikipedia.saved.notes.database.NotesListSorter.SORT_BY_DATE_ADDED_ASC;
+import static org.wikipedia.saved.notes.database.NotesListSorter.SORT_BY_DATE_ADDED_DESC;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,7 +47,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class NotesFragment extends Fragment {
+public class NotesFragment extends Fragment implements SortNotesListDialog.Callback {
 
     private Unbinder unbinder;
 
@@ -45,6 +58,9 @@ public class NotesFragment extends Fragment {
     private NoteListAdapter adapter = new NoteListAdapter();
 
     private NoteListItemCallback listItemCallback = new NoteListItemCallback();
+    private OverflowCallback overflowCallback = new OverflowCallback();
+
+    private ExclusiveBottomSheetPresenter bottomSheetPresenter = new ExclusiveBottomSheetPresenter();
 
     @NonNull
     public static Fragment newInstance() {
@@ -79,7 +95,14 @@ public class NotesFragment extends Fragment {
         });
 
         contentContainer.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+        setHasOptionsMenu(true);
+
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -96,18 +119,65 @@ public class NotesFragment extends Fragment {
         getNotes();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_overflow_button_notes:
+                NotesListOverflowView overflowView = new NotesListOverflowView(requireContext());
+                overflowView.show(((MainActivity) requireActivity()).getToolbar().findViewById(R.id.menu_overflow_button_notes), overflowCallback);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void getNotes() {
         // TODO: hook up to note service to get notes
         // For now, fill with fake note data
-        notes.add(new Note("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", new PageTitle("Nipsey Hussle",
-                WikipediaApp.getInstance().getWikiSite(),
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Soundtrack_Beat_Battle_Judging_Panel_March2011_%28cropped%29.jpg/320px-Soundtrack_Beat_Battle_Judging_Panel_March2011_%28cropped%29.jpg",
-                "Eritrean American rapper"), new Date()));
-        notes.add(new Note("Test note 2", WikipediaApp.getInstance().getWikiSite(), "Test Article 2", new Date()));
+        if (notes != null) {
+            if (notes.size() == 0) {
+                Date now = new Date();
+                notes.add(new Note("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", new PageTitle("Nipsey Hussle",
+                        WikipediaApp.getInstance().getWikiSite(),
+                        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Soundtrack_Beat_Battle_Judging_Panel_March2011_%28cropped%29.jpg/320px-Soundtrack_Beat_Battle_Judging_Panel_March2011_%28cropped%29.jpg",
+                        "Eritrean American rapper"), now));
+                notes.add(new Note("Test note 2", WikipediaApp.getInstance().getWikiSite(), "Test Article 2", new Date(now.getTime() + 1000)));
+            }
+
+            NotesListSorter.sort(notes, Prefs.getNotesListSortMode(SORT_BY_ARTICLE_NAME_ASC));
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private void deleteNote(@NonNull Note note) {
         // TODO: hook up to note service for note deletion
+    }
+
+    @Override
+    public void onSortOptionClick(int position) {
+        sortListsBy(position);
+    }
+
+    @SuppressLint("NewApi")
+    private void sortListsBy(int option) {
+        switch (option) {
+            case SORT_BY_ARTICLE_NAME_ASC:
+                Prefs.setNotesListSortMode(SORT_BY_ARTICLE_NAME_ASC);
+                break;
+            case SORT_BY_ARTICLE_NAME_DESC:
+                Prefs.setNotesListSortMode(SORT_BY_ARTICLE_NAME_DESC);
+                break;
+            case SORT_BY_DATE_ADDED_ASC:
+                Prefs.setNotesListSortMode(SORT_BY_DATE_ADDED_ASC);
+                break;
+            case SORT_BY_DATE_ADDED_DESC:
+                Prefs.setNotesListSortMode(SORT_BY_DATE_ADDED_DESC);
+                break;
+            default:
+                break;
+        }
+
+        getNotes();
     }
 
     private class NoteListItemCallback implements NoteListItemView.Callback {
@@ -177,6 +247,14 @@ public class NotesFragment extends Fragment {
         @Override public void onViewDetachedFromWindow(@NonNull NoteListItemHolder holder) {
             holder.getView().setCallback(null);
             super.onViewDetachedFromWindow(holder);
+        }
+    }
+
+    private class OverflowCallback implements NotesListOverflowView.Callback {
+        @Override
+        public void sortByClick() {
+            bottomSheetPresenter.show(getChildFragmentManager(),
+                    SortNotesListDialog.newInstance(Prefs.getNotesListSortMode(SORT_BY_ARTICLE_NAME_ASC)));
         }
     }
 }
