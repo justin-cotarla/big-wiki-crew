@@ -1,7 +1,6 @@
 package org.wikipedia.saved.notes;
 
 import android.animation.LayoutTransition;
-import android.annotation.SuppressLint;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.wikipedia.R;
-import org.wikipedia.WikipediaApp;
 import org.wikipedia.history.HistoryEntry;
 import org.wikipedia.main.MainActivity;
 import org.wikipedia.page.ExclusiveBottomSheetPresenter;
@@ -42,7 +40,6 @@ import static org.wikipedia.saved.notes.NotesListSorter.SORT_BY_DATE_ADDED_NEWES
 import static org.wikipedia.saved.notes.NotesListSorter.SORT_BY_DATE_ADDED_OLDEST;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
