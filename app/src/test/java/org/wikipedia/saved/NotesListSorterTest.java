@@ -50,18 +50,18 @@ public class NotesListSorterTest {
     }
 
     @Test
-    public void testSortByDateAddedAscending() {
+    public void testSortByDateAddedNewest() {
         List<Note> sorted = NotesListSorter.sort(notes, 2);
-        assertEquals(first, sorted.get(0));
-        assertEquals(second, sorted.get(1));
-        assertEquals(third, sorted.get(2));
-    }
-
-    @Test
-    public void testSortByDateAddedDescending() {
-        List<Note> sorted = NotesListSorter.sort(notes, 3);
         assertEquals(third, sorted.get(0));
         assertEquals(second, sorted.get(1));
         assertEquals(first, sorted.get(2));
+    }
+
+    @Test
+    public void testSortByDateAddedOldest() {
+        List<Note> sorted = NotesListSorter.sort(notes, 3);
+        assertEquals(first, sorted.get(0));
+        assertEquals(second, sorted.get(1));
+        assertEquals(third, sorted.get(2));
     }
 }
