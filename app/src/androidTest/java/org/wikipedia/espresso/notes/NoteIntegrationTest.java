@@ -2,8 +2,6 @@ package org.wikipedia.espresso.notes;
 
 import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewInteraction;
-import android.support.test.espresso.web.assertion.WebAssertion;
-import android.support.test.espresso.web.webdriver.Locator;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -36,22 +34,17 @@ import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static android.support.test.espresso.web.assertion.WebViewAssertions.webMatches;
-import static android.support.test.espresso.web.sugar.Web.onWebView;
-import static android.support.test.espresso.web.webdriver.DriverAtoms.findElement;
-import static android.support.test.espresso.web.webdriver.DriverAtoms.getText;
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
 import static org.wikipedia.espresso.page.ChatRoomTest.atPosition;
 import static org.wikipedia.espresso.util.ViewTools.WAIT_FOR_1000;
 import static org.wikipedia.espresso.util.ViewTools.WAIT_FOR_2000;
-import static org.wikipedia.espresso.util.ViewTools.childAtPosition;
 import static org.wikipedia.espresso.util.ViewTools.waitFor;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
+@SuppressWarnings("checkstyle:magicnumber")
 public class NoteIntegrationTest {
 
     @Rule
@@ -160,6 +153,7 @@ public class NoteIntegrationTest {
 
         ViewInteraction viewArticleButtonView = onView(withId(R.id.notes_item_redirect));
         viewArticleButtonView.perform(click());
+
     }
 
     private static Matcher<View> childAtPosition(
