@@ -869,4 +869,12 @@ public final class Prefs {
     }
 
     private Prefs() { }
+
+    public static void setNotesListSortMode(int sortMode) {
+        setInt(R.string.preference_key_notes_list_sort_mode, sortMode);
+    }
+
+    public static int getNotesListSortMode(int defaultValue) {
+        return getInt(R.string.preference_key_notes_list_sort_mode, defaultValue);
+    }
 }

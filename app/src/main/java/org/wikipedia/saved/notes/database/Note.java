@@ -104,7 +104,7 @@ public class Note {
      */
     private static Comparator<Note> CREATEDATCOMPARATOR = (o1, o2) -> o1.createdAt().compareTo(o2.createdAt());
 
-    public static Comparator<Note> getCreatedArComparator() {
+    public static Comparator<Note> getCreatedAtComparator() {
         return CREATEDATCOMPARATOR;
     }
 }
