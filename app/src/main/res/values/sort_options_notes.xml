@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sort_options_notes">
+        <item>@string/notes_list_sort_by_article_name</item>
+        <item>@string/notes_list_sort_by_article_name_desc</item>
+        <item>@string/notes_list_sort_by_created</item>
+        <item>@string/notes_list_sort_by_created_desc</item>
+    </string-array>
+    <string name="notes_list_sort_by_article_name_desc">Sort by article title (reverse)</string>
+    <string name="notes_list_sort_by_article_name">Sort by article title</string>
+    <string name="notes_list_sort_by_created">Sort by date added (newest)</string>
+    <string name="notes_list_sort_by_created_desc">Sort by date added (oldest)</string>
+</resources>
