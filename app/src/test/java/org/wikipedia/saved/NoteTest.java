@@ -15,13 +15,14 @@ import static org.junit.Assert.assertTrue;
 @RunWith(RobolectricTestRunner.class)
 public class NoteTest {
     private final int extra = 1000;
+    private String testContent = "Test content";
 
     private static final WikiSite WIKI = WikiSite.forLanguageCode("en");
     private PageTitle title = new PageTitle("Main page", WIKI, "//foo/thumb.jpg");
 
     @Test
     public void testGetPageTitleFromNote() {
-        Note note = new Note("Test content", title, new Date());
+        Note note = new Note(testContent, title, new Date());
         assertEquals(title, note.getPageTitle());
     }
 
@@ -29,8 +30,8 @@ public class NoteTest {
     public void testNoteTitleComparator() {
         PageTitle newerTitle = new PageTitle("Not Main page", WIKI, "//foo/thumb.jpg");
 
-        Note olderNote = new Note("Test content", title, new Date());
-        Note newerNote = new Note("Test content", newerTitle, new Date());
+        Note olderNote = new Note(testContent, title, new Date());
+        Note newerNote = new Note(testContent, newerTitle, new Date());
         int result = Note.getArticleTitleComparator().compare(olderNote, newerNote);
         assertTrue(result < 0);
     }
