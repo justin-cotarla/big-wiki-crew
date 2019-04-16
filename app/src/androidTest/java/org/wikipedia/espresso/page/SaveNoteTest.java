@@ -1,5 +1,6 @@
-package org.wikipedia.espresso.notes;
+package org.wikipedia.espresso.page;
 
+import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
@@ -18,86 +19,59 @@ import org.junit.runner.RunWith;
 import org.wikipedia.R;
 import org.wikipedia.main.MainActivity;
 
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.longClick;
-import static android.support.test.espresso.action.ViewActions.pressImeActionButton;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isPlatformPopup;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anything;
+import static org.wikipedia.espresso.util.ViewTools.WAIT_FOR_1000;
+import static org.wikipedia.espresso.util.ViewTools.WAIT_FOR_2000;
+import static org.wikipedia.espresso.util.ViewTools.waitFor;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-@SuppressWarnings("checkstyle:magicnumber")
-
 public class SaveNoteTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void testTest() {
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+    public void saveNoteTest() {
+        // On main page, click search bar
         ViewInteraction linearLayout = onView(
-                allOf(withId(R.id.search_container),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.fragment_feed_feed),
-                                        0),
-                                0),
-                        isDisplayed()));
+                AllOf.allOf(withId(R.id.search_container),
+                        childAtPosition(childAtPosition(withId(R.id.fragment_feed_feed), 0), 0),
+                        isDisplayed())
+        );
         linearLayout.perform(click());
 
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        waitFor(WAIT_FOR_2000);
 
-        pressBack();
-
+        // On search page, enter keyword "wikipedia"
         ViewInteraction searchAutoComplete = onView(
-                allOf(withId(R.id.search_src_text),
-                        childAtPosition(
-                                allOf(withId(R.id.search_plate),
-                                        childAtPosition(
-                                                withId(R.id.search_edit_frame),
-                                                1)),
-                                0),
-                        isDisplayed()));
+                AllOf.allOf(withId(R.id.search_src_text),
+                        childAtPosition(AllOf.allOf(withId(R.id.search_plate), childAtPosition(withId(R.id.search_edit_frame), 1)), 0),
+                        isDisplayed())
+        );
         searchAutoComplete.perform(replaceText("wikipedia"), closeSoftKeyboard());
 
-        ViewInteraction searchAutoComplete2 = onView(
-                allOf(withId(R.id.search_src_text), withText("wikipedia"),
-                        childAtPosition(
-                                allOf(withId(R.id.search_plate),
-                                        childAtPosition(
-                                                withId(R.id.search_edit_frame),
-                                                1)),
-                                0),
-                        isDisplayed()));
-        searchAutoComplete2.perform(pressImeActionButton());
+        waitFor(WAIT_FOR_2000);
 
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        // On search results page, click on first result
+        DataInteraction constraintLayout = onData(anything())
+                .inAdapterView(AllOf.allOf(withId(R.id.search_results_list), childAtPosition(withId(R.id.search_results_container), 1)))
+                .atPosition(0);
+        constraintLayout.perform(click());
+
+        waitFor(WAIT_FOR_2000);
 
         ViewInteraction observableWebView = onView(
                 allOf(withId(R.id.page_web_view),
@@ -110,11 +84,7 @@ public class SaveNoteTest {
                         isDisplayed()));
         observableWebView.perform(longClick());
 
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        waitFor(WAIT_FOR_1000);
 
         ViewInteraction imageButton = onView(
                 AllOf.allOf(withContentDescription("More options"))).inRoot(isPlatformPopup());
