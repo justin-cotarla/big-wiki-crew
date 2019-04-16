@@ -1,9 +1,11 @@
-package org.wikipedia.saved.notes.database;
+package org.wikipedia.saved.notes;
 
 import android.annotation.SuppressLint;
 
 import java.util.Collections;
 import java.util.List;
+
+import org.wikipedia.saved.notes.database.Note;
 import org.wikipedia.util.log.L;
 
 public class NotesListSorter {

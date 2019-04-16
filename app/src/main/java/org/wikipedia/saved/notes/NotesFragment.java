@@ -26,7 +26,6 @@ import org.wikipedia.page.ExclusiveBottomSheetPresenter;
 import org.wikipedia.page.PageActivity;
 import org.wikipedia.page.PageTitle;
 import org.wikipedia.saved.notes.database.Note;
-import org.wikipedia.saved.notes.database.NotesListSorter;
 import org.wikipedia.saved.notes.noteitem.NoteItemActivity;
 import org.wikipedia.settings.Prefs;
 import org.wikipedia.util.DimenUtil;
@@ -34,10 +33,10 @@ import org.wikipedia.views.DrawableItemDecoration;
 import org.wikipedia.views.MarginItemDecoration;
 import org.wikipedia.views.NotesListOverflowView;
 
-import static org.wikipedia.saved.notes.database.NotesListSorter.SORT_BY_ARTICLE_NAME_ASC;
-import static org.wikipedia.saved.notes.database.NotesListSorter.SORT_BY_ARTICLE_NAME_DESC;
-import static org.wikipedia.saved.notes.database.NotesListSorter.SORT_BY_DATE_ADDED_ASC;
-import static org.wikipedia.saved.notes.database.NotesListSorter.SORT_BY_DATE_ADDED_DESC;
+import static org.wikipedia.saved.notes.NotesListSorter.SORT_BY_ARTICLE_NAME_ASC;
+import static org.wikipedia.saved.notes.NotesListSorter.SORT_BY_ARTICLE_NAME_DESC;
+import static org.wikipedia.saved.notes.NotesListSorter.SORT_BY_DATE_ADDED_ASC;
+import static org.wikipedia.saved.notes.NotesListSorter.SORT_BY_DATE_ADDED_DESC;
 
 import java.util.ArrayList;
 import java.util.Date;
