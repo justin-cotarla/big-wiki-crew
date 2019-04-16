@@ -40,7 +40,7 @@ public class NoteTest {
     public void testNoteCreationComparator() {
         Note olderNote = new Note("A: a test title", title, new Date());
         Note newerNote = new Note("B: another test title", title, new Date(olderNote.createdAt().getTime() + extra));
-        int result = Note.getCreatedArComparator().compare(olderNote, newerNote);
+        int result = Note.getCreatedAtComparator().compare(olderNote, newerNote);
         assertTrue(result < 0);
     }
 }
