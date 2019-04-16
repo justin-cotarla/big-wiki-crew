@@ -1,11 +1,11 @@
 package org.wikipedia.saved.notes;
 
 import android.animation.LayoutTransition;
-import android.annotation.SuppressLint;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,27 +19,27 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.wikipedia.R;
-import org.wikipedia.WikipediaApp;
 import org.wikipedia.history.HistoryEntry;
 import org.wikipedia.main.MainActivity;
 import org.wikipedia.page.ExclusiveBottomSheetPresenter;
 import org.wikipedia.page.PageActivity;
 import org.wikipedia.page.PageTitle;
 import org.wikipedia.saved.notes.database.Note;
+import org.wikipedia.saved.notes.database.NoteDbHelper;
 import org.wikipedia.saved.notes.noteitem.NoteItemActivity;
 import org.wikipedia.settings.Prefs;
 import org.wikipedia.util.DimenUtil;
+import org.wikipedia.util.FeedbackUtil;
 import org.wikipedia.views.DrawableItemDecoration;
 import org.wikipedia.views.MarginItemDecoration;
 import org.wikipedia.views.NotesListOverflowView;
 
 import static org.wikipedia.saved.notes.NotesListSorter.SORT_BY_ARTICLE_NAME_ASC;
 import static org.wikipedia.saved.notes.NotesListSorter.SORT_BY_ARTICLE_NAME_DESC;
-import static org.wikipedia.saved.notes.NotesListSorter.SORT_BY_DATE_ADDED_ASC;
-import static org.wikipedia.saved.notes.NotesListSorter.SORT_BY_DATE_ADDED_DESC;
+import static org.wikipedia.saved.notes.NotesListSorter.SORT_BY_DATE_ADDED_NEWEST;
+import static org.wikipedia.saved.notes.NotesListSorter.SORT_BY_DATE_ADDED_OLDEST;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -131,26 +131,26 @@ public class NotesFragment extends Fragment implements SortNotesListDialog.Callb
     }
 
     private void getNotes() {
-        // TODO: hook up to note service to get notes
-        // For now, fill with fake note data
-        if (notes != null) {
-            if (notes.size() == 0) {
-                Date now = new Date();
-                notes.add(new Note("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", new PageTitle("Nipsey Hussle",
-                        WikipediaApp.getInstance().getWikiSite(),
-                        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Soundtrack_Beat_Battle_Judging_Panel_March2011_%28cropped%29.jpg/320px-Soundtrack_Beat_Battle_Judging_Panel_March2011_%28cropped%29.jpg",
-                        "Eritrean American rapper"), now));
-                final int extra = 1000;
-                notes.add(new Note("Test note 2", WikipediaApp.getInstance().getWikiSite(), "Test Article 2", new Date(now.getTime() + extra)));
-            }
-
-            NotesListSorter.sort(notes, Prefs.getNotesListSortMode(SORT_BY_ARTICLE_NAME_ASC));
-            adapter.notifyDataSetChanged();
-        }
+        notes = NoteDbHelper.getInstance().getAllNotes();
+        NotesListSorter.sort(notes, Prefs.getNotesListSortMode(SORT_BY_DATE_ADDED_NEWEST));
+        adapter.notifyDataSetChanged();
     }
 
     private void deleteNote(@NonNull Note note) {
-        // TODO: hook up to note service for note deletion
+        showDeleteListUndoSnackbar(note);
+        NoteDbHelper.getInstance().deleteNote(note);
+        getNotes();
+    }
+
+    private void showDeleteListUndoSnackbar(final Note note) {
+        Snackbar snackbar = FeedbackUtil.makeSnackbar(getActivity(),
+                getString(R.string.note_deleted),
+                FeedbackUtil.LENGTH_DEFAULT);
+        snackbar.setAction(R.string.note_deleted_undo, v -> {
+            NoteDbHelper.getInstance().saveNote(note);
+            getNotes();
+        });
+        snackbar.show();
     }
 
     @Override
@@ -158,7 +158,6 @@ public class NotesFragment extends Fragment implements SortNotesListDialog.Callb
         sortListsBy(position);
     }
 
-    @SuppressLint("NewApi")
     private void sortListsBy(int option) {
         switch (option) {
             case SORT_BY_ARTICLE_NAME_ASC:
@@ -167,11 +166,11 @@ public class NotesFragment extends Fragment implements SortNotesListDialog.Callb
             case SORT_BY_ARTICLE_NAME_DESC:
                 Prefs.setNotesListSortMode(SORT_BY_ARTICLE_NAME_DESC);
                 break;
-            case SORT_BY_DATE_ADDED_ASC:
-                Prefs.setNotesListSortMode(SORT_BY_DATE_ADDED_ASC);
+            case SORT_BY_DATE_ADDED_NEWEST:
+                Prefs.setNotesListSortMode(SORT_BY_DATE_ADDED_NEWEST);
                 break;
-            case SORT_BY_DATE_ADDED_DESC:
-                Prefs.setNotesListSortMode(SORT_BY_DATE_ADDED_DESC);
+            case SORT_BY_DATE_ADDED_OLDEST:
+                Prefs.setNotesListSortMode(SORT_BY_DATE_ADDED_OLDEST);
                 break;
             default:
                 break;
@@ -254,7 +253,7 @@ public class NotesFragment extends Fragment implements SortNotesListDialog.Callb
         @Override
         public void sortByClick() {
             bottomSheetPresenter.show(getChildFragmentManager(),
-                    SortNotesListDialog.newInstance(Prefs.getNotesListSortMode(SORT_BY_ARTICLE_NAME_ASC)));
+                    SortNotesListDialog.newInstance(Prefs.getNotesListSortMode(SORT_BY_DATE_ADDED_NEWEST)));
         }
     }
 }
