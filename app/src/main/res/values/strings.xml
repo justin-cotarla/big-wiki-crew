@@ -290,6 +290,7 @@
     <string name="format_error_server_message">Message: \"%s\"</string>
     <string name="address_copied">Address copied to clipboard.</string>
     <string name="text_copied">Text copied to clipboard.</string>
+    <string name="note_saved">Note Saved.</string>
     <string name="button_continue_to_article">Read article</string>
     <string name="button_continue_to_disambiguation">View similar pages</string>
     <string name="link_preview_disambiguation_description">This title relates to more than one page:</string>

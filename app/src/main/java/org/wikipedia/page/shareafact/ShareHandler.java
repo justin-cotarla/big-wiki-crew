@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
@@ -25,13 +26,14 @@ import org.wikipedia.dataclient.mwapi.MwQueryPage;
 import org.wikipedia.gallery.ImageLicense;
 import org.wikipedia.language.translation.TranslateDialog;
 import org.wikipedia.language.translation.TranslationClient;
-import org.wikipedia.saved.notes.NotesViewerDialog;
 import org.wikipedia.page.Namespace;
 import org.wikipedia.page.NoDimBottomSheetDialog;
 import org.wikipedia.page.Page;
 import org.wikipedia.page.PageFragment;
 import org.wikipedia.page.PageProperties;
 import org.wikipedia.page.PageTitle;
+import org.wikipedia.saved.notes.database.Note;
+import org.wikipedia.saved.notes.database.NoteDbHelper;
 import org.wikipedia.settings.Prefs;
 import org.wikipedia.tts.TextToSpeechWrapper;
 import org.wikipedia.util.FeedbackUtil;
@@ -42,6 +44,7 @@ import org.wikipedia.util.log.L;
 import org.wikipedia.wiktionary.WiktionaryDialog;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Locale;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -200,8 +203,8 @@ public class ShareHandler {
     }
 
     private void onNotesPayload(String text) {
-        // TODO: Save note
-        fragment.showBottomSheet(NotesViewerDialog.newInstance());
+        NoteDbHelper.getInstance().saveNote(new Note(text, fragment.getPage().getTitle(), new Date()));
+        FeedbackUtil.showMessage(fragment.getActivity(), R.string.note_saved);
     }
 
     private void showCopySnackbar() {
