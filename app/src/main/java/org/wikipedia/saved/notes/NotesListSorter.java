@@ -28,10 +28,10 @@ public class NotesListSorter {
                 Collections.sort(notes, Note.getArticleTitleComparator().reversed());
                 break;
             case SORT_BY_DATE_ADDED_ASC:
-                Collections.sort(notes, Note.getCreatedAtComparator());
+                Collections.sort(notes, Note.getCreatedAtComparator().reversed());
                 break;
             case SORT_BY_DATE_ADDED_DESC:
-                Collections.sort(notes, Note.getCreatedAtComparator().reversed());
+                Collections.sort(notes, Note.getCreatedAtComparator());
                 break;
             default:
                 break;
