@@ -137,11 +137,9 @@ public class NotesFragment extends Fragment implements SortNotesListDialog.Callb
     }
 
     private void deleteNote(@NonNull Note note) {
-        if (notes != null) {
-            showDeleteListUndoSnackbar(note);
-            NoteDbHelper.getInstance().deleteNote(note);
-            getNotes();
-        }
+        showDeleteListUndoSnackbar(note);
+        NoteDbHelper.getInstance().deleteNote(note);
+        getNotes();
     }
 
     private void showDeleteListUndoSnackbar(final Note note) {
