@@ -87,6 +87,8 @@ public class OnboardNewFeaturesTest {
         testFeatureTextDisplayed("Discover");
         testNextFeatureSwipe();
         testFeatureTextDisplayed("Chat");
+        testNextFeatureSwipe();
+        testFeatureTextDisplayed("Notes");
 
         ViewInteraction imageView2 = onView(allOf(withId(R.id.fragment_onboarding_done_button), isDisplayed()));
         imageView2.check(matches(isDisplayed()));

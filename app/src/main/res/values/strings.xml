@@ -697,6 +697,8 @@
     <string name="onboarding_feature_discover_text"><![CDATA[Flip through random or trending articles. Swipe up to view the article and double tap to bookmark.<br/><br/> Tap the discover card in the home feed.]]></string>
     <string name="onboarding_feature_chat_title">Chat</string>
     <string name="onboarding_feature_chat_text"><![CDATA[Anonymously chat with other readers currently viewing the same article. <br/><br/> A new way to engage and interact with other users.]]></string>
+    <string name="onboarding_feature_note_title">Notes</string>
+    <string name="onboarding_feature_note_text"><![CDATA[Users have the ability to select portions of text in Wikipedia article to be added as notes. <br><br> View all your notes in the saved tab.]]></string>
     <!-- /Onboarding -->
 
     <!-- App Shortcuts -->

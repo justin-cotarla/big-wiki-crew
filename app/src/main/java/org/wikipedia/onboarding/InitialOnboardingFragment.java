@@ -137,6 +137,7 @@ public class InitialOnboardingFragment extends OnboardingFragment {
         PAGE_CATEGORIES(R.layout.inflate_initial_onboarding_feature_four),
         PAGE_DISCOVER(R.layout.inflate_initial_onboarding_feature_five),
         PAGE_CHAT(R.layout.inflate_initial_onboarding_feature_six),
+        PAGE_NOTE(R.layout.inflate_initial_onboarding_feature_seven),
         PAGE_EXPLORE(R.layout.inflate_initial_onboarding_page_one),
         PAGE_READING_LISTS(R.layout.inflate_initial_onboarding_page_two),
         PAGE_USAGE_DATA(R.layout.inflate_initial_onboarding_page_three);
