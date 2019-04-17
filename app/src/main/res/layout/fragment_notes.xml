@@ -18,6 +18,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/empty_notes_container"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            style="@style/MaterialLargePrimaryTitle"
+            android:text="@string/empty_notes_title" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            style="@style/MaterialMediumSecondaryCaption"
+            android:text="@string/empty_notes_message" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

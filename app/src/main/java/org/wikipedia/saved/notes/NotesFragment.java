@@ -34,6 +34,8 @@ import org.wikipedia.views.DrawableItemDecoration;
 import org.wikipedia.views.MarginItemDecoration;
 import org.wikipedia.views.NotesListOverflowView;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static org.wikipedia.saved.notes.NotesListSorter.SORT_BY_ARTICLE_NAME_ASC;
 import static org.wikipedia.saved.notes.NotesListSorter.SORT_BY_ARTICLE_NAME_DESC;
 import static org.wikipedia.saved.notes.NotesListSorter.SORT_BY_DATE_ADDED_NEWEST;
@@ -52,6 +54,7 @@ public class NotesFragment extends Fragment implements SortNotesListDialog.Callb
 
     @BindView(R.id.notes_content_container) ViewGroup contentContainer;
     @BindView(R.id.notes_list_list) RecyclerView notesListView;
+    @BindView(R.id.empty_notes_container) View emptyNotesView;
 
     private List<Note> notes = new ArrayList<>();
     private NoteListAdapter adapter = new NoteListAdapter();
@@ -92,6 +95,7 @@ public class NotesFragment extends Fragment implements SortNotesListDialog.Callb
                 }
             }
         });
+
 
         contentContainer.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
         setHasOptionsMenu(true);
@@ -134,6 +138,13 @@ public class NotesFragment extends Fragment implements SortNotesListDialog.Callb
         notes = NoteDbHelper.getInstance().getAllNotes();
         NotesListSorter.sort(notes, Prefs.getNotesListSortMode(SORT_BY_DATE_ADDED_NEWEST));
         adapter.notifyDataSetChanged();
+        if (notes.isEmpty()) {
+            notesListView.setVisibility(GONE);
+            emptyNotesView.setVisibility(VISIBLE);
+        } else {
+            notesListView.setVisibility(VISIBLE);
+            emptyNotesView.setVisibility(GONE);
+        }
     }
 
     private void deleteNote(@NonNull Note note) {
