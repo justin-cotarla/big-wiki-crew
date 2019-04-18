@@ -99,7 +99,8 @@ public class NewFeaturesFragment extends OnboardingFragment {
         PAGE_NO_HISTORY(R.layout.inflate_initial_onboarding_feature_three),
         PAGE_CATEGORIES(R.layout.inflate_initial_onboarding_feature_four),
         PAGE_DISCOVER(R.layout.inflate_initial_onboarding_feature_five),
-        PAGE_CHAT(R.layout.inflate_initial_onboarding_feature_six);
+        PAGE_CHAT(R.layout.inflate_initial_onboarding_feature_six),
+        PAGE_NOTE(R.layout.inflate_initial_onboarding_feature_seven);
 
         private static EnumCodeMap<OnboardingPage> MAP
                 = new EnumCodeMap<>(OnboardingPage.class);
