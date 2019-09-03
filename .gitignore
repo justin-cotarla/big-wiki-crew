@@ -48,3 +48,6 @@ www/preview.css
 # miscellaneous
 all-apks.sh
 device*.png
+
+# secrets
+app/src/main/res/values/secrets.xml
